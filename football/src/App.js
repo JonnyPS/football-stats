@@ -15,8 +15,11 @@ class App extends Component {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = "http://api.football-data.org/v2/competitions"; // site that doesn’t send Access-Control-*
     fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-    .then(response => response.text())
-    .then(contents => console.log(contents))
+    .then(results => {
+      return results.json();
+    }).then(data => {
+      console.log(data)
+    })
     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
     // fetch("http://api.football-data.org/v2/competitions")
     // // fetch("https://randomuser.me/api/?results=500")

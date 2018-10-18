@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-// import { Cookies } from 'react-cookie';
-// Cookies.set(token, '9d006876cd4d43f08084a828529fc968', {path: '/'});
 
 function TeamList (props) {
-  // return null
-  // console.log(footballData)
+// return null
+
   return (
-    <ul>
+    <select>
       {props.list.map((name) => (
-        <li key={name}>
-          <span>{name}</span>
-        </li>
+        <option key={name}>
+          {name}
+        </option>
       ))}
-    </ul>
+    </select>
   )
-  return props.list.length;
 }
 
 class App extends Component {
@@ -22,11 +19,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      // teams: ['arsenalTeam', 'chelseaTeam', 'somethingTeam'],
-      // getTeams: () => { jsonData.map((name) => {teams.push(name)} },
+      data: [],
     }
-    // this.component = this.component.bind(this)
   }
 
   componentDidMount() {
@@ -48,40 +42,42 @@ class App extends Component {
         return response.json()    
      })
      .then( (json) => {
-        component.setState({
-           data: json
+        const teamNames = json.teams
+        json.teams.map((id) => {
+          const teamName = id.shortName
+          this.setState((currentState) => {
+          return {
+            data: currentState.data.concat([teamName])
+          }
+        })  
         })
-        console.log('parsed json', json)
+        
+
+        // const teams = json.teams
+
+        // this.setState({ data: teams})
+        console.log( 'second log', this.state.data )
      })
      .catch( (ex) => {
         console.log('parsing failed', ex)
      })
-     console.log(this.state.data)
+     console.log( 'first log', this.state.data )
   }
 
-
-  // setTeams(jsonData) {
-  //   // console.log( typeof jsonData )
-  //   console.log( jsonData.teams[0].className )
-  //   jsonData.teams.map((name) => {
-      
-  //     // this.setState(() => {
-  //     // return {  
-  //     //   teams: name
-  //     //   }
-  //     // })
-  //   })
-  // }
-
   render() {
-    return (
-      <div>
-        <div className="App">
-        <TeamList list={this.state.data} />
-      </div>
+    if (this.state.data === null) {
+      return false;
+    } else {
+      
+      return (
+        <div>
+          <div className="App">
+            <TeamList list={ this.state.data } />
+        </div>
 
-      // </div>
-    );
+        </div>
+      )
+    }
   }
 }
 

@@ -59,10 +59,7 @@ class App extends Component {
         return response.json()    
      })
      .then( (json) => {
-      console.log('original data = ', json)
-        const teamNames = json.teams
         json.teams.map((counter) => {
-          
           const teamId = counter.id
           const teamName = counter.shortName
 
@@ -75,24 +72,17 @@ class App extends Component {
             }
           })  
         })
-        
-
-        // const teams = json.teams
-
-        // this.setState({ data: teams})
-        console.log( 'second log', this.state.data[3].b )
      })
      .catch( (ex) => {
         console.log('parsing failed', ex)
      })
-     console.log( 'first log', this.state.data )
   }
 
   render() {
     if (this.state.data.a === null || this.state.data.b === null) {
       return false;
     } else {
-      
+
       return (
         <div>
           <div className="App">

@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 
-function TeamList (props) {
+function TeamIdList (props) {
 // return null
+  return (
+    <select>
+      {props.list.map((id) => (
+        <option key={id.a}>
+          {id.a}
+        </option>
+      ))}
+    </select>
+  )
+}
 
+function TeamNameList (props) {
+// return null
   return (
     <select>
       {props.list.map((name) => (
-        <option key={name}>
-          {name}
+        <option key={name.b}>
+          {name.b}
         </option>
       ))}
     </select>
@@ -19,7 +31,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: [
+      {
+        a: 'Team Id',
+        b: 'Team Name',
+      },
+      ],
     }
   }
 
@@ -42,21 +59,28 @@ class App extends Component {
         return response.json()    
      })
      .then( (json) => {
+      console.log('original data = ', json)
         const teamNames = json.teams
-        json.teams.map((id) => {
-          const teamName = id.shortName
+        json.teams.map((counter) => {
+          
+          const teamId = counter.id
+          const teamName = counter.shortName
+
           this.setState((currentState) => {
-          return {
-            data: currentState.data.concat([teamName])
-          }
-        })  
+            return {
+              data: currentState.data.concat([{
+                a: teamId,
+                b: teamName
+              }])
+            }
+          })  
         })
         
 
         // const teams = json.teams
 
         // this.setState({ data: teams})
-        console.log( 'second log', this.state.data )
+        console.log( 'second log', this.state.data[3].b )
      })
      .catch( (ex) => {
         console.log('parsing failed', ex)
@@ -65,14 +89,15 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.data === null) {
+    if (this.state.data.a === null || this.state.data.b === null) {
       return false;
     } else {
       
       return (
         <div>
           <div className="App">
-            <TeamList list={ this.state.data } />
+            <TeamIdList list={ this.state.data } />
+            <TeamNameList list={ this.state.data } />
         </div>
 
         </div>

@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
 
 function TeamIdList (props) {
-// return null
-  return (
-    <select>
-      {props.list.map((id) => (
-        <option key={id.a}>
-          {id.a}
-        </option>
-      ))}
-    </select>
-  )
+return null
+  // return (
+  //   <select>
+  //     {props.list.map((id) => (
+  //       <option key={id.a}>
+  //         {id.a}
+  //       </option>
+  //     ))}
+  //   </select>
+  // )
 }
 
 function TeamNameList (props) {
-// return null
+return null
+  // return (
+  //   <select>
+  //     {props.list.map((name) => (
+  //       <option key={name.b}>
+  //         {name.b}
+  //       </option>
+  //     ))}
+  //   </select>
+  // )
+}
+
+function TeamInputField (props) {
+  console.log( props )
   return (
-    <select>
-      {props.list.map((name) => (
-        <option key={name.b}>
-          {name.b}
-        </option>
-      ))}
-    </select>
+    <form>
+      <input type="text" />
+      <input type="submit" value="submit" />
+    </form>
   )
 }
 
@@ -52,7 +62,7 @@ class App extends Component {
       mode: 'cors' 
     })
 
-    var component = this;
+    // var component = this;
 
     fetch(req)
      .then( (response) => {
@@ -68,7 +78,8 @@ class App extends Component {
               data: currentState.data.concat([{
                 a: teamId,
                 b: teamName
-              }])
+              }]),
+              input: null
             }
           })  
         })
@@ -88,8 +99,8 @@ class App extends Component {
           <div className="App">
             <TeamIdList list={ this.state.data } />
             <TeamNameList list={ this.state.data } />
-        </div>
-
+            <TeamInputField props={this.state.data}/>
+          </div>
         </div>
       )
     }

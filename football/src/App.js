@@ -47,50 +47,51 @@ class App extends Component {
         b: 'Team Name',
       },
       ],
+      input: null,
     }
   }
 
   componentDidMount() {
-    const uri = 'http://api.football-data.org/v2/competitions/PL/teams'; 
+    const url = 'http://api.football-data.org/v2/competitions/PL/teams'
 
     let h = new Headers()
     h.append('Accept', 'application/json')
     h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
-    let req = new Request(uri, {
+    let req = new Request(url, {
       method: 'GET',
       headers: h,
       mode: 'cors' 
     })
 
-    // var component = this;
-
-    fetch(req)
+    fetch(req) 
      .then( (response) => {
         return response.json()    
      })
      .then( (json) => {
-        json.teams.map((counter) => {
-          const teamId = counter.id
-          const teamName = counter.shortName
+      console.log( json.teams.length )
+      json.teams.map((counter) => {
+        const teamId = counter.id
+        const teamName = counter.shortName
 
-          this.setState((currentState) => {
-            return {
-              data: currentState.data.concat([{
-                a: teamId,
-                b: teamName
-              }]),
-              input: null
-            }
-          })  
-        })
+        this.setState((currentState) => {
+          return {
+            data: currentState.data.concat([{
+              a: teamId,
+              b: teamName
+            }]),
+            input: null
+          }
+        })  
+      })
      })
      .catch( (ex) => {
-        console.log('parsing failed', ex)
+        console.log('parsing failed:', ex)
      })
   }
 
-  render() {
-    if (this.state.data.a === null || this.state.data.b === null) {
+  render(json) {
+    const teamNum = 20
+    if (this.state.data.length <= teamNum ) {
       return false;
     } else {
 
@@ -99,7 +100,7 @@ class App extends Component {
           <div className="App">
             <TeamIdList list={ this.state.data } />
             <TeamNameList list={ this.state.data } />
-            <TeamInputField props={this.state.data}/>
+            <TeamInputField props={this.state.data} />
           </div>
         </div>
       )

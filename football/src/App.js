@@ -41,6 +41,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      allTeams: null,
+      allMatches: null,
       data: [
       {
         a: 'Team Id',
@@ -49,62 +51,91 @@ class App extends Component {
       ],
       input: null,
     }
+    console.log( 'state', this.state)
   }
 
   componentDidMount() {
-    const url = 'http://api.football-data.org/v2/competitions/PL/teams'
 
-    let h = new Headers()
-    h.append('Accept', 'application/json')
-    h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
-    let req = new Request(url, {
-      method: 'GET',
-      headers: h,
-      mode: 'cors' 
-    })
+    var resourceCounter = 0;
+    const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches']
+    // const getUrl = url.map((key) => {console.log('key', key); return key} )
 
-    fetch(req) 
-     .then( (response) => {
-        return response.json()    
-     })
-     .then( (json) => {
-      console.log( json.teams.length )
-      json.teams.map((counter) => {
-        const teamId = counter.id
-        const teamName = counter.shortName
+    urls.map( ( addy ) => {
 
-        this.setState((currentState) => {
-          return {
-            data: currentState.data.concat([{
-              a: teamId,
-              b: teamName
-            }]),
-            input: null
-          }
-        })  
+    
+      let h = new Headers()
+      h.append('Accept', 'application/json')
+      h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
+      let req = new Request(addy, {
+        method: 'GET',
+        headers: h,
+        mode: 'cors' 
       })
-     })
-     .catch( (ex) => {
-        console.log('parsing failed:', ex)
+
+      fetch(req) 
+       .then( (response) => {
+          return response.json()    
+       })
+       .then( (json) => {
+          if ( resourceCounter == 0 ) { 
+            this.setState(( currentState ) => {
+              return {
+                allTeams: json,
+              }
+            })
+          } else {
+            this.setState(( currentState ) => {
+              return {
+                allMatches: json,
+              }
+            })
+          }
+          
+          console.log( resourceCounter )
+          // console.log( this.state.allTeams )
+          console.log( 'teams:', this.state.allTeams )
+          console.log( 'matches:', this.state.allMatches )
+          resourceCounter++
+
+       //  console.log( json.teams.length )
+       //  json.teams.map((counter) => {
+       //    const teamId = counter.id
+       //    const teamName = counter.shortName
+
+       //    this.setState((currentState) => {
+       //      return {
+       //        data: currentState.data.concat([{
+       //          a: teamId,
+       //          b: teamName
+       //        }]),
+       //        input: null
+       //      }
+       //    })  
+       //  })
+       // })
+       // .catch( (ex) => {
+       //    console.log('parsing failed:', ex)
+       })
      })
   }
 
   render(json) {
-    const teamNum = 20
-    if (this.state.data.length <= teamNum ) {
-      return false;
-    } else {
+    return null
+  //   const teamNum = 20
+  //   if (this.state.data.length <= teamNum ) {
+  //     return false;
+  //   } else {
 
-      return (
-        <div>
-          <div className="App">
-            <TeamIdList list={ this.state.data } />
-            <TeamNameList list={ this.state.data } />
-            <TeamInputField props={this.state.data} />
-          </div>
-        </div>
-      )
-    }
+  //     return (
+  //       <div>
+  //         <div className="App">
+  //           <TeamIdList list={ this.state.data } />
+  //           <TeamNameList list={ this.state.data } />
+  //           <TeamInputField props={this.state.data} />
+  //         </div>
+  //       </div>
+  //     )
+  //   }
   }
 }
 

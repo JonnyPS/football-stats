@@ -49,19 +49,18 @@ class App extends Component {
         b: 'Team Name',
       },
       ],
-      input: null,
+      input: '',
     }
   }
 
   componentDidMount() {
 
     var resourceCounter = 0;
-    const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches']
-    // const getUrl = url.map((key) => {console.log('key', key); return key} )
+    const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
 
+    // map over array to use the url addresses
     urls.map( ( addy ) => {
-
-    
+      // set up headers
       let h = new Headers()
       h.append('Accept', 'application/json')
       h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
@@ -71,6 +70,7 @@ class App extends Component {
         mode: 'cors' 
       })
 
+      // for each url in the array, use fetch to get the resource
       fetch(req) 
       .then( (response) => {
         return response.json()    
@@ -84,7 +84,6 @@ class App extends Component {
           json.teams.map((counter) => {
             const teamId = counter.id
             const teamName = counter.shortName
-
             this.setState((currentState) => {
               return {
                 allTeams: json,
@@ -112,32 +111,42 @@ class App extends Component {
         }
         resourceCounter++
       })
-
-       //  console.log( json.teams.length )
-       //  json.teams.map((counter) => {
-       //    const teamId = counter.id
-       //    const teamName = counter.shortName
-
-       //    this.setState((currentState) => {
-       //      return {
-       //        data: currentState.data.concat([{
-       //          a: teamId,
-       //          b: teamName
-       //        }]),
-       //        input: null
-       //      }
-       //    })  
-       //  })
-       // })
-       // .catch( (ex) => {
-       //    console.log('parsing failed:', ex)
+      .catch( (ex) => {
+        console.log('parsing failed:', ex)
+      })
     })
+
+   function updateInput(e) {
+      const value = e.target.value
+      this.setState({
+        input: value
+      })
+      console.log( this.state.input )
+    }
+
+    function findMatches() {
+      console.log( 'findMatches' )
+    }
+
   }
 
   render(json) {
-    return null
-  //   const teamNum = 20
-  //   if (this.state.data.length <= teamNum ) {
+    // return null
+    return (
+      <div>
+        <input
+          type='text'
+          placeholder='Find your team...'
+          value={this.state.input}
+          onChange={this.updateInput}
+        />
+        <button onClick={this.findMatches}>
+              Submit
+            </button>
+      </div>
+    )
+    // const teamNum = 20
+    // if (this.state.data.length <= teamNum ) {
   //     return false;
   //   } else {
 

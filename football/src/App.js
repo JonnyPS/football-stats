@@ -43,7 +43,7 @@ class App extends Component {
     this.state = {
       allTeams: null,
       allMatches: null,
-      data: [
+      teamDetails: [
       {
         a: 'Team Id',
         b: 'Team Name',
@@ -51,7 +51,6 @@ class App extends Component {
       ],
       input: null,
     }
-    console.log( 'state', this.state)
   }
 
   componentDidMount() {
@@ -73,29 +72,46 @@ class App extends Component {
       })
 
       fetch(req) 
-       .then( (response) => {
-          return response.json()    
-       })
-       .then( (json) => {
-          if ( resourceCounter == 0 ) { 
-            this.setState(( currentState ) => {
+      .then( (response) => {
+        return response.json()    
+      })
+      .then( (json) => {
+        // hacky if / else statement - should probably be replaced by a for in loop
+        // it will surfice temporarily
+        if ( this.state.allTeams == null ) { 
+          // extract only the id and team short name from the returned data
+          // loop over every team, get the data and assign it in to an array of objects
+          json.teams.map((counter) => {
+            const teamId = counter.id
+            const teamName = counter.shortName
+
+            this.setState((currentState) => {
               return {
                 allTeams: json,
+                teamDetails: currentState.teamDetails.concat([{
+                  a: teamName,
+                  b: teamId
+                }]),
               }
             })
-          } else {
-            this.setState(( currentState ) => {
-              return {
-                allMatches: json,
-              }
-            })
-          }
-          
-          console.log( resourceCounter )
-          // console.log( this.state.allTeams )
+          })
+
+        } else {
+          // when looping over urls[1], assign value to this.state.allMatches property
+          this.setState(( currentState ) => {
+            return {
+              allMatches: json,
+            }
+          })
+        }
+        
+        // once the data has loaded, 
+        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {
           console.log( 'teams:', this.state.allTeams )
-          console.log( 'matches:', this.state.allMatches )
-          resourceCounter++
+          console.log( 'matches:', this.state.allMatches )        
+        }
+        resourceCounter++
+      })
 
        //  console.log( json.teams.length )
        //  json.teams.map((counter) => {
@@ -115,8 +131,7 @@ class App extends Component {
        // })
        // .catch( (ex) => {
        //    console.log('parsing failed:', ex)
-       })
-     })
+    })
   }
 
   render(json) {

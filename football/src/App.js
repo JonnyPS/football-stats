@@ -54,10 +54,10 @@ class App extends Component {
       getMatches: [],
       selectedMatches: [
         {
-          ay: 'ay',
-          be: 'be',
-          ce: 'ce',
-          de: 'de',
+          homeTeam: null,
+          awayTeam: null,
+          winner: null,
+          score: null,
         },
       ],
     }
@@ -132,6 +132,10 @@ class App extends Component {
     })
   }
 
+  componentDidUpdate() {
+    console.log( this.state.selectedMatches )
+  }
+
   updateInput(e) {
     const value = e.target.value
     this.setState({
@@ -151,27 +155,18 @@ class App extends Component {
         let selectedTeamId = item.teamId 
         console.log( this.state.allMatches )
         for (let item of this.state.allMatches.matches ) {
-          if ( selectedTeamId === item.awayTeam.id ) {
+          if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
             console.log( 'away team matches....' )
-            this.setState( (currentState) => {
-              console.log( 'setting state' )
+            this.setState((currentState) => {
               return {
-                getMatches: currentState.getMatches.concat([{
-                  item
-                }])
+                selectedMatches: currentState.selectedMatches.concat([{
+                  homeTeam: item.homeTeam,
+                  awayTeam: item.awayTeam,
+                  winner: item.score.winner,
+                  score: item.score.fullTime
+                }]),
               }
             })
-            console.log( this.state.getMatches )
-            // this.setState((currentState) => {
-            //   return {
-            //     selectedMatches: currentState.selectedMatches.concat([{
-            //       ay: item.homeTeam,
-            //       be: item.awayTeam,
-            //       ce: item.score.winner,
-            //       de: item.score.fullTime
-            //     }]),
-            //   }
-            // })
           }
         }
       }

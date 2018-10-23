@@ -51,6 +51,7 @@ class App extends Component {
         },
       ],
       input: '',
+      selectedMatches: null,
     }
 
     // because of where these functions are called... (?)
@@ -82,6 +83,7 @@ class App extends Component {
         return response.json()    
       })
       .then( (json) => {
+        console.log( 'set json to state properties' )
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
         if ( this.state.allTeams == null ) { 
@@ -130,16 +132,43 @@ class App extends Component {
     console.log( this.state.input )
   }
 
-  findMatches() {
-    console.log( 'findMatches' )
-    console.log( this.state )
-    console.log( 'team deets', this.state.teamDetails )
+  findMatches( ) {
+    console.log( 'find matches ' )
+    console.log( this.state.teamDetails )
     // get id of team from value of input
     for (let item of this.state.teamDetails) {
-      if ( this.state.input == item.teamName ) {
-        console.log(item.teamName); // Will display contents of the object inside the array
+      if ( this.state.input === item.teamName ) {
+        console.log(item.teamName); // matches input value to team in array of objects
+        console.log(item.teamId)
+        let selectedTeamId = item.teamId 
+        console.log( this.state.allMatches )
+        for (let item of this.state.allMatches.matches ) {
+          console.log( 'awayTeam: ', item.awayTeam.name + ' id: ' + item.awayTeam.id )
+          // console.log( item.homeTeam )
+          
+          console.log( 'selectedTeamId', selectedTeamId )
+          if ( item.homeTeam.id === selectedTeamId ) {
+            console.log( 'match is: ', item )
+            console.log( this.state.selectedMatches )
+            this.setState((currentState) => {
+              return {
+                selectedMatches: currentState.selectedMatches.concat([{
+                  item 
+                }])
+              }
+              console.log( this.state.selectedMatches )
+              // console.log( 'selectedMatches', selectedMatches )
+            })
+          }
+        }
       }
+    // for (let item of this.state.teamDetails) {
+    //   if ( this.state.input == item.teamName ) {
+    //   }
+  // }
     }
+
+
     // this.state.teamDetails[0].a.map(( id ) => { console.log( id ) } )
     // use that id to look at matches object and pull out any matches where the home/away team has that id
     // push those matches in to their own array

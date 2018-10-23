@@ -44,7 +44,7 @@ function OurMatches (props) {
     <ul>
       {props.games.map( (game, i) => (
           <li key={i}>
-            {game.winner}
+            {game.selectedTeamResult}
           </li>
       ))}
     </ul>
@@ -163,7 +163,7 @@ class App extends Component {
     // console.log( this.state.input )
   }
 
-  findMatches( ) {
+  findMatches() {
     console.log( 'find matches...' )
     // get id of team from value of input
     for (let item of this.state.teamDetails) {
@@ -174,29 +174,43 @@ class App extends Component {
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
-            console.log( 'away team matches....' )
+            console.log( 'matches....' )
             // push each match as an object in to our selectedMatches array
             // console.log( item )
+            console.log( item )
+            if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
+              console.log( 'selected team played at HOME and WON!!!' )
+            } if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
+              console.log( 'selected team played AWAY and WON!!!' )
+            } if ( item.score.winner === "DRAW" ) {
+              console.log( 'selected team played and DREW')
+            }
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
-                  homeTeam: item.homeTeam,
+                  homeTeam: item.homeTeam.name,
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
-                  score: item.score.fullTime
+                  score: item.score.fullTime,
                 }]),
               }
             })
+
           }
         }
+
       }
     }
+
+
 
 
     // this.state.teamDetails[0].a.map(( id ) => { console.log( id ) } )
     // use that id to look at matches object and pull out any matches where the home/away team has that id
     // push those matches in to their own array
   }
+
+  
 
   render(json) {
     // return null

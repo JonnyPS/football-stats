@@ -38,17 +38,17 @@ function TeamInputField (props) {
 }
 function OurMatches (props) {
   // alert( props.games.length )
-  // return null;
+  return null;
 
-  return (
-    <ul>
-      {props.games.map( (game, i) => (
-          <li key={i}>
-            {game.selectedTeamResult}
-          </li>
-      ))}
-    </ul>
-  )
+  // return (
+  //   <ul>
+  //     {props.games.map( (game, i) => (
+  //         <li key={i}>
+  //           {game.record}
+  //         </li>
+  //     ))}
+  //   </ul>
+  // )
   // num++;
 }
 
@@ -73,7 +73,7 @@ class App extends Component {
           awayTeam: null,
           winner: null,
           score: null,
-          selectedTeamResult: null,
+          result: [],
         },
       ],
       booboo: [],
@@ -152,7 +152,7 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-    // console.log( 'selected Team matches: ', this.state.selectedMatches )
+    console.log( 'selected Team matches: ', this.state.selectedMatches )
   }
 
   updateInput(e) {
@@ -160,7 +160,6 @@ class App extends Component {
     this.setState({
       input: value
     })
-    // console.log( this.state.input )
   }
 
   findMatches() {
@@ -175,16 +174,7 @@ class App extends Component {
           // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
             console.log( 'matches....' )
-            // push each match as an object in to our selectedMatches array
-            // console.log( item )
-            console.log( item )
-            if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
-              console.log( 'selected team played at HOME and WON!!!' )
-            } if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
-              console.log( 'selected team played AWAY and WON!!!' )
-            } if ( item.score.winner === "DRAW" ) {
-              console.log( 'selected team played and DREW')
-            }
+
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
@@ -201,19 +191,9 @@ class App extends Component {
 
       }
     }
-
-
-
-
-    // this.state.teamDetails[0].a.map(( id ) => { console.log( id ) } )
-    // use that id to look at matches object and pull out any matches where the home/away team has that id
-    // push those matches in to their own array
   }
 
-  
-
   render(json) {
-    // return null
     return (
       <div>
         <input
@@ -223,25 +203,10 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
-        <OurMatches games={this.state.selectedMatches} />
+        <OurMatches games={this.state.record} />
         
       </div>
     )
-    // const teamNum = 20
-    // if (this.state.data.length <= teamNum ) {
-  //     return false;
-  //   } else {
-
-  //     return (
-  //       <div>
-  //         <div className="App">
-  //           <TeamIdList list={ this.state.data } />
-  //           <TeamNameList list={ this.state.data } />
-  //           <TeamInputField props={this.state.data} />
-  //         </div>
-  //       </div>
-  //     )
-  //   }
   }
 }
 

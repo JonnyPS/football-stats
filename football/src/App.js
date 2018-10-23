@@ -14,7 +14,7 @@ return null
 }
 
 function TeamNameList (props) {
-return null
+// return null
   // return (
   //   <select>
   //     {props.list.map((name) => (
@@ -35,6 +35,21 @@ function TeamInputField (props) {
   //     <input type="submit" value="submit" />
   //   </form>
   // )
+}
+function OurMatches (props) {
+  // alert( props.games.length )
+  // return null;
+
+  return (
+    <ul>
+      {props.games.map( (game, i) => (
+          <li key={i}>
+            {game.winner}
+          </li>
+      ))}
+    </ul>
+  )
+  // num++;
 }
 
 class App extends Component {
@@ -58,8 +73,10 @@ class App extends Component {
           awayTeam: null,
           winner: null,
           score: null,
+          selectedTeamResult: null,
         },
       ],
+      booboo: [],
     }
 
     // because of where these functions are called... (?)
@@ -120,9 +137,9 @@ class App extends Component {
         }
         // once the data has loaded, 
         if ( this.state.allTeams !== null && this.state.allMatches !== null ) {
-          console.log( 'teams:', this.state.allTeams )
-          console.log( 'matches:', this.state.allMatches )        
-          console.log( 'teamDetails:', this.state.teamDetails )        
+          // console.log( 'teams:', this.state.allTeams )
+          // console.log( 'matches:', this.state.allMatches )        
+          // console.log( 'teamDetails:', this.state.teamDetails )        
         }
         resourceCounter++
       })
@@ -132,8 +149,10 @@ class App extends Component {
     })
   }
 
+  // will only run after component has updated 
+  // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-    console.log( this.state.selectedMatches )
+    // console.log( 'selected Team matches: ', this.state.selectedMatches )
   }
 
   updateInput(e) {
@@ -141,22 +160,23 @@ class App extends Component {
     this.setState({
       input: value
     })
-    console.log( this.state.input )
+    // console.log( this.state.input )
   }
 
   findMatches( ) {
-    console.log( 'find matches ' )
-    console.log( this.state.teamDetails )
+    console.log( 'find matches...' )
     // get id of team from value of input
     for (let item of this.state.teamDetails) {
+      // if id == teamName in my allTeams array (ie - if team exists in my records)....
       if ( this.state.input === item.teamName ) {
-        console.log(item.teamName); // matches input value to team in array of objects
-        console.log(item.teamId)
         let selectedTeamId = item.teamId 
-        console.log( this.state.allMatches )
+        // loop through all the matches...
         for (let item of this.state.allMatches.matches ) {
+          // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
             console.log( 'away team matches....' )
+            // push each match as an object in to our selectedMatches array
+            // console.log( item )
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
@@ -189,6 +209,7 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
+        <OurMatches games={this.state.selectedMatches} />
         
       </div>
     )

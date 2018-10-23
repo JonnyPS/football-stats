@@ -51,7 +51,15 @@ class App extends Component {
         },
       ],
       input: '',
-      selectedMatches: null,
+      getMatches: [],
+      selectedMatches: [
+        {
+          ay: 'ay',
+          be: 'be',
+          ce: 'ce',
+          de: 'de',
+        },
+      ],
     }
 
     // because of where these functions are called... (?)
@@ -143,29 +151,30 @@ class App extends Component {
         let selectedTeamId = item.teamId 
         console.log( this.state.allMatches )
         for (let item of this.state.allMatches.matches ) {
-          console.log( 'awayTeam: ', item.awayTeam.name + ' id: ' + item.awayTeam.id )
-          // console.log( item.homeTeam )
-          
-          console.log( 'selectedTeamId', selectedTeamId )
-          if ( item.homeTeam.id === selectedTeamId ) {
-            console.log( 'match is: ', item )
-            console.log( this.state.selectedMatches )
-            this.setState((currentState) => {
+          if ( selectedTeamId === item.awayTeam.id ) {
+            console.log( 'away team matches....' )
+            this.setState( (currentState) => {
+              console.log( 'setting state' )
               return {
-                selectedMatches: currentState.selectedMatches.concat([{
-                  item 
+                getMatches: currentState.getMatches.concat([{
+                  item
                 }])
               }
-              console.log( this.state.selectedMatches )
-              // console.log( 'selectedMatches', selectedMatches )
             })
+            console.log( this.state.getMatches )
+            // this.setState((currentState) => {
+            //   return {
+            //     selectedMatches: currentState.selectedMatches.concat([{
+            //       ay: item.homeTeam,
+            //       be: item.awayTeam,
+            //       ce: item.score.winner,
+            //       de: item.score.fullTime
+            //     }]),
+            //   }
+            // })
           }
         }
       }
-    // for (let item of this.state.teamDetails) {
-    //   if ( this.state.input == item.teamName ) {
-    //   }
-  // }
     }
 
 

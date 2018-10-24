@@ -66,14 +66,13 @@ class App extends Component {
         },
       ],
       input: '',
-      getMatches: [],
       selectedMatches: [
         {
           homeTeam: null,
           awayTeam: null,
           winner: null,
           score: null,
-        },
+          },
       ],
       booboo: [],
     }
@@ -111,9 +110,11 @@ class App extends Component {
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
         if ( this.state.allTeams == null ) { 
+          console.log( 'json teams', json )
           // extract only the id and team short name from the returned data
           // loop over every team, get the data and assign it in to an array of objects
           json.teams.map((counter) => {
+
             const teamId = counter.id
             const teamName = counter.shortName
             this.setState((currentState) => {
@@ -129,16 +130,15 @@ class App extends Component {
         } else {
           // when looping over urls[1], assign value to this.state.allMatches property
           this.setState(( currentState ) => {
+
+            console.log( 'json matches', json )
             return {
               allMatches: json,
             }
           })
         }
         // once the data has loaded, 
-        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {
-          // console.log( 'teams:', this.state.allTeams )
-          // console.log( 'matches:', this.state.allMatches )        
-          // console.log( 'teamDetails:', this.state.teamDetails )        
+        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
         }
         resourceCounter++
       })
@@ -151,8 +151,7 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-    console.log( 'componentDidUpdate' )
-    console.log( 'selected Team matches: ', this.state.selectedMatches )
+    console.log( 'this.state', this.state )    
   }
 
   updateInput(e) {
@@ -173,7 +172,8 @@ class App extends Component {
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
-            console.log( 'matches....' )
+            console.log( 'selected team played...' )
+            // console.log( 'matches....' )
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
@@ -184,6 +184,7 @@ class App extends Component {
                 }]),
               }
             })
+
           }
         }
 

@@ -73,7 +73,6 @@ class App extends Component {
           awayTeam: null,
           winner: null,
           score: null,
-          result: [],
         },
       ],
       booboo: [],
@@ -152,6 +151,7 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
+    console.log( 'componentDidUpdate' )
     console.log( 'selected Team matches: ', this.state.selectedMatches )
   }
 
@@ -174,7 +174,6 @@ class App extends Component {
           // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
             console.log( 'matches....' )
-
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
@@ -185,7 +184,6 @@ class App extends Component {
                 }]),
               }
             })
-
           }
         }
 

@@ -61,8 +61,8 @@ class App extends Component {
       allMatches: null,
       teamDetails: [
         {
-          a: 'Team Id',
-          b: 'Team Name',
+          teamId: 'Team Id',
+          teamName: 'Team Name',
         },
       ],
       input: '',
@@ -72,9 +72,10 @@ class App extends Component {
           awayTeam: null,
           winner: null,
           score: null,
+          result: [],
           },
       ],
-      booboo: [],
+      outcomes: [],
     }
 
     // because of where these functions are called... (?)
@@ -163,7 +164,7 @@ class App extends Component {
 
   findMatches() {
     console.log( 'find matches...' )
-    // get id of team from value of input
+    // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // if id == teamName in my allTeams array (ie - if team exists in my records)....
       if ( this.state.input === item.teamName ) {
@@ -173,7 +174,7 @@ class App extends Component {
           // ...and if any involve the team selected....
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
             console.log( 'selected team played...' )
-            // console.log( 'matches....' )
+     
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
@@ -181,10 +182,44 @@ class App extends Component {
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
                   score: item.score.fullTime,
+                  result: null,
                 }]),
               }
             })
 
+            if ( selectedTeamId === item.homeTeam.id ) {
+              console.log( selectedTeamId )
+              console.log( item.homeTeam.id )
+              if ( item.score.winner === "HOME_TEAM" ) {
+                console.log('///// HOME WIN ///// ')
+                this.setState( (currentState) => {
+                  return {
+                    outcomes: currentState.outcomes.concat(['Win'])
+                  }
+                })
+              } 
+            } 
+
+            if ( selectedTeamId === item.homeTeam.id ) {
+              console.log('///// LOOSE /////')
+              if ( item.score.winner === "AWAY_TEAM" ) {
+                console.log('///// AWAY WIN ///// ')
+                this.setState( (currentState) => {
+                  return {
+                    outcomes: currentState.outcomes.concat(['Loose'])
+                  }
+                })
+              } 
+            }
+
+            if ( item.score.winner === "DRAW" ) {
+              console.log('///// DRAW ///// ')
+              this.setState( (currentState) => {
+                return {
+                  outcomes: currentState.outcomes.concat(['Draw'])
+                }
+              })
+            } 
           }
         }
 

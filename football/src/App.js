@@ -73,6 +73,7 @@ class App extends Component {
           awayTeam: null,
           winner: null,
           score: null,
+          result: [null],
         },
       ],
       booboo: [],
@@ -153,6 +154,7 @@ class App extends Component {
   componentDidUpdate() {
     console.log( 'componentDidUpdate' )
     console.log( 'selected Team matches: ', this.state.selectedMatches )
+    console.log( 'selected Team result: ', this.state.result )
   }
 
   updateInput(e) {
@@ -166,13 +168,48 @@ class App extends Component {
     console.log( 'find matches...' )
     // get id of team from value of input
     for (let item of this.state.teamDetails) {
+      console.log( item )
       // if id == teamName in my allTeams array (ie - if team exists in my records)....
       if ( this.state.input === item.teamName ) {
+        console.log( item.teamName )
         let selectedTeamId = item.teamId 
         // loop through all the matches...
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
+
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
+
+            // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
+            //   console.log('/////OUR TEAM PLAYED AWAY AND WON')
+            //   this.setState( (currentState) => {
+            //     return {
+            //       result: currentState.result.concat(['Win']),
+            //     }
+            //   })
+            // }
+            // else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
+            //   console.log('/////OUR TEAM PLAYED HOME AND WON')
+            //   this.setState( (currentState) => {
+            //     return {
+            //       result: 'Win',
+            //     }
+            //   })
+            // } else if ( item.score.winner === "DRAW" ) {
+            //   console.log('/////OUR TEAM PLAYED AND DREW')
+            //   this.setState( (currentState) => {
+            //     return {
+            //       result: 'Draw',
+            //     }
+            //   })
+            // } else {
+            //   console.log('/////OUR TEAM PLAYED AND LOST*******')
+            //   this.setState( (currentState) => {
+            //     return {
+            //       result: 'Loose',
+            //     }
+            //   })
+            // }
+
             console.log( 'matches....' )
             this.setState((currentState) => {
               return {
@@ -181,6 +218,7 @@ class App extends Component {
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
                   score: item.score.fullTime,
+                  result: currentState.selectedMatches.map( (hmm, i) => {  return hmm.homeTeam })
                 }]),
               }
             })

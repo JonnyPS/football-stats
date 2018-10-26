@@ -61,12 +61,11 @@ class App extends Component {
       allMatches: null,
       teamDetails: [
         {
-          a: 'Team Id',
-          b: 'Team Name',
+          teamId: 'Team Id',
+          teamName: 'Team Name',
         },
       ],
       input: '',
-      getMatches: [],
       selectedMatches: [
         {
           homeTeam: null,
@@ -76,7 +75,7 @@ class App extends Component {
           result: [null],
         },
       ],
-      booboo: [],
+      outcomes: [],
     }
 
     // because of where these functions are called... (?)
@@ -112,9 +111,11 @@ class App extends Component {
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
         if ( this.state.allTeams == null ) { 
+          console.log( 'json teams', json )
           // extract only the id and team short name from the returned data
           // loop over every team, get the data and assign it in to an array of objects
           json.teams.map((counter) => {
+
             const teamId = counter.id
             const teamName = counter.shortName
             this.setState((currentState) => {
@@ -130,16 +131,15 @@ class App extends Component {
         } else {
           // when looping over urls[1], assign value to this.state.allMatches property
           this.setState(( currentState ) => {
+
+            console.log( 'json matches', json )
             return {
               allMatches: json,
             }
           })
         }
         // once the data has loaded, 
-        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {
-          // console.log( 'teams:', this.state.allTeams )
-          // console.log( 'matches:', this.state.allMatches )        
-          // console.log( 'teamDetails:', this.state.teamDetails )        
+        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
         }
         resourceCounter++
       })
@@ -166,7 +166,7 @@ class App extends Component {
   findMatches() {
     let numsssss = 0;
     console.log( 'find matches...' )
-    // get id of team from value of input
+    // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // console.log( item )
       // if id == teamName in my allTeams array (ie - if team exists in my records)....
@@ -247,6 +247,40 @@ class App extends Component {
                 }]),
               }
             })
+
+            if ( selectedTeamId === item.homeTeam.id ) {
+              console.log( selectedTeamId )
+              console.log( item.homeTeam.id )
+              if ( item.score.winner === "HOME_TEAM" ) {
+                console.log('///// HOME WIN ///// ')
+                this.setState( (currentState) => {
+                  return {
+                    outcomes: currentState.outcomes.concat(['Win'])
+                  }
+                })
+              } 
+            } 
+
+            if ( selectedTeamId === item.homeTeam.id ) {
+              console.log('///// LOOSE /////')
+              if ( item.score.winner === "AWAY_TEAM" ) {
+                console.log('///// AWAY WIN ///// ')
+                this.setState( (currentState) => {
+                  return {
+                    outcomes: currentState.outcomes.concat(['Loose'])
+                  }
+                })
+              } 
+            }
+
+            if ( item.score.winner === "DRAW" ) {
+              console.log('///// DRAW ///// ')
+              this.setState( (currentState) => {
+                return {
+                  outcomes: currentState.outcomes.concat(['Draw'])
+                }
+              })
+            } 
           }
         }
 

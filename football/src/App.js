@@ -153,8 +153,8 @@ class App extends Component {
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
     console.log( 'componentDidUpdate' )
-    console.log( 'selected Team matches: ', this.state.selectedMatches )
-    console.log( 'selected Team result: ', this.state.result )
+    // console.log( 'selected Team matches: ', this.state.selectedMatches )
+    // console.log( 'selected Team result: ', this.state.result )
   }
 
   updateInput(e) {
@@ -163,12 +163,12 @@ class App extends Component {
       input: value
     })
   }
-
   findMatches() {
+    let numsssss = 0;
     console.log( 'find matches...' )
     // get id of team from value of input
     for (let item of this.state.teamDetails) {
-      console.log( item )
+      // console.log( item )
       // if id == teamName in my allTeams array (ie - if team exists in my records)....
       if ( this.state.input === item.teamName ) {
         console.log( item.teamName )
@@ -177,8 +177,10 @@ class App extends Component {
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
 
+
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
 
+            // console.log( 'ITEM ITEM ITEM', item )
             // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
             //   console.log('/////OUR TEAM PLAYED AWAY AND WON')
             //   this.setState( (currentState) => {
@@ -211,14 +213,37 @@ class App extends Component {
             // }
 
             console.log( 'matches....' )
+            // console.log( selectedTeamId )
+            console.log( item )
             this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
-                  homeTeam: item.homeTeam.name,
+                  homeTeam: item.homeTeam,
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
                   score: item.score.fullTime,
-                  result: currentState.selectedMatches.map( (hmm, i) => {  return hmm.homeTeam })
+                  result: currentState.selectedMatches.map( (obj ) => {  
+                    // console.log( 'selectedMatches length' + currentState.selectedMatches.length )
+                    // console.log( 'item.currentMatchday' + item.season.currentMatchday )
+                    // if ( currentState.selectedMatches.length == (item.season.currentMatchday -1) ) {
+                      console.log( 'array length and current matchday match')
+                      console.log( 'testing ------- ' + item.homeTeam.name + ' ' + item.awayTeam.name )
+                      // console.log( obj.winner )
+                  // }
+                    // if ( obj.winner )
+                    // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
+                    //   console.log('/////OUR TEAM PLAYED AWAY AND WON')
+                    //   return 'Win'
+                    // } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
+                    //   console.log('/////OUR TEAM PLAYED HOME AND WON')
+                    //   return 'Win'
+                    // } else if ( item.score.winner === "DRAW" ) {
+                    //   console.log('/////OUR TEAM PLAYED AND DREW')
+                    //   return 'Draw'
+                    // } else {
+                    //     return 'Loose'
+                    // }
+                  })
                 }]),
               }
             })

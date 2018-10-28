@@ -41,9 +41,9 @@ function OurMatches (props) {
   // return null;
   return (
     <ul>
-      {props.games.map( (name, i) => (
+      {props.games.map( (result, i) => (
         <li key={i}>
-          {name.homeTeam}
+          {result}
         </li>
       ))}
     </ul>
@@ -66,6 +66,7 @@ class App extends Component {
       input: '',
       selectedMatches: [
         {
+          selectedTeam: null,
           homeTeam: null,
           awayTeam: null,
           winner: null,
@@ -153,7 +154,6 @@ class App extends Component {
     console.log( 'componentDidUpdate' )
     console.log( 'selected Team matches: ', this.state.selectedMatches )
     console.log( 'outcomes: ', this.state.outcomes )
-    // console.log( 'selected Team result: ', this.state.result )
   }
 
   updateInput(e) {
@@ -168,118 +168,70 @@ class App extends Component {
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // console.log( item )
-      // if id == teamName in my allTeams array (ie - if team exists in my records)....
       if ( this.state.input === item.teamName ) {
         console.log( item.teamName )
-        let selectedTeamId = item.teamId 
+        let selectedTeam = item.teamId
+        let selectedTeamName = item.teamName
         // loop through all the matches...
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
-            console.log( this.state.selectedMatches )
+          console.log( this.state.selectedMatches )
+          if ( selectedTeam === item.awayTeam.id || selectedTeam === item.homeTeam.id ) {
+            console.log( 'our teams matches....' )
+            console.log( item )
 
-
-          if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
-            // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
-            //     console.log('/////OUR TEAM PLAYED AWAY AND WON')
-            //     let g = 'result'
-            //     // return 'Win'
-            //   } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
-            //     console.log('/////OUR TEAM PLAYED HOME AND WON')
-            //     // return 'Win'
-            //     let g = 'result'
-            //   } else if ( item.score.winner === "DRAW" ) {
-            //     console.log('/////OUR TEAM PLAYED AND DREW')
-            //     // return 'Draw'
-            //     let g = 'result'
-            //   } else {
-            //       // return 'Loose'
-            //       let g = 'result'
-            //   }
+            console.log( item.score.winner )
+            // get our teams results - win loose or draw
+            let ourTeamsResults = []
+            if ( item.score.winner === 'AWAY_TEAM'  ) {
+              console.log( 'boom' )
+              if ( selectedTeam === item.awayTeam.id ) {
+                ourTeamsResults.push( 'Win' )
+              }
+              if ( selectedTeam === item.homeTeam.id ) {
+                ourTeamsResults.push( 'Loose' )
+              } 
+            }
+            if ( item.score.winner === 'HOME_TEAM'  ) {
+              console.log( 'boom' )
+              if ( selectedTeam === item.awayTeam.id ) {
+                ourTeamsResults.push( 'Loose' )
+              }
+              if ( selectedTeam === item.homeTeam.id ) {
+                ourTeamsResults.push( 'Win' )
+              } 
+            }
+            if ( item.score.winner === "DRAW" ) {
+              ourTeamsResults.push( 'Draw' )  
+            }
+            
+            // if ( item.score.winner === "DRAW" ) {
+            //   ourTeamsResults.push( 'Draw' )
+            // } else {
+            //   ourTeamsResults.push( 'Loose' )
             // }
 
-            console.log( 'matches....' )
-            // console.log( selectedTeamId )
-            console.log( item )
             this.setState((currentState, f) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
+                  selectedTeamId: selectedTeam,
+                  selectedTeamName: selectedTeamName,
                   homeTeam: item.homeTeam,
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
                   score: item.score.fullTime,
                 }]),
-                  // result: currentState.selectedMatches.map( (obj ) => {  
-                    // console.log( 'selectedMatches length' + currentState.selectedMatches.length )
-                    // console.log( 'item.currentMatchday' + item.season.currentMatchday )
-                      // console.log( currentState.selectedMatches.length -1 )
-                      // console.log( 'this is the last one ..... ... .. . .....')
-                    // if ( currentState.selectedMatches.length == (item.season.currentMatchday -1) ) {
-                    //               console.log( 'array length and current matchday match')
-                    //               console.log( 'testing ------- ' + item.homeTeam.name + ' ' + item.awayTeam.name )
-                    //               k++;
-                    //               console.log( 'k', k )
-                    //   console.log( obj.winner )
-                  
-                      // if ( obj.winner )
-                      // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
-                        // console.log('/////OUR TEAM PLAYED AWAY AND WON')
-                      //   return 'Win'
-                      // } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
-                      //   console.log('/////OUR TEAM PLAYED HOME AND WON')
-                      //   return 'Win'
-                      // } else if ( item.score.winner === "DRAW" ) {
-                      //   console.log('/////OUR TEAM PLAYED AND DREW')
-                      //   return 'Draw'
-                      // } else {
-                      //     return 'Loose'
-                      // }
-                    // }
-                  // })
-                // }]),
+                outcomes: currentState.outcomes.concat( ourTeamsResults ),
               }
             })
-
-            // if ( selectedTeamId === item.homeTeam.id ) {
-            //   console.log( selectedTeamId )
-            //   console.log( item.homeTeam.id )
-            //   if ( item.score.winner === "HOME_TEAM" ) {
-            //     console.log('///// HOME WIN ///// ')
-            //     this.setState( (currentState) => {
-            //       return {
-            //         outcomes: currentState.outcomes.concat(['Win'])
-            //       }
-            //     })
-            //   } 
-            // } 
-
-            // if ( selectedTeamId === item.homeTeam.id ) {
-            //   console.log('///// LOOSE /////')
-            //   if ( item.score.winner === "AWAY_TEAM" ) {
-            //     console.log('///// AWAY WIN ///// ')
-            //     this.setState( (currentState) => {
-            //       return {
-            //         outcomes: currentState.outcomes.concat(['Loose'])
-            //       }
-            //     })
-            //   } 
-            // }
-
-            // if ( item.score.winner === "DRAW" ) {
-            //   console.log('///// DRAW ///// ')
-            //   this.setState( (currentState) => {
-            //     return {
-            //       outcomes: currentState.outcomes.concat(['Draw'])
-            //     }
-            //   })
-            // } 
           }
         }
-
       }
     }
   }
 
-  render(json) {
+  render(json, item) {
+    console.log( 'render', item )
     return (
       <div>
         <input
@@ -289,8 +241,7 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
-        <OurMatches games={this.state.selectedMatches} />
-        
+        <OurMatches games={this.state.outcomes} />
       </div>
     )
   }

@@ -5,7 +5,7 @@ import App from './App';
 import Chart from './Chart';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('inputBox'));
 ReactDOM.render(<Chart />, document.getElementById('chartHolder'));
 
 // If you want your app to work offline and load faster, you can change

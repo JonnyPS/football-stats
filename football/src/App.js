@@ -43,8 +43,8 @@ function OurMatches (props) {
   // return (
   //   <ul>
   //     {props.games.map( (game, i) => (
-  //         <li key={i}>
-  //           {game.record}
+  //         <li key={i}>  
+  //           {game}
   //         </li>
   //     ))}
   //   </ul>
@@ -153,7 +153,8 @@ class App extends Component {
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
     console.log( 'componentDidUpdate' )
-    // console.log( 'selected Team matches: ', this.state.selectedMatches )
+    console.log( 'selected Team matches: ', this.state.selectedMatches )
+    console.log( 'outcomes: ', this.state.outcomes )
     // console.log( 'selected Team result: ', this.state.result )
   }
 
@@ -176,111 +177,103 @@ class App extends Component {
         // loop through all the matches...
         for (let item of this.state.allMatches.matches ) {
           // ...and if any involve the team selected....
+            console.log( this.state.selectedMatches )
 
 
           if ( selectedTeamId === item.awayTeam.id || selectedTeamId === item.homeTeam.id ) {
-
-            // console.log( 'ITEM ITEM ITEM', item )
             // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
-            //   console.log('/////OUR TEAM PLAYED AWAY AND WON')
-            //   this.setState( (currentState) => {
-            //     return {
-            //       result: currentState.result.concat(['Win']),
-            //     }
-            //   })
-            // }
-            // else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
-            //   console.log('/////OUR TEAM PLAYED HOME AND WON')
-            //   this.setState( (currentState) => {
-            //     return {
-            //       result: 'Win',
-            //     }
-            //   })
-            // } else if ( item.score.winner === "DRAW" ) {
-            //   console.log('/////OUR TEAM PLAYED AND DREW')
-            //   this.setState( (currentState) => {
-            //     return {
-            //       result: 'Draw',
-            //     }
-            //   })
-            // } else {
-            //   console.log('/////OUR TEAM PLAYED AND LOST*******')
-            //   this.setState( (currentState) => {
-            //     return {
-            //       result: 'Loose',
-            //     }
-            //   })
+            //     console.log('/////OUR TEAM PLAYED AWAY AND WON')
+            //     let g = 'result'
+            //     // return 'Win'
+            //   } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
+            //     console.log('/////OUR TEAM PLAYED HOME AND WON')
+            //     // return 'Win'
+            //     let g = 'result'
+            //   } else if ( item.score.winner === "DRAW" ) {
+            //     console.log('/////OUR TEAM PLAYED AND DREW')
+            //     // return 'Draw'
+            //     let g = 'result'
+            //   } else {
+            //       // return 'Loose'
+            //       let g = 'result'
+            //   }
             // }
 
             console.log( 'matches....' )
             // console.log( selectedTeamId )
             console.log( item )
-            this.setState((currentState) => {
+            this.setState((currentState, f) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
                   homeTeam: item.homeTeam,
                   awayTeam: item.awayTeam,
                   winner: item.score.winner,
                   score: item.score.fullTime,
-                  result: currentState.selectedMatches.map( (obj ) => {  
+                }]),
+                  // result: currentState.selectedMatches.map( (obj ) => {  
                     // console.log( 'selectedMatches length' + currentState.selectedMatches.length )
                     // console.log( 'item.currentMatchday' + item.season.currentMatchday )
+                      // console.log( currentState.selectedMatches.length -1 )
+                      // console.log( 'this is the last one ..... ... .. . .....')
                     // if ( currentState.selectedMatches.length == (item.season.currentMatchday -1) ) {
-                      console.log( 'array length and current matchday match')
-                      console.log( 'testing ------- ' + item.homeTeam.name + ' ' + item.awayTeam.name )
-                      // console.log( obj.winner )
-                  // }
-                    // if ( obj.winner )
-                    // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
-                    //   console.log('/////OUR TEAM PLAYED AWAY AND WON')
-                    //   return 'Win'
-                    // } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
-                    //   console.log('/////OUR TEAM PLAYED HOME AND WON')
-                    //   return 'Win'
-                    // } else if ( item.score.winner === "DRAW" ) {
-                    //   console.log('/////OUR TEAM PLAYED AND DREW')
-                    //   return 'Draw'
-                    // } else {
-                    //     return 'Loose'
+                    //               console.log( 'array length and current matchday match')
+                    //               console.log( 'testing ------- ' + item.homeTeam.name + ' ' + item.awayTeam.name )
+                    //               k++;
+                    //               console.log( 'k', k )
+                    //   console.log( obj.winner )
+                  
+                      // if ( obj.winner )
+                      // if ( selectedTeamId === item.awayTeam.id && item.score.winner === "AWAY_TEAM" ) {
+                        // console.log('/////OUR TEAM PLAYED AWAY AND WON')
+                      //   return 'Win'
+                      // } else if ( selectedTeamId === item.homeTeam.id && item.score.winner === "HOME_TEAM" ) {
+                      //   console.log('/////OUR TEAM PLAYED HOME AND WON')
+                      //   return 'Win'
+                      // } else if ( item.score.winner === "DRAW" ) {
+                      //   console.log('/////OUR TEAM PLAYED AND DREW')
+                      //   return 'Draw'
+                      // } else {
+                      //     return 'Loose'
+                      // }
                     // }
-                  })
-                }]),
+                  // })
+                // }]),
               }
             })
 
-            if ( selectedTeamId === item.homeTeam.id ) {
-              console.log( selectedTeamId )
-              console.log( item.homeTeam.id )
-              if ( item.score.winner === "HOME_TEAM" ) {
-                console.log('///// HOME WIN ///// ')
-                this.setState( (currentState) => {
-                  return {
-                    outcomes: currentState.outcomes.concat(['Win'])
-                  }
-                })
-              } 
-            } 
+            // if ( selectedTeamId === item.homeTeam.id ) {
+            //   console.log( selectedTeamId )
+            //   console.log( item.homeTeam.id )
+            //   if ( item.score.winner === "HOME_TEAM" ) {
+            //     console.log('///// HOME WIN ///// ')
+            //     this.setState( (currentState) => {
+            //       return {
+            //         outcomes: currentState.outcomes.concat(['Win'])
+            //       }
+            //     })
+            //   } 
+            // } 
 
-            if ( selectedTeamId === item.homeTeam.id ) {
-              console.log('///// LOOSE /////')
-              if ( item.score.winner === "AWAY_TEAM" ) {
-                console.log('///// AWAY WIN ///// ')
-                this.setState( (currentState) => {
-                  return {
-                    outcomes: currentState.outcomes.concat(['Loose'])
-                  }
-                })
-              } 
-            }
+            // if ( selectedTeamId === item.homeTeam.id ) {
+            //   console.log('///// LOOSE /////')
+            //   if ( item.score.winner === "AWAY_TEAM" ) {
+            //     console.log('///// AWAY WIN ///// ')
+            //     this.setState( (currentState) => {
+            //       return {
+            //         outcomes: currentState.outcomes.concat(['Loose'])
+            //       }
+            //     })
+            //   } 
+            // }
 
-            if ( item.score.winner === "DRAW" ) {
-              console.log('///// DRAW ///// ')
-              this.setState( (currentState) => {
-                return {
-                  outcomes: currentState.outcomes.concat(['Draw'])
-                }
-              })
-            } 
+            // if ( item.score.winner === "DRAW" ) {
+            //   console.log('///// DRAW ///// ')
+            //   this.setState( (currentState) => {
+            //     return {
+            //       outcomes: currentState.outcomes.concat(['Draw'])
+            //     }
+            //   })
+            // } 
           }
         }
 
@@ -298,7 +291,7 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
-        <OurMatches games={this.state.record} />
+        <OurMatches games={this.state.selectedMatches} />
         
       </div>
     )

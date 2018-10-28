@@ -27,6 +27,9 @@ class Chart extends Component {
   }
 
   render() {
+  	console.log( 'this first component' )
+  	console.log( this )
+  	// return null
     return (
       <List items={this.state.list} />
     )

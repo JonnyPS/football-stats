@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Chart from './Chart';
 
 function TeamIdList (props) {
 return null

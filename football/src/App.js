@@ -38,18 +38,16 @@ function TeamInputField (props) {
 }
 function OurMatches (props) {
   // alert( props.games.length )
-  return null;
-
-  // return (
-  //   <ul>
-  //     {props.games.map( (game, i) => (
-  //         <li key={i}>  
-  //           {game}
-  //         </li>
-  //     ))}
-  //   </ul>
-  // )
-  // num++;
+  // return null;
+  return (
+    <ul>
+      {props.games.map( (name, i) => (
+        <li key={i}>
+          {name.homeTeam}
+        </li>
+      ))}
+    </ul>
+  )
 }
 
 class App extends Component {

@@ -89,6 +89,15 @@ class App extends Component {
         },
       ],
       outcomes: [],
+      data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: null,
+        }]
+      },
     }
 
     // because of where these functions are called... (?)
@@ -200,23 +209,23 @@ class App extends Component {
             if ( item.score.winner === 'AWAY_TEAM'  ) {
               console.log( 'boom' )
               if ( selectedTeam === item.awayTeam.id ) {
-                ourTeamsResults.push( 'Win' )
+                ourTeamsResults.push( 3 )
               }
               if ( selectedTeam === item.homeTeam.id ) {
-                ourTeamsResults.push( 'Loose' )
+                ourTeamsResults.push( 0 )
               } 
             }
             if ( item.score.winner === 'HOME_TEAM'  ) {
               console.log( 'boom' )
               if ( selectedTeam === item.awayTeam.id ) {
-                ourTeamsResults.push( 'Loose' )
+                ourTeamsResults.push( 0 )
               }
               if ( selectedTeam === item.homeTeam.id ) {
-                ourTeamsResults.push( 'Win' )
+                ourTeamsResults.push( 3 )
               } 
             }
             if ( item.score.winner === "DRAW" ) {
-              ourTeamsResults.push( 'Draw' )  
+              ourTeamsResults.push( 1 )  
             }
             
             // if ( item.score.winner === "DRAW" ) {
@@ -236,6 +245,15 @@ class App extends Component {
                   score: item.score.fullTime,
                 }]),
                 outcomes: currentState.outcomes.concat( ourTeamsResults ),
+                data: {
+                    labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
+                    datasets: [{
+                        label: "My First dataset",
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: currentState.outcomes.concat( ourTeamsResults ),
+                    }]
+                },
               }
             })
           }
@@ -246,6 +264,7 @@ class App extends Component {
 
   render(json, item) {
     console.log( 'render', item )
+
     return (
       <div>
         <input
@@ -256,7 +275,13 @@ class App extends Component {
         />
         <button onClick={this.findMatches}>Submit</button>
         <OurMatches games={this.state.outcomes} />
-        <Line data={this.state.outcomes} />
+        <Line 
+          data={this.state.data}
+          // options={chartOptions}
+          height={200}
+          width={700}
+
+        />
 
       </div>
     )

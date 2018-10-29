@@ -273,7 +273,6 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
-        <OurMatches games={this.state.outcomes} />
         <Line 
           data={this.state.data}
           // options={chartOptions}
@@ -284,6 +283,7 @@ class App extends Component {
 
       </div>
     )
+        // move this back in to render(...) <OurMatches games={this.state.outcomes} />
   }
 }
 

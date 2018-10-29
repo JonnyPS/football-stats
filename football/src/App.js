@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
-import Chart from './Chart';
+import {Line} from 'react-chartjs-2';
+
+
+function List (props) {
+  return (
+    <ul>
+      {props.items.map( (value, i) => (
+        <li key={i}>
+          {value}
+      </li>
+      ))}
+    </ul>
+  )
+}
 
 function TeamIdList (props) {
 return null
@@ -243,6 +256,8 @@ class App extends Component {
         />
         <button onClick={this.findMatches}>Submit</button>
         <OurMatches games={this.state.outcomes} />
+        <Line data={this.state.outcomes} />
+
       </div>
     )
   }

@@ -88,11 +88,12 @@ class App extends Component {
           result: [null],
         },
       ],
+      matchday: [],
       outcomes: [],
       data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: [],
         datasets: [{
-            label: "My First dataset",
+            label: null,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: null,
@@ -174,9 +175,10 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-    console.log( 'componentDidUpdate' )
-    console.log( 'selected Team matches: ', this.state.selectedMatches )
-    console.log( 'outcomes: ', this.state.outcomes )
+    // console.log( 'componentDidUpdate' )
+    // console.log( 'selected Team matches: ', this.state.selectedMatches )
+    // console.log( 'outcomes: ', this.state.outcomes )
+    console.log( 'matchday', this.state.matchday)
   }
 
   updateInput(e) {
@@ -197,12 +199,14 @@ class App extends Component {
         let selectedTeamName = item.teamName
         // loop through all the matches...
         for (let item of this.state.allMatches.matches ) {
-          // ...and if any involve the team selected....
+           // ...and if any involve the team selected....
           console.log( this.state.selectedMatches )
           if ( selectedTeam === item.awayTeam.id || selectedTeam === item.homeTeam.id ) {
+            console.log( 'item', item )
             console.log( 'our teams matches....' )
             console.log( item )
-
+            // log each matchday
+            // let matchday = []
             console.log( item.score.winner )
             // get our teams results - win loose or draw
             let ourTeamsResults = []
@@ -227,14 +231,8 @@ class App extends Component {
             if ( item.score.winner === "DRAW" ) {
               ourTeamsResults.push( 1 )  
             }
-            
-            // if ( item.score.winner === "DRAW" ) {
-            //   ourTeamsResults.push( 'Draw' )
-            // } else {
-            //   ourTeamsResults.push( 'Loose' )
-            // }
 
-            this.setState((currentState, f) => {
+            this.setState((currentState) => {
               return {
                 selectedMatches: currentState.selectedMatches.concat([{
                   selectedTeamId: selectedTeam,
@@ -244,11 +242,12 @@ class App extends Component {
                   winner: item.score.winner,
                   score: item.score.fullTime,
                 }]),
+                matchday: currentState.matchday.concat( item.matchday ),
                 outcomes: currentState.outcomes.concat( ourTeamsResults ),
                 data: {
-                    labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
+                    labels: currentState.data.labels.concat( item.matchday ),
                     datasets: [{
-                        label: "My First dataset",
+                        label: selectedTeamName,
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
                         data: currentState.outcomes.concat( ourTeamsResults ),
@@ -263,7 +262,7 @@ class App extends Component {
   }
 
   render(json, item) {
-    console.log( 'render', item )
+    console.log( 'render' )
 
     return (
       <div>

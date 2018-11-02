@@ -194,13 +194,34 @@ class App extends Component {
 
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
-      console.log( item )
+      // console.log( item )
+      // check that selected team 
       if ( this.state.input === item.teamName ) {
         let selectedTeamId = item.teamId
-
+        let resultsOfMatches = []
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
         console.log( 'filteredMatches', filteredMatches )
 
+        function getMatchResults( game, ourTeam ) {
+          let result = game.score.winner
+          let home = game.homeTeam.id
+          if ( result === "HOME_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 3 ) }
+          if ( result === "HOME_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 0 ) }
+          if ( result === "AWAY_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 0 ) }
+          if ( result === "AWAY_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 3 ) }
+          if ( result === "DRAW" ) { resultsOfMatches.push( 1 ) }
+        }
+
+        filteredMatches.map( getMatchResults )
+        console.log( 'before', resultsOfMatches)
+
+        // addMatches
+        var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
+          acc.push((acc[acc.length - 1] || 0) + current);
+          return acc;
+        }, [])
+
+        console.log( pointsSoFar )
 
 
         // console.log( item.teamName )

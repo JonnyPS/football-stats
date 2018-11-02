@@ -182,7 +182,7 @@ class App extends Component {
   }
 
   updateInput(e) {
-    const value = e.target.value
+    const value = e.target.value.toUpperCase()
     this.setState({
       input: value
     })
@@ -192,7 +192,7 @@ class App extends Component {
     console.log( 'find matches...' )
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
-      // console.log( item )
+      console.log( item )
       if ( this.state.input === item.teamName ) {
         console.log( item.teamName )
         let selectedTeam = item.teamId
@@ -250,7 +250,10 @@ class App extends Component {
                         label: selectedTeamName,
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
-                        data: currentState.outcomes.concat( ourTeamsResults ),
+                        data: currentState.outcomes.reduce((acc, current) => {
+                          acc.push((acc[acc.length - 1] || 0) + current);
+                          return acc;
+                        }, []),
                     }]
                 },
               }

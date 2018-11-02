@@ -182,9 +182,9 @@ class App extends Component {
   }
 
   updateInput(e) {
-    const value = e.target.value.toUpperCase()
+    const value = e.target.value
     this.setState({
-      input: value
+      input: value.replace(/^\w/, c => c.toUpperCase())
     })
   }
   findMatches() {

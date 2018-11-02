@@ -16,3 +16,7 @@ code {
 #resultsChart {
   height: 400px !important;
 }
+
+#inputBox {
+  width: 50%;
+}

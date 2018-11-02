@@ -2,68 +2,6 @@ import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 
 
-function List (props) {
-  return (
-    <ul>
-      {props.items.map( (value, i) => (
-        <li key={i}>
-          {value}
-      </li>
-      ))}
-    </ul>
-  )
-}
-
-function TeamIdList (props) {
-return null
-  // return (
-  //   <select>
-  //     {props.list.map((id) => (
-  //       <option key={id.a}>
-  //         {id.a}
-  //       </option>
-  //     ))}
-  //   </select>
-  // )
-}
-
-function TeamNameList (props) {
-// return null
-  // return (
-  //   <select>
-  //     {props.list.map((name) => (
-  //       <option key={name.b}>
-  //         {name.b}
-  //       </option>
-  //     ))}
-  //   </select>
-  // )
-}
-
-function TeamInputField (props) {
-  return null;
-  // console.log( props )
-  // return (
-  //   <form>
-  //     <input type="text" />
-  //     <input type="submit" value="submit" />
-  //   </form>
-  // )
-}
-function OurMatches (props) {
-  // alert( props.games.length )
-  // return null;
-  return (
-    <ul>
-      {props.games.map( (result, i) => (
-        <li key={i}>
-          {result}
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 function DisplayStats (props) {
   // console.log( 'DisplayStats gamesPlayed', props.gamesPlayed )
   // return null
@@ -207,13 +145,9 @@ class App extends Component {
     })
   }
   findMatches() {
-    let numsssss = 0;
     console.log( 'find matches...' )
-
-
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
-      // console.log( item )
       // check that selected team 
       if ( this.state.input === item.teamName ) {
         let selectedTeamId = item.teamId
@@ -222,23 +156,12 @@ class App extends Component {
         let numGamesWon = []
         let numGamesLost = []
         let numGamesDrawn =[]
-        // let gameStats = [
-        //   {
-        //     gamesPlayed: null,
-        //     gamesWon: null,
-        //     gamesLost: null,
-        //     gamesDrawn: null,
-        //   }
-        // ]
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
         }
 
-
-
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        console.log( 'filteredMatches', filteredMatches )
 
         function getMatchResults( game, ourTeam ) {
           let result = game.score.winner
@@ -251,17 +174,14 @@ class App extends Component {
         }
 
         filteredMatches.map( getMatchResults )
-        console.log( 'before', resultsOfMatches)
 
-        // addMatches
+        // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
           acc.push((acc[acc.length - 1] || 0) + current);
           return acc;
         }, [])
 
-        console.log( pointsSoFar )
-        console.log( filteredMatches.matchday )
-
+        // map over our matches and set component state accordingly
         filteredMatches.map( (games) => {
           console.log( games )
           this.setState( (currentState) => {
@@ -270,7 +190,6 @@ class App extends Component {
               gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
               gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
               gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
-
               matchday: currentState.matchday.concat( games.matchday ),
               data: {
                 labels: currentState.data.labels.concat( games.matchday ),
@@ -283,7 +202,6 @@ class App extends Component {
               },
             }
           })
-          console.log( 'state', this.state )
         })
       }
     }
@@ -291,7 +209,6 @@ class App extends Component {
 
   render(json, item) {
     console.log( 'render' )
-
     return (
       <div>
         <input
@@ -305,7 +222,7 @@ class App extends Component {
           data={this.state.data}
           // options={chartOptions}
           height={200}
-          width={700}
+          width={400}
           options={{
            legend: {
              display: true

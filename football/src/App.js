@@ -198,6 +198,7 @@ class App extends Component {
       // check that selected team 
       if ( this.state.input === item.teamName ) {
         let selectedTeamId = item.teamId
+        let selectedTeamName = item.teamId
         let resultsOfMatches = []
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
         console.log( 'filteredMatches', filteredMatches )
@@ -222,6 +223,25 @@ class App extends Component {
         }, [])
 
         console.log( pointsSoFar )
+        console.log( filteredMatches.matchday )
+
+        filteredMatches.map( (games) => {
+          console.log( games )
+          this.setState( (currentState) => {
+            return {
+              matchday: currentState.matchday.concat( games.matchday ),
+              data: {
+                labels: currentState.data.labels.concat( games.matchday ),
+                datasets: [{
+                  label: selectedTeamName,
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  data: pointsSoFar
+                }]
+              },
+            }
+          })
+        })
 
 
         // console.log( item.teamName )
@@ -311,7 +331,24 @@ class App extends Component {
           // options={chartOptions}
           height={200}
           width={700}
-
+          options={{
+           legend: {
+             display: true
+           },
+           scales: {
+             yAxes: [{
+               ticks: {
+                  max: this.state.matchday.length * 3,
+                  min: 0,
+                  stepSize: 3
+                }
+              }]
+             },
+            title: {
+             display: this.state.selectedMatches.teamName,
+             text: this.props.title
+            }
+         }}
         />
 
       </div>

@@ -64,6 +64,19 @@ function OurMatches (props) {
   )
 }
 
+function DisplayStats (props) {
+  // console.log( 'DisplayStats gamesPlayed', props.gamesPlayed )
+  // return null
+  return (
+    <ul>
+      <li>Number of games played: {props.gamesPlayed}</li>
+      <li>Games won: {props.gamesWon}</li>
+      <li>Games lost: {props.gamesLost}</li>
+      <li>Games drawn: {props.gamesDrawn}</li>
+    </ul>
+  )
+}
+
 class App extends Component {
   
   constructor(props) {
@@ -88,6 +101,11 @@ class App extends Component {
           result: [null],
         },
       ],
+      gamesPlayed: null,
+      gamesWon: null,
+      gamesLost: null,
+      gamesDrawn: null,
+
       matchday: [],
       outcomes: [],
       data: {
@@ -179,6 +197,7 @@ class App extends Component {
     // console.log( 'selected Team matches: ', this.state.selectedMatches )
     // console.log( 'outcomes: ', this.state.outcomes )
     console.log( 'matchday', this.state.matchday)
+    console.log( 'gameStats', this.state.gamesPlayed)
   }
 
   updateInput(e) {
@@ -200,6 +219,24 @@ class App extends Component {
         let selectedTeamId = item.teamId
         let selectedTeamName = item.teamId
         let resultsOfMatches = []
+        let numGamesWon = []
+        let numGamesLost = []
+        let numGamesDrawn =[]
+        // let gameStats = [
+        //   {
+        //     gamesPlayed: null,
+        //     gamesWon: null,
+        //     gamesLost: null,
+        //     gamesDrawn: null,
+        //   }
+        // ]
+
+        function getMatchResultOccurence(array, result) {
+          return array.filter((v) => (v === result)).length;
+        }
+
+
+
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
         console.log( 'filteredMatches', filteredMatches )
 
@@ -229,6 +266,11 @@ class App extends Component {
           console.log( games )
           this.setState( (currentState) => {
             return {
+              gamesPlayed: resultsOfMatches.length,
+              gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
+              gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
+              gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
+
               matchday: currentState.matchday.concat( games.matchday ),
               data: {
                 labels: currentState.data.labels.concat( games.matchday ),
@@ -241,6 +283,7 @@ class App extends Component {
               },
             }
           })
+          console.log( 'state', this.state )
         })
       }
     }
@@ -277,11 +320,18 @@ class App extends Component {
               }]
              },
             title: {
-             display: this.state.selectedMatches.teamName,
-             text: this.props.title
+             display: 'hello',
+             text: this.state.input,
             }
          }}
         />
+        <DisplayStats
+          gamesPlayed={this.state.gamesPlayed}
+          gamesWon={this.state.gamesWon}
+          gamesLost={this.state.gamesLost}
+          gamesDrawn={this.state.gamesDrawn}
+        />
+       
 
       </div>
     )

@@ -15,6 +15,20 @@ function DisplayStats (props) {
   )
 }
 
+function DisplayDetails (props) {
+  console.log( props )
+  // return null
+  return (
+    <ul>
+      {props.teams.map( (key, i) => (
+        // console.log( 'key', key[i] )
+        // console.log( 'i', i )
+        <li key={i}>{key.name}<span><img src={key.logo} /></span></li>
+      ))}  
+    </ul>
+  )
+}
+
 class App extends Component {
   
   constructor(props) {
@@ -22,6 +36,18 @@ class App extends Component {
     this.state = {
       allTeams: null,
       allMatches: null,
+
+      profile: [
+        {
+          logo: 'img/arsenal.png',
+          name: 'Arsenal',
+        },
+        {
+          logo: 'img/chelsea.png',
+          name: 'Chelsea',
+        },
+      ],
+
       teamDetails: [
         {
           teamId: 'Team Id',
@@ -134,8 +160,8 @@ class App extends Component {
     // console.log( 'componentDidUpdate' )
     // console.log( 'selected Team matches: ', this.state.selectedMatches )
     // console.log( 'outcomes: ', this.state.outcomes )
-    console.log( 'matchday', this.state.matchday)
-    console.log( 'gameStats', this.state.gamesPlayed)
+    // console.log( 'matchday', this.state.matchday)
+    // console.log( 'gameStats', this.state.gamesPlayed)
   }
 
   updateInput(e) {
@@ -206,7 +232,7 @@ class App extends Component {
       }
     }
   }
-
+  
   render(json, item) {
     console.log( 'render' )
     return (
@@ -248,6 +274,9 @@ class App extends Component {
           gamesLost={this.state.gamesLost}
           gamesDrawn={this.state.gamesDrawn}
         />
+        <DisplayDetails
+          teams={this.state.profile}
+        /> 
        
 
       </div>

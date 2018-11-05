@@ -23,8 +23,7 @@ function DisplayDetails (props) {
       {props.teams.map( (key, i) => (
         // console.log( 'key', key[i] )
         // console.log( 'i', i )
-        <li key={i}>{key.name}<span><img src={key.logo} /></span>
-          <button onClick={() => props.activateClickResponse(key.name)}>Activate</button>
+        <li key={i}>{key.name}<span><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></span>
         </li>
       ))}  
     </ul>
@@ -96,6 +95,10 @@ class App extends Component {
     console.log('cliked')
     console.log( this )
     console.log( name )
+
+    this.setState({
+      input: name.replace(/^\w/, c => c.toUpperCase())
+    })
   }
 
   componentDidMount() {

@@ -82,6 +82,7 @@ class App extends Component {
             data: null,
         }]
       },
+
     }
 
     // because of where these functions are called... (?)
@@ -103,7 +104,17 @@ class App extends Component {
     })
   }
 
+  // saveInitialState() {
+  //   console.log( 'saveInitialState' )
+  //   const initial = this.state
+    
+  //   console.log( 'initial' )
+  //   console.log( initial )
+  // }
+
   componentDidMount() {
+    console.log( 'componentDidMount' )
+
 
     var resourceCounter = 0;
     const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
@@ -178,6 +189,8 @@ class App extends Component {
     // console.log( 'gameStats', this.state.gamesPlayed)
     // console.log( 'input//////', this.state.input )
     // this.state.input == '' ? console.log( 'try again' ) : this.findMatches() 
+
+    console.log( 'this constructor', this.state )
   }
 
   updateInput(e) {
@@ -299,8 +312,7 @@ class App extends Component {
           teams={this.state.profile}
           activateClickResponse={this.onClickThis}
         /> 
-       
-
+      <button onClick={this.createInitialState}>Reset</button>
       </div>
     )
         // move this back in to render(...) <OurMatches games={this.state.outcomes} />

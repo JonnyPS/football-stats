@@ -16,14 +16,16 @@ function DisplayStats (props) {
 }
 
 function DisplayDetails (props) {
-  console.log( props )
+  console.log( 'props', props )
   // return null
   return (
     <ul>
       {props.teams.map( (key, i) => (
         // console.log( 'key', key[i] )
         // console.log( 'i', i )
-        <li key={i}>{key.name}<span><img src={key.logo} /></span></li>
+        <li key={i}>{key.name}<span><img src={key.logo} /></span>
+          <button onClick={() => props.activateClickResponse(key.name)}>Activate</button>
+        </li>
       ))}  
     </ul>
   )
@@ -87,6 +89,13 @@ class App extends Component {
     // we need to define that 'this', refers to our component App
     this.updateInput = this.updateInput.bind( this )
     this.findMatches = this.findMatches.bind( this )
+    this.onClickThis = this.onClickThis.bind( this )
+  }
+
+  onClickThis(name) {
+    console.log('cliked')
+    console.log( this )
+    console.log( name )
   }
 
   componentDidMount() {
@@ -268,6 +277,7 @@ class App extends Component {
             }
          }}
         />
+
         <DisplayStats
           gamesPlayed={this.state.gamesPlayed}
           gamesWon={this.state.gamesWon}
@@ -276,6 +286,7 @@ class App extends Component {
         />
         <DisplayDetails
           teams={this.state.profile}
+          activateClickResponse={this.onClickThis}
         /> 
        
 

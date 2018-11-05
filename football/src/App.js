@@ -98,6 +98,8 @@ class App extends Component {
 
     this.setState({
       input: name.replace(/^\w/, c => c.toUpperCase())
+    }, () => {
+      this.findMatches()
     })
   }
 
@@ -174,6 +176,8 @@ class App extends Component {
     // console.log( 'outcomes: ', this.state.outcomes )
     // console.log( 'matchday', this.state.matchday)
     // console.log( 'gameStats', this.state.gamesPlayed)
+    // console.log( 'input//////', this.state.input )
+    // this.state.input == '' ? console.log( 'try again' ) : this.findMatches() 
   }
 
   updateInput(e) {
@@ -181,9 +185,13 @@ class App extends Component {
     this.setState({
       input: value.replace(/^\w/, c => c.toUpperCase())
     })
+    // setTimeout( function() {
+    //   this.state.input == '' ? console.log( 'try again' ) : this.findMatches()    
+    // }, 100)
   }
   findMatches() {
     console.log( 'find matches...' )
+    console.log( 'state - input', this.state.input )
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // check that selected team 

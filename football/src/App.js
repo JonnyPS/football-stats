@@ -309,7 +309,9 @@ class App extends Component {
 
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
 
+        // const matchesSoFar = this.state.allMatches.matches.concat( games.matchday )
         function getMatchResults( game, ourTeam ) {
+          console.log( 'game', game)
           let result = game.score.winner
           let home = game.homeTeam.id
           if ( result === "HOME_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 3 ) }
@@ -320,6 +322,9 @@ class App extends Component {
         }
 
         filteredMatches.map( getMatchResults )
+
+        let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
+
 
         // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
@@ -338,7 +343,7 @@ class App extends Component {
               gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
               matchday: currentState.matchday.concat( games.matchday ),
               data: {
-                labels: currentState.data.labels.concat( games.matchday ),
+                labels: matchesSoFar,
                 datasets: [{
                   label: selectedTeamName,
                   backgroundColor: 'rgb(255, 99, 132)',

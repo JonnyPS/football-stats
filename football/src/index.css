@@ -29,6 +29,6 @@ code {
   font-weight: bold;
 }
 
-/*#inputBox {
-  width: 50%;
-}*/
+#inputBox {
+  width: 60%;
+}

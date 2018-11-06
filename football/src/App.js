@@ -308,6 +308,7 @@ class App extends Component {
         }
 
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
+        console.log( 'filteredMatches', filteredMatches )
 
         // const matchesSoFar = this.state.allMatches.matches.concat( games.matchday )
         function getMatchResults( game, ourTeam ) {
@@ -324,7 +325,7 @@ class App extends Component {
         filteredMatches.map( getMatchResults )
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-        let totalAvailablePoints = filteredMatches.length * 3
+        let totalAvailablePoints = filteredMatches.length
         console.log( 'totalAvailablePoints', totalAvailablePoints)
 
         // addUpMatches
@@ -335,14 +336,14 @@ class App extends Component {
 
         // map over our matches and set component state accordingly
         filteredMatches.map( (games) => {
-          // console.log( games )
+          console.log( 'games', games )
           this.setState( (currentState) => {
             return {
               gamesPlayed: resultsOfMatches.length,
               gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
               gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
               gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
-              matchday: currentState.matchday.concat( games.matchday ),
+              matchday: filteredMatches,
               data: {
                 labels: matchesSoFar,
                 datasets: [{
@@ -361,6 +362,7 @@ class App extends Component {
   
   render(json, item) {
     // console.log( 'render' )
+        console.log( 'render this.state.matchday', this.state.matchday)
     return (
       <div>
         <input

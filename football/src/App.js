@@ -324,7 +324,8 @@ class App extends Component {
         filteredMatches.map( getMatchResults )
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-
+        let totalAvailablePoints = filteredMatches.length * 3
+        console.log( 'totalAvailablePoints', totalAvailablePoints)
 
         // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {

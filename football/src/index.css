@@ -17,6 +17,18 @@ code {
   height: 400px !important;
 }
 
-#inputBox {
-  width: 50%;
+
+.inline-list {
+  padding: 0;
 }
+.inline-list > li {
+  display: inline;
+}
+
+.bold-copy {
+  font-weight: bold;
+}
+
+/*#inputBox {
+  width: 50%;
+}*/

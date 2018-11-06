@@ -8,10 +8,10 @@ function DisplayStats (props) {
   // return null
   return (
     <ul>
-      <li>Number of games played: {props.gamesPlayed}</li>
-      <li>Games won: {props.gamesWon}</li>
-      <li>Games lost: {props.gamesLost}</li>
-      <li>Games drawn: {props.gamesDrawn}</li>
+      <li>Number of games played: <span class="bold-copy">{props.gamesPlayed}</span></li>
+      <li>Games won: <span class="bold-copy">{props.gamesWon}</span></li>
+      <li>Games lost: <span class="bold-copy">{props.gamesLost}</span></li>
+      <li>Games drawn: <span class="bold-copy">{props.gamesDrawn}</span></li>
     </ul>
   )
 }
@@ -20,12 +20,11 @@ function DisplayDetails (props) {
   // console.log( 'props', props )
   // return null
   return (
-    <ul>
+    <ul className="inline-list">
       {props.teams.map( (key, i) => (
         // console.log( 'key', key[i] )
         // console.log( 'i', i )
-        <li key={i}>{key.name}<span><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></span>
-        </li>
+        <li key={i}><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></li>
       ))}  
     </ul>
   )
@@ -45,10 +44,83 @@ class App extends Component {
           name: 'Arsenal',
         },
         {
+          logo: 'img/bournemouth.png',
+          name: 'Bournemouth',
+        },
+        {
+          logo: 'img/brighton-hove.png',
+          name: 'Brighton Hove',
+        },
+        {
+          logo: 'img/burnley.png',
+          name: 'Burnley',
+        },
+        {
+          logo: 'img/cardiff.png',
+          name: 'Cardiff',
+        },
+        {
           logo: 'img/chelsea.png',
           name: 'Chelsea',
         },
+        {
+          logo: 'img/crystal-palace.png',
+          name: 'Crystal Palace',
+        },
+        {
+          logo: 'img/everton.png',
+          name: 'Everton',
+        },
+        {
+          logo: 'img/Fulham.png',
+          name: 'Fulham',
+        },
+        {
+          logo: 'img/huddersfield.png',
+          name: 'Huddersfield',
+        },
+        {
+          logo: 'img/leicester-city.png',
+          name: 'Leicester City',
+        },
+        {
+          logo: 'img/liverpool.png',
+          name: 'Liverpool',
+        },
+        {
+          logo: 'img/man-city.png',
+          name: 'Man City',
+        },
+        {
+          logo: 'img/man-united.png',
+          name: 'Man United',
+        },
+        {
+          logo: 'img/newcastle.png',
+          name: 'Newcastle',
+        },
+        {
+          logo: 'img/southampton.png',
+          name: 'Southampton',
+        },
+        {
+          logo: 'img/tottenham.png',
+          name: 'Tottenham',
+        },
+        {
+          logo: 'img/watford.png',
+          name: 'Watford',
+        },
+        {
+          logo: 'img/west-ham.png',
+          name: 'West Ham',
+        },
+        {
+          logo: 'img/wolverhampton.png',
+          name: 'Wolverhampton',
+        },        
       ],
+
 
       teamDetails: [
         {
@@ -120,14 +192,6 @@ class App extends Component {
     })
   }
 
-  // saveInitialState() {
-  //   console.log( 'saveInitialState' )
-  //   const initial = this.state
-    
-  //   console.log( 'initial' )
-  //   console.log( initial )
-  // }
-
   componentDidMount() {
     console.log( 'componentDidMount' )
     this.saveInitialState()
@@ -178,7 +242,7 @@ class App extends Component {
         } else {
           // when looping over urls[1], assign value to this.state.allMatches property
           this.setState(( currentState ) => {
-
+            console.log( this.state.teamDetails )
             // console.log( 'json matches', json )
             return {
               allMatches: json,
@@ -300,6 +364,19 @@ class App extends Component {
           onChange={this.updateInput}
         />
         <button onClick={this.findMatches}>Submit</button>
+
+        <DisplayDetails
+          teams={this.state.profile}
+          activateClickResponse={this.onClickThis}
+        /> 
+
+        <DisplayStats
+          gamesPlayed={this.state.gamesPlayed}
+          gamesWon={this.state.gamesWon}
+          gamesLost={this.state.gamesLost}
+          gamesDrawn={this.state.gamesDrawn}
+        />        
+
         <Line 
           data={this.state.data}
           // options={chartOptions}
@@ -325,16 +402,6 @@ class App extends Component {
           }}
         />
 
-        <DisplayStats
-          gamesPlayed={this.state.gamesPlayed}
-          gamesWon={this.state.gamesWon}
-          gamesLost={this.state.gamesLost}
-          gamesDrawn={this.state.gamesDrawn}
-        />
-        <DisplayDetails
-          teams={this.state.profile}
-          activateClickResponse={this.onClickThis}
-        /> 
         <button onClick={this.resetState}>Reset</button>
       </div>
     )

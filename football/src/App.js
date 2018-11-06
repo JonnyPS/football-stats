@@ -2,28 +2,21 @@ import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 var cloneDeep = require('clone-deep');
 
-
 function DisplayStats (props) {
-  // console.log( 'DisplayStats gamesPlayed', props.gamesPlayed )
-  // return null
   return (
     <ul>
-      <li>Number of games played: <span class="bold-copy">{props.gamesPlayed}</span></li>
-      <li>Games won: <span class="bold-copy">{props.gamesWon}</span></li>
-      <li>Games lost: <span class="bold-copy">{props.gamesLost}</span></li>
-      <li>Games drawn: <span class="bold-copy">{props.gamesDrawn}</span></li>
+      <li>Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
+      <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
+      <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
+      <li>Games drawn: <span className="bold-copy">{props.gamesDrawn}</span></li>
     </ul>
   )
 }
 
 function DisplayDetails (props) {
-  // console.log( 'props', props )
-  // return null
   return (
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
-        // console.log( 'key', key[i] )
-        // console.log( 'i', i )
         <li key={i}><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></li>
       ))}  
     </ul>
@@ -121,7 +114,6 @@ class App extends Component {
         },        
       ],
 
-
       teamDetails: [
         {
           teamId: 'Team Id',
@@ -162,29 +154,21 @@ class App extends Component {
     // we need to define that 'this', refers to our component App
     this.updateInput = this.updateInput.bind( this )
     this.findMatches = this.findMatches.bind( this )
-    this.onClickThis = this.onClickThis.bind( this )
+    this.selectTeam = this.selectTeam.bind( this )
     this.resetState = this.resetState.bind( this )
   }
 
   saveInitialState() {
     console.log( 'save initialState' )
     this.initialState = [this.state]
-    // console.log('initialState', this.initialState )
-    // this.copy = cloneDeep(this.state)
-    // console.log('copy', this.copy )
   }
 
   resetState() {
     console.log('resetState')
-    // console.log('this', this )
     this.setState( this.initialState[0] )
   }
 
-  onClickThis(name) {
-    // console.log('cliked')
-    // console.log( this )
-    // console.log( name )
-
+  selectTeam(name) {
     this.setState({
       input: name.replace(/^\w/, c => c.toUpperCase())
     }, () => {
@@ -195,7 +179,6 @@ class App extends Component {
   componentDidMount() {
     console.log( 'componentDidMount' )
     this.saveInitialState()
-    // console.log( 'this state', this.state )
 
     var resourceCounter = 0;
     const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
@@ -266,18 +249,6 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-
-    console.log( 'initialState', this.initialState )
-    // console.log( 'state', this.state )
-    // console.log( 'componentDidUpdate' )
-    // console.log( 'selected Team matches: ', this.state.selectedMatches )
-    // console.log( 'outcomes: ', this.state.outcomes )
-    // console.log( 'matchday', this.state.matchday)
-    // console.log( 'gameStats', this.state.gamesPlayed)
-    // console.log( 'input//////', this.state.input )
-    // this.state.input == '' ? console.log( 'try again' ) : this.findMatches() 
-
-    // console.log( 'this constructor', this.state )
   }
 
   updateInput(e) {
@@ -285,13 +256,9 @@ class App extends Component {
     this.setState({
       input: value.replace(/^\w/, c => c.toUpperCase())
     })
-    // setTimeout( function() {
-    //   this.state.input == '' ? console.log( 'try again' ) : this.findMatches()    
-    // }, 100)
   }
+
   findMatches() {
-    // console.log( 'find matches...' )
-    // console.log( 'state - input', this.state.input )
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // check that selected team 
@@ -302,17 +269,16 @@ class App extends Component {
         let numGamesWon = []
         let numGamesLost = []
         let numGamesDrawn =[]
+        let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
+        
+        let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
+        let totalAvailablePoints = filteredMatches.length
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
         }
 
-        let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        console.log( 'filteredMatches', filteredMatches )
-
-        // const matchesSoFar = this.state.allMatches.matches.concat( games.matchday )
         function getMatchResults( game, ourTeam ) {
-          console.log( 'game', game)
           let result = game.score.winner
           let home = game.homeTeam.id
           if ( result === "HOME_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 3 ) }
@@ -323,11 +289,6 @@ class App extends Component {
         }
 
         filteredMatches.map( getMatchResults )
-
-        let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-        let totalAvailablePoints = filteredMatches.length
-        console.log( 'totalAvailablePoints', totalAvailablePoints)
-
         // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
           acc.push((acc[acc.length - 1] || 0) + current);
@@ -336,7 +297,6 @@ class App extends Component {
 
         // map over our matches and set component state accordingly
         filteredMatches.map( (games) => {
-          console.log( 'games', games )
           this.setState( (currentState) => {
             return {
               gamesPlayed: resultsOfMatches.length,
@@ -361,8 +321,6 @@ class App extends Component {
   }
   
   render(json, item) {
-    // console.log( 'render' )
-        console.log( 'render this.state.matchday', this.state.matchday)
     return (
       <div>
         <input
@@ -375,7 +333,7 @@ class App extends Component {
 
         <DisplayDetails
           teams={this.state.profile}
-          activateClickResponse={this.onClickThis}
+          activateClickResponse={this.selectTeam}
         /> 
 
         <DisplayStats
@@ -387,7 +345,6 @@ class App extends Component {
 
         <Line 
           data={this.state.data}
-          // options={chartOptions}
           height={200}
           width={400}
           options={{
@@ -413,7 +370,6 @@ class App extends Component {
         <button onClick={this.resetState}>Reset</button>
       </div>
     )
-        // move this back in to render(...) <OurMatches games={this.state.outcomes} />
   }
 }
 

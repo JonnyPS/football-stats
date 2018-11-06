@@ -243,6 +243,7 @@ class App extends Component {
           // when looping over urls[1], assign value to this.state.allMatches property
           this.setState(( currentState ) => {
             console.log( this.state.teamDetails )
+            console.log( 'allMatches', json )
             // console.log( 'json matches', json )
             return {
               allMatches: json,

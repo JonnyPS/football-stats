@@ -270,10 +270,23 @@ class App extends Component {
         let numGamesWon = []
         let numGamesLost = []
         let numGamesDrawn =[]
+        let fixtures = []
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        
+        console.log( 'filteredMatches', filteredMatches )
+
+        filteredMatches.map( (match) => {
+          fixtures.push({
+            home: match.homeTeam.name,
+            away: match.awayTeam.name,
+            score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+          })
+        })
+
+        console.log('fixtures', fixtures)
+
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
         let totalAvailablePoints = filteredMatches.length
+        console.log( 'matchesSoFar', matchesSoFar )
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
@@ -311,7 +324,8 @@ class App extends Component {
                   label: selectedTeamName,
                   backgroundColor: 'rgb(255, 99, 132)',
                   borderColor: 'rgb(255, 99, 132)',
-                  data: pointsSoFar
+                  data: pointsSoFar,
+                  fixtures: fixtures
                 }]
               },
             }
@@ -349,6 +363,16 @@ class App extends Component {
           height={200}
           width={400}
           options={{
+            tooltips: {
+              callbacks: {
+                title: function( tooltipItem, data ) {
+                  return  data.datasets[0].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[0].fixtures[tooltipItem[0]['index']].away
+                },
+                afterTitle: function( tooltipItem, data ) {
+                  return  data.datasets[0].fixtures[tooltipItem[0]['index']].score
+                }
+              }
+            },
             legend: {
               display: true,
             },

@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 var cloneDeep = require('clone-deep');
 
+// display team logos
+function DisplayDetails (props) {
+  return (
+    <ul className="inline-list">
+      {props.teams.map( (key, i) => (
+        <li key={i}><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></li>
+      ))}  
+    </ul>
+  )
+}
+
+// display basic game stats for seletced team
 function DisplayStats (props) {
   return (
     <ul>
@@ -9,16 +21,6 @@ function DisplayStats (props) {
       <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
       <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
       <li>Games drawn: <span className="bold-copy">{props.gamesDrawn}</span></li>
-    </ul>
-  )
-}
-
-function DisplayDetails (props) {
-  return (
-    <ul className="inline-list">
-      {props.teams.map( (key, i) => (
-        <li key={i}><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></li>
-      ))}  
     </ul>
   )
 }
@@ -121,23 +123,13 @@ class App extends Component {
         },
       ],
       input: '',
-      selectedMatches: [
-        {
-          selectedTeam: null,
-          homeTeam: null,
-          awayTeam: null,
-          winner: null,
-          score: null,
-          result: [null],
-        },
-      ],
+      
       gamesPlayed: null,
       gamesWon: null,
       gamesLost: null,
       gamesDrawn: null,
 
       matchday: [],
-      outcomes: [],
       data: {
         labels: [],
         datasets: [{
@@ -152,7 +144,6 @@ class App extends Component {
 
     // because of where these functions are called... (?)
     // we need to define that 'this', refers to our component App
-    this.updateInput = this.updateInput.bind( this )
     this.findMatches = this.findMatches.bind( this )
     this.selectTeam = this.selectTeam.bind( this )
     this.resetState = this.resetState.bind( this )
@@ -278,15 +269,12 @@ class App extends Component {
           fixtures.push({
             home: match.homeTeam.name,
             away: match.awayTeam.name,
-            score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+            score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam,
+            matchday: match.matchday
           })
         })
 
-        console.log('fixtures', fixtures)
-
-        let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-        let totalAvailablePoints = filteredMatches.length
-        console.log( 'matchesSoFar', matchesSoFar )
+        let matchCount = fixtures.map( (game) => { return game.matchday } )
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
@@ -317,9 +305,9 @@ class App extends Component {
               gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
               gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
               gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
-              matchday: filteredMatches,
+              matchday: fixtures,
               data: {
-                labels: matchesSoFar,
+                labels: matchCount,
                 datasets: [{
                   label: selectedTeamName,
                   backgroundColor: 'rgb(255, 99, 132)',
@@ -338,13 +326,6 @@ class App extends Component {
   render(json, item) {
     return (
       <div>
-        <input
-          type='text'
-          placeholder='Find your team...'
-          value={this.state.input}
-          onChange={this.updateInput}
-        />
-        <button onClick={this.findMatches}>Submit</button>
 
         <DisplayDetails
           teams={this.state.profile}

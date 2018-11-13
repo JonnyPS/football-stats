@@ -35,10 +35,12 @@ class App extends Component {
         {
           logo: 'img/arsenal.png',
           name: 'Arsenal',
+          colours: 'red',
         },
         {
           logo: 'img/bournemouth.png',
           name: 'Bournemouth',
+          colours: 'black',
         },
         {
           logo: 'img/brighton-hove.png',
@@ -141,10 +143,10 @@ class App extends Component {
       data: {
         labels: [],
         datasets: [{
-            label: null,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: null,
+            // label: null,
+            // backgroundColor: 'rgb(255, 99, 132)',
+            // borderColor: 'rgb(255, 99, 132)',
+            // data: null,
         }]
       },
 
@@ -209,7 +211,7 @@ class App extends Component {
           // extract only the id and team short name from the returned data
           // loop over every team, get the data and assign it in to an array of objects
           json.teams.map((counter) => {
-
+            // console.log( 'json teams', json.teams)
             const teamId = counter.id
             const teamName = counter.shortName
             this.setState((currentState) => {
@@ -264,6 +266,13 @@ class App extends Component {
     for (let item of this.state.teamDetails) {
       // check that selected team 
       if ( this.state.input === item.teamName ) {
+        console.log( 'item.teamName', item.teamName )
+        var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
+        var colours = teamColour[0].colours
+
+        console.log( 'teamColour', teamColour) 
+        console.log( 'colours', colours) 
+        console.log('teamDetails', this.state.teamDetails)
         let selectedTeamId = item.teamId
         let selectedTeamName = item.teamId
         let resultsOfMatches = []
@@ -271,8 +280,9 @@ class App extends Component {
         let numGamesLost = []
         let numGamesDrawn =[]
         let fixtures = []
+        // let teamColor = 
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        console.log( 'filteredMatches', filteredMatches )
+        // console.log( 'filteredMatches', filteredMatches )
 
         filteredMatches.map( (match) => {
           fixtures.push({
@@ -282,11 +292,11 @@ class App extends Component {
           })
         })
 
-        console.log('fixtures', fixtures)
+        // console.log('fixtures', fixtures)
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
         let totalAvailablePoints = filteredMatches.length
-        console.log( 'matchesSoFar', matchesSoFar )
+        // console.log( 'matchesSoFar', matchesSoFar )
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
@@ -310,7 +320,7 @@ class App extends Component {
         }, [])
 
         // map over our matches and set component state accordingly
-        filteredMatches.map( (games) => {
+        // filteredMatches.map( (games) => {
           this.setState( (currentState) => {
             return {
               gamesPlayed: resultsOfMatches.length,
@@ -320,19 +330,22 @@ class App extends Component {
               matchday: filteredMatches,
               data: {
                 labels: matchesSoFar,
-                datasets: [{
-                  label: selectedTeamName,
-                  backgroundColor: 'rgb(255, 99, 132)',
-                  borderColor: 'rgb(255, 99, 132)',
+                datasets: currentState.data.datasets.concat({ 
+                  label: [selectedTeamName],
+                  // backgroundColor: 'rgb(255, 99, 132)',
+                  // borderColor: 'rgb(255, 99, 132)',
                   data: pointsSoFar,
-                  fixtures: fixtures,
-                  borderColor: 'orange',
+                  // fixtures: fixtures,
+                  borderColor: colours,
                   backgroundColor: 'transparent',
-                }]
+                })
               },
             }
           })
-        })
+        // })
+        // setTimeout( function() {
+        //   console.log( 'this.state.data ', this.state.data.datasets )
+        // }, 3000)
       }
     }
   }

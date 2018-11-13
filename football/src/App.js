@@ -17,7 +17,7 @@ function DisplayDetails (props) {
   return (
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
-        <li key={i}><img src={key.logo} onClick={() => props.activateClickResponse(key.name)} /></li>
+        <li key={i}><img src={key.logo} alt={key.name} onClick={() => props.activateClickResponse(key.name)} /></li>
       ))}  
     </ul>
   )
@@ -177,6 +177,7 @@ class App extends Component {
     this.selectTeam = this.selectTeam.bind( this )
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
+    this.showAllDatasets = this.showAllDatasets.bind( this )
   }
 
   saveInitialState() {
@@ -194,6 +195,17 @@ class App extends Component {
     this.setState( this.state.data.datasets.splice(-1, 1) )
   }
 
+  showAllDatasets() {
+    console.log('showAllDatasets')
+    this.state.profile.map( (key) => {
+      this.setState({
+        input: key.name
+      })
+      this.findMatches()
+    })
+    
+  }
+
   selectTeam(name) {
     this.setState({
       input: name.replace(/^\w/, c => c.toUpperCase())
@@ -206,7 +218,6 @@ class App extends Component {
     console.log( 'componentDidMount' )
     this.saveInitialState()
 
-    var resourceCounter = 0;
     const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
 
     // map over array to use the url addresses
@@ -262,8 +273,7 @@ class App extends Component {
         // once the data has loaded, 
         if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
         }
-        resourceCounter++
-      })
+              })
       .catch( (ex) => {
         console.log('parsing failed:', ex)
       })
@@ -300,27 +310,23 @@ class App extends Component {
         let selectedTeamId = item.teamId
         let selectedTeamName = item.teamId
         let resultsOfMatches = []
-        let numGamesWon = []
-        let numGamesLost = []
-        let numGamesDrawn =[]
         let fixtures = []
         // let teamColor = 
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
         // console.log( 'filteredMatches', filteredMatches )
 
         filteredMatches.map( (match) => {
-          fixtures.push({
-            home: match.homeTeam.name,
-            away: match.awayTeam.name,
-            score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
-          })
+          return (
+            fixtures.push({
+              home: match.homeTeam.name,
+              away: match.awayTeam.name,
+              score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+            })
+          )
         })
 
-        // console.log('fixtures', fixtures)
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-        let totalAvailablePoints = filteredMatches.length
-        // console.log( 'matchesSoFar', matchesSoFar )
 
         function getMatchResultOccurence(array, result) {
           return array.filter((v) => (v === result)).length;
@@ -433,6 +439,7 @@ class App extends Component {
 
         <button onClick={this.resetState}>Reset</button>
         <button onClick={this.removeDataset}>Remove</button>
+        <button onClick={this.showAllDatasets}>Show all</button>
       </div>
     )
   }

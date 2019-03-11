@@ -325,6 +325,7 @@ class App extends Component {
             })
           )
         })
+        console.log( 'fixtures ', fixtures )
 
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
@@ -366,7 +367,7 @@ class App extends Component {
                   backgroundColor: colour,
                   // borderColor: 'rgb(255, 99, 132)',
                   data: pointsSoFar,
-                  // fixtures: fixtures,
+                  fixtures: fixtures,
                   borderColor: colour,
                   backgroundColor: 'transparent',
                 })
@@ -410,14 +411,14 @@ class App extends Component {
           width={400}
           options={{
             tooltips: {
-              // callbacks: {
-              //   title: function( tooltipItem, data ) {
-              //     return  data.datasets[0].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[0].fixtures[tooltipItem[0]['index']].away
-              //   },
-              //   afterTitle: function( tooltipItem, data ) {
-              //     return  data.datasets[0].fixtures[tooltipItem[0]['index']].score
-              //   }
-              // }
+              callbacks: {
+                title: function( tooltipItem, data ) {
+                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[1].fixtures[tooltipItem[0]['index']].away
+                },
+                afterTitle: function( tooltipItem, data ) {
+                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].score
+                }
+              }
             },
             legend: {
               display: true,

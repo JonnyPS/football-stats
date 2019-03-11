@@ -125,7 +125,7 @@ class App extends Component {
         {
           logo: 'img/west-ham.png',
           name: 'West Ham',
-          colour: '#',
+          colour: '#7b2c3a',
         },
         {
           logo: 'img/wolverhampton.png',
@@ -159,7 +159,7 @@ class App extends Component {
       matchday: [],
       outcomes: [],
       data: {
-        labels: [],
+        labels: '',
         datasets: [{
             // label: null,
             // backgroundColor: 'rgb(255, 99, 132)',
@@ -299,6 +299,7 @@ class App extends Component {
         console.log('teamDetails', this.state.teamDetails)
         let selectedTeamId = item.teamId
         let selectedTeamName = item.teamId
+        let TeamName = item.teamName
         let resultsOfMatches = []
         let numGamesWon = []
         let numGamesLost = []
@@ -355,8 +356,8 @@ class App extends Component {
               data: {
                 labels: matchesSoFar,
                 datasets: currentState.data.datasets.concat({ 
-                  label: [selectedTeamName],
-                  // backgroundColor: 'rgb(255, 99, 132)',
+                  label: TeamName,
+                  backgroundColor: colour,
                   // borderColor: 'rgb(255, 99, 132)',
                   data: pointsSoFar,
                   // fixtures: fixtures,
@@ -421,12 +422,22 @@ class App extends Component {
                   max: this.state.matchday.length * 3,
                   min: 0,
                   stepSize: 3,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Points available'
+                }
+              }],
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Matchday'
                 }
               }]
             },
             title: {
               display: 'hello',
-              text: this.state.input,
+              text: 'Premier League Teams',
             }
           }}
         />

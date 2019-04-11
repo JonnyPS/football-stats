@@ -133,40 +133,46 @@ class App extends Component {
           colour: '#faa61a',
         },        
       ],
+      clubs: [
+        { 
+          teamId: null,
+          teamName: null
+        }
+      ]
 
-      teamDetails: [
-        {
-          teamId: 'Team Id',
-          teamName: 'Team Name',
-        },
-      ],
-      input: '',
-      selectedMatches: [
-        {
-          selectedTeam: null,
-          homeTeam: null,
-          awayTeam: null,
-          winner: null,
-          score: null,
-          result: [null],
-        },
-      ],
-      gamesPlayed: null,
-      gamesWon: null,
-      gamesLost: null,
-      gamesDrawn: null,
+      // teamDetails: [
+      //   {
+      //     teamId: 'Team Id',
+      //     teamName: 'Team Name',
+      //   },
+      // ],
+      // input: '',
+      // selectedMatches: [
+      //   {
+      //     selectedTeam: null,
+      //     homeTeam: null,
+      //     awayTeam: null,
+      //     winner: null,
+      //     score: null,
+      //     result: [null],
+      //   },
+      // ],
+      // gamesPlayed: null,
+      // gamesWon: null,
+      // gamesLost: null,
+      // gamesDrawn: null,
 
-      matchday: [],
-      outcomes: [],
-      data: {
-        labels: '',
-        datasets: [{
-            // label: null,
-            // backgroundColor: 'rgb(255, 99, 132)',
-            // borderColor: 'rgb(255, 99, 132)',
-            // data: null,
-        }]
-      },
+      // matchday: [],
+      // outcomes: [],
+      // data: {
+      //   labels: '',
+      //   datasets: [{
+      //       // label: null,
+      //       // backgroundColor: 'rgb(255, 99, 132)',
+      //       // borderColor: 'rgb(255, 99, 132)',
+      //       // data: null,
+      //   }]
+      // },
 
     }
 
@@ -240,7 +246,53 @@ class App extends Component {
       .then( (json) => {
         console.log( 'json', json )
 
+        // state to be:
+
+        // teams: [
+        //   {
+        //     teamId: 'Team Id',
+        //     teamName: 'Team Name',
+        //     selectedMatches: [
+        //       {
+        //         selectedTeam: null,
+        //         homeTeam: null,
+        //         awayTeam: null,
+        //         winner: null,
+        //         score: null,
+        //         result: [null],
+        //       },
+        //     ],
+        //     gamesPlayed: null,
+        //     gamesWon: null,
+        //     gamesLost: null,
+        //     gamesDrawn: null,
+        //     matchday: [],
+        //     outcomes: [],
+        //   }
+        // ]
+
+        json.teams.map( (team) => {
+          console.log( 'team', team )
+          this.setState((currentState) => {
+            return {
+              clubs: currentState.clubs.concat([{
+                teamId: team.id,
+                teamName: team.shortName
+              }]),
+          //       // {
+          //       //   teamId: currentState.concat( team.id ),
+          //       // teamName: currentState.concat( team.shortName )
+          //       // }
+          //   //   ]
+            }
+          });
+        })
+
+        console.log( 'clubs', this.state)
+
         
+
+
         // console.log( 'set json to state properties' )
         // console.log( json )
         // hacky if / else statement - should probably be replaced by a for in loop
@@ -411,49 +463,7 @@ class App extends Component {
           gamesDrawn={this.state.gamesDrawn}
         />        
 
-        <Line 
-          data={this.state.data}
-          height={200}
-          width={400}
-          options={{
-            tooltips: {
-              callbacks: {
-                title: function( tooltipItem, data ) {
-                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[1].fixtures[tooltipItem[0]['index']].away
-                },
-                afterTitle: function( tooltipItem, data ) {
-                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].score
-                }
-              }
-            },
-            legend: {
-              display: true,
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  max: this.state.matchday.length * 3,
-                  min: 0,
-                  stepSize: 3,
-                },
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Points available'
-                }
-              }],
-              xAxes: [{
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Matchday'
-                }
-              }]
-            },
-            title: {
-              display: 'hello',
-              text: 'Premier League Teams',
-            }
-          }}
-        />
+
 
         <button onClick={this.resetState}>Reset</button>
         <button onClick={this.removeDataset}>Remove</button>

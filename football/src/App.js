@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
-var cloneDeep = require('clone-deep');
+// var cloneDeep = require('clone-deep');
 
 function DisplayStats (props) {
   return (
@@ -173,7 +173,7 @@ class App extends Component {
     // because of where these functions are called... (?)
     // we need to define that 'this', refers to our component App
     this.updateInput = this.updateInput.bind( this )
-    this.findMatches = this.findMatches.bind( this )
+    // this.findMatches = this.findMatches.bind( this )
     this.selectTeam = this.selectTeam.bind( this )
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
@@ -201,7 +201,7 @@ class App extends Component {
       this.setState({
         input: key.name
       })
-      this.findMatches()
+      // this.findMatches()
     })
     
   }
@@ -210,7 +210,7 @@ class App extends Component {
     this.setState({
       input: name.replace(/^\w/, c => c.toUpperCase())
     }, () => {
-      this.findMatches()
+      // this.findMatches()
     })
   }
 
@@ -238,38 +238,43 @@ class App extends Component {
         return response.json()    
       })
       .then( (json) => {
+        console.log( 'json', json )
+
+        
         // console.log( 'set json to state properties' )
+        // console.log( json )
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
-        if ( this.state.allTeams == null ) { 
-          // console.log( 'json teams', json )
-          // extract only the id and team short name from the returned data
-          // loop over every team, get the data and assign it in to an array of objects
-          json.teams.map((counter) => {
-            // console.log( 'json teams', json.teams)
-            const teamId = counter.id
-            const teamName = counter.shortName
-            this.setState((currentState) => {
-              return {
-                allTeams: json,
-                teamDetails: currentState.teamDetails.concat([{
-                  teamName: teamName,
-                  teamId: teamId
-                }]),
-              }
-            })
-          })
-        } else {
-          // when looping over urls[1], assign value to this.state.allMatches property
-          this.setState(( currentState ) => {
-            console.log( this.state.teamDetails )
-            console.log( 'allMatches', json )
-            // console.log( 'json matches', json )
-            return {
-              allMatches: json,
-            }
-          })
-        }
+        // if ( this.state.allTeams == null ) { 
+        //   // console.log( 'json teams', json )
+        //   // extract only the id and team short name from the returned data
+        //   // loop over every team, get the data and assign it in to an array of objects
+        //   json.teams.map((counter) => {
+        //     // console.log( 'json teams', json.teams)
+        //     const teamId = counter.id
+        //     const teamName = counter.shortName
+        //     // this.setState((currentState) => {
+        //     //   return {
+        //     //     allTeams: json,
+        //     //     teamDetails: currentState.teamDetails.concat([{
+        //     //       teamName: teamName,
+        //     //       teamId: teamId
+        //     //     }]),
+        //     //   }
+        //     // })
+        //   })
+        //   // console.log( 'this.state - ', this.state.allTeams )
+        // } else {
+        //   // when looping over urls[1], assign value to this.state.allMatches property
+        //   this.setState(( currentState ) => {
+        //     console.log( this.state.teamDetails )
+        //     // console.log( 'allMatches', json )
+        //     // console.log( 'json matches', json )
+        //     // return {
+        //     //   allMatches: json,
+        //     // }
+        //   })
+        // }
         // once the data has loaded, 
         if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
         }
@@ -278,7 +283,7 @@ class App extends Component {
         console.log('parsing failed:', ex)
       })
       .then ( () => {
-        this.saveInitialState()
+        // this.saveInitialState()
       })
     })
   }
@@ -295,92 +300,93 @@ class App extends Component {
     })
   }
 
-  findMatches() {
-    // look through all teams in our list
-    for (let item of this.state.teamDetails) {
-      // check that selected team 
-      if ( this.state.input === item.teamName ) {
-        console.log( 'item.teamName', item.teamName )
-        var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
-        var colour = teamColour[0].colour
+  // findMatches() {
+  //   console.log( 'this', this )
+  //   // look through all teams in our list
+  //   for (let item of this.state.teamDetails) {
+  //     // check that selected team 
+  //     if ( this.state.input === item.teamName ) {
+  //       console.log( 'item.teamName', item.teamName )
+  //       var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
+  //       var colour = teamColour[0].colour
 
-        console.log( 'teamColour', teamColour) 
-        console.log( 'colour', colour) 
-        console.log('teamDetails', this.state.teamDetails)
-        let selectedTeamId = item.teamId
-        let selectedTeamName = item.teamId
-        let TeamName = item.teamName
-        let resultsOfMatches = []
-        let fixtures = []
-        // let teamColor = 
-        let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        // console.log( 'filteredMatches', filteredMatches )
+  //       console.log( 'teamColour', teamColour) 
+  //       console.log( 'colour', colour) 
+  //       console.log('teamDetails', this.state.teamDetails)
+  //       let selectedTeamId = item.teamId
+  //       let selectedTeamName = item.teamId
+  //       let TeamName = item.teamName
+  //       let resultsOfMatches = []
+  //       let fixtures = []
+  //       // let teamColor = 
+  //       let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
+  //       // console.log( 'filteredMatches', filteredMatches )
 
-        filteredMatches.map( (match) => {
-          return (
-            fixtures.push({
-              home: match.homeTeam.name,
-              away: match.awayTeam.name,
-              score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
-            })
-          )
-        })
-        console.log( 'fixtures ', fixtures )
+  //       filteredMatches.map( (match) => {
+  //         return (
+  //           fixtures.push({
+  //             home: match.homeTeam.name,
+  //             away: match.awayTeam.name,
+  //             score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+  //           })
+  //         )
+  //       })
+  //       console.log( 'fixtures ', fixtures )
 
 
-        let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
+  //       let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
 
-        function getMatchResultOccurence(array, result) {
-          return array.filter((v) => (v === result)).length;
-        }
+  //       function getMatchResultOccurence(array, result) {
+  //         return array.filter((v) => (v === result)).length;
+  //       }
 
-        function getMatchResults( game, ourTeam ) {
-          let result = game.score.winner
-          let home = game.homeTeam.id
-          if ( result === "HOME_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 3 ) }
-          if ( result === "HOME_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 0 ) }
-          if ( result === "AWAY_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 0 ) }
-          if ( result === "AWAY_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 3 ) }
-          if ( result === "DRAW" ) { resultsOfMatches.push( 1 ) }
-        }
+  //       function getMatchResults( game, ourTeam ) {
+  //         let result = game.score.winner
+  //         let home = game.homeTeam.id
+  //         if ( result === "HOME_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 3 ) }
+  //         if ( result === "HOME_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 0 ) }
+  //         if ( result === "AWAY_TEAM" && home === selectedTeamId ) { resultsOfMatches.push( 0 ) }
+  //         if ( result === "AWAY_TEAM" && home !== selectedTeamId ) { resultsOfMatches.push( 3 ) }
+  //         if ( result === "DRAW" ) { resultsOfMatches.push( 1 ) }
+  //       }
 
-        filteredMatches.map( getMatchResults )
-        // addUpMatches
-        var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
-          acc.push((acc[acc.length - 1] || 0) + current);
-          return acc;
-        }, [])
+  //       filteredMatches.map( getMatchResults )
+  //       // addUpMatches
+  //       var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
+  //         acc.push((acc[acc.length - 1] || 0) + current);
+  //         return acc;
+  //       }, [])
 
-        // map over our matches and set component state accordingly
-        // filteredMatches.map( (games) => {
-          this.setState( (currentState) => {
-            return {
-              gamesPlayed: resultsOfMatches.length,
-              gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
-              gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
-              gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
-              matchday: filteredMatches,
-              data: {
-                labels: matchesSoFar,
-                datasets: currentState.data.datasets.concat({ 
-                  label: TeamName,
-                  backgroundColor: colour,
-                  // borderColor: 'rgb(255, 99, 132)',
-                  data: pointsSoFar,
-                  fixtures: fixtures,
-                  borderColor: colour,
-                  backgroundColor: 'transparent',
-                })
-              },
-            }
-          })
-        // })
-        // setTimeout( function() {
-        //   console.log( 'this.state.data ', this.state.data.datasets )
-        // }, 3000)
-      }
-    }
-  }
+  //       // map over our matches and set component state accordingly
+  //       // filteredMatches.map( (games) => {
+  //         this.setState( (currentState) => {
+  //           return {
+  //             gamesPlayed: resultsOfMatches.length,
+  //             gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
+  //             gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
+  //             gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
+  //             matchday: filteredMatches,
+  //             data: {
+  //               labels: matchesSoFar,
+  //               datasets: currentState.data.datasets.concat({ 
+  //                 label: TeamName,
+  //                 backgroundColor: colour,
+  //                 // borderColor: 'rgb(255, 99, 132)',
+  //                 data: pointsSoFar,
+  //                 fixtures: fixtures,
+  //                 borderColor: colour,
+  //                 backgroundColor: 'transparent',
+  //               })
+  //             },
+  //           }
+  //         })
+  //       // })
+  //       // setTimeout( function() {
+  //       //   console.log( 'this.state.data ', this.state.data.datasets )
+  //       // }, 3000)
+  //     }
+  //   }
+  // }
   
   render(json, item) {
     return (

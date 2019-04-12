@@ -280,66 +280,40 @@ class App extends Component {
 
         if ( json.count > 20 ) {
           console.log( 'SECOND RUN' )  
-          // loop through clubs array and search through matches array and find 
-          // any matches this team has played by matching the ids
-          console.log( 'map', this.state )
-          let matches = [];
-          this.state.clubs.map( (club, index) => {
-            let clubId = club.teamId;
-            let thisClubsMatches = json.matches.filter( ( match ) => {
-              return match.awayTeam.id === clubId || match.homeTeam.id === clubId
-            })
+        //   // loop through clubs array and search through matches array and find 
+        //   // any matches this team has played by matching the ids
+        //   console.log( 'map', this.state )
+        //   let matches = [];
+        //   this.state.clubs.map( (club, index) => {
+        //     let clubId = club.teamId;
+        //     let thisClubsMatches = json.matches.filter( ( match ) => {
+        //       return match.awayTeam.id === clubId || match.homeTeam.id === clubId
+        //     })
+        //     console.log( 'state = ', this.state )
+        //   })
+        //   console.log( this.state )
+          // console.log( 'POINT OF INTEREST ', this.state.clubs[2].gamesPlayed )
+          // this.state.clubs.map( (item, index) => {
+          //   this.setState( (currentState) => {
+          //     return {
+          //       // clubs: currentState.clubs[ index ]
+          //       // clubs[ item ].gamesPlayed:  'bluh'
+          //     }
+          //   }
+          //   // console.log( 'item', i)
 
-
-            // I NEED TO SOMEHOW GET INDEX IN TO THE CLUBS.CONCAT ETC....
-            this.setState((currentState) => {
-            console.log('index = ', index)
-              return {
-                clubs: currentState.clubs.concat([{
-                  gamesPlayed: 'something'
-                }])
-              }
-            })
-
-            console.log( 'this.state.clubs', this.state.clubs )
-            console.log( 'this.state.clubs.gamesPlayed', this.state.clubs[0].gamesPlayed )
-            // console.log( 'this.state.clubs', this.state.clubs )
-
-
-
-
-
-
-            // thisClubsMatches.map( (match) => {
-            //   matches.push({
-            //     homeTeam: match.homeTeam,
-            //     awayTeam: match.awayTeam,
-            //     matchday: match.matchday,
-            //     score: match.score.fullTime
-            //   })
-            //   // console.log( 'matches', matches )
-            // })
-            // this.setState((currentState) => {
-            //   console.log('add games played')
-            //   return {
-            //     clubs: currentState.clubs.push([{
-            //       gamesPlayed: thisClubsMatches
-            //     }]),
-            //   }
-            // })
-            console.log( 'state = ', this.state )
-
-          })
-          
-          console.log( this.state )
-          
-
+          // })
+          // this.setState.clubs.gamesPlayed
+          // console.log( 'state = ', this.state )
         }
 
 
-        // json.teams.map( (team) => {
-        //   console.log( team )
-        // })
+
+
+
+
+
+
 
         json.teams.map( (team) => {
           // console.log( 'team', team )
@@ -349,7 +323,7 @@ class App extends Component {
                 teamId: team.id,
                 teamName: team.shortName,
                 teamCrest: team.crestUrl,
-                gamesPlayed: null
+                gamesPlayed: []
               }]),
             }
           });

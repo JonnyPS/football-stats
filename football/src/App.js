@@ -136,9 +136,12 @@ class App extends Component {
       clubs: [
         { 
           teamId: null,
-          teamName: null
+          teamName: null,
+          teamCrest: null,
+          gamesPlayed: []
         }
-      ]
+      ],
+      a: null
 
       // teamDetails: [
       //   {
@@ -220,6 +223,7 @@ class App extends Component {
     })
   }
 
+
   componentDidMount() {
     console.log( 'componentDidMount' )
     this.saveInitialState()
@@ -245,7 +249,9 @@ class App extends Component {
       })
       .then( (json) => {
         console.log( 'json', json )
-
+        console.log( 'count', json.count )
+        // temporary hacky way to seperate the json responses coming back
+      
         // state to be:
 
         // teams: [
@@ -271,25 +277,114 @@ class App extends Component {
         //   }
         // ]
 
+
+        if ( json.count > 20 ) {
+          console.log( 'SECOND RUN' )  
+          // loop through clubs array and search through matches array and find 
+          // any matches this team has played by matching the ids
+          console.log( 'map', this.state )
+          let matches = [];
+          this.state.clubs.map( (club, index) => {
+            let clubId = club.teamId;
+            let thisClubsMatches = json.matches.filter( ( match ) => {
+              return match.awayTeam.id === clubId || match.homeTeam.id === clubId
+            })
+
+
+            // I NEED TO SOMEHOW GET INDEX IN TO THE CLUBS.CONCAT ETC....
+            this.setState((currentState) => {
+            console.log('index = ', index)
+              return {
+                clubs: currentState.clubs.concat([{
+                  gamesPlayed: 'something'
+                }])
+              }
+            })
+
+            console.log( 'this.state.clubs', this.state.clubs )
+            console.log( 'this.state.clubs.gamesPlayed', this.state.clubs[0].gamesPlayed )
+            // console.log( 'this.state.clubs', this.state.clubs )
+
+
+
+
+
+
+            // thisClubsMatches.map( (match) => {
+            //   matches.push({
+            //     homeTeam: match.homeTeam,
+            //     awayTeam: match.awayTeam,
+            //     matchday: match.matchday,
+            //     score: match.score.fullTime
+            //   })
+            //   // console.log( 'matches', matches )
+            // })
+            // this.setState((currentState) => {
+            //   console.log('add games played')
+            //   return {
+            //     clubs: currentState.clubs.push([{
+            //       gamesPlayed: thisClubsMatches
+            //     }]),
+            //   }
+            // })
+            console.log( 'state = ', this.state )
+
+          })
+          
+          console.log( this.state )
+          
+
+        }
+
+
+        // json.teams.map( (team) => {
+        //   console.log( team )
+        // })
+
         json.teams.map( (team) => {
-          console.log( 'team', team )
+          // console.log( 'team', team )
           this.setState((currentState) => {
             return {
               clubs: currentState.clubs.concat([{
                 teamId: team.id,
-                teamName: team.shortName
+                teamName: team.shortName,
+                teamCrest: team.crestUrl,
+                gamesPlayed: null
               }]),
-          //       // {
-          //       //   teamId: currentState.concat( team.id ),
-          //       // teamName: currentState.concat( team.shortName )
-          //       // }
-          //   //   ]
             }
           });
-        })
+        });
 
         console.log( 'clubs', this.state)
 
+
+      
+            // loop through clubs array and search through matches array and find 
+            // any matches this team has played by matching the ids
+            // console.log( 'map', this.state )
+
+            // json.matches.map( (id) => )
+            // let thisTeamsmatches = json.matches
+
+        // }, 3000)
+      // let filteredMatches = this.state.allMatches.matches.filter( (match) => { 
+      //   return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId 
+      // })
+
+
+      // let fixtures = []
+      // let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
+      // console.log( 'filteredMatches', filteredMatches )
+      // filteredMatches.map( (match) => {
+      //   return (
+      //     fixtures.push({
+      //       home: match.homeTeam.name,
+      //       away: match.awayTeam.name,
+      //       score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+      //     })
+      //   )
+      // })
+      // console.log( 'fixtures ', fixtures )
         
 
 

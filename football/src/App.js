@@ -251,7 +251,9 @@ class App extends Component {
         console.log( 'json', json )
         console.log( 'count', json.count )
         // temporary hacky way to seperate the json responses coming back
-      
+        
+
+
         // state to be:
 
         // teams: [
@@ -305,7 +307,46 @@ class App extends Component {
           // })
           // this.setState.clubs.gamesPlayed
           // console.log( 'state = ', this.state )
+          // console.log('json 2', json )
+
+          console.log('sosdjvb')
+
+          // let jasper = Object.assign({}, this.state.clubs);    //creating copy of object
+          // console.log( 'jasper', jasper)
+          // console.log( 'jasper.length', jasper.length )          
+          
+          let arr = [];
+          let i = 0;
+          this.state.clubs.map( (g) => {
+            // console.log( 'g', g )
+            let jasper = Object.assign({}, g );    //creating copy of object
+            // console.log( 'jasper', jasper)
+            // console.log( 'jasper keys', Object.keys(jasper))
+            jasper.name = i++
+            // console.log( 'jasper again', jasper)
+            // this.setState({jasper})
+            // console.log( 'jasper again', jasper)
+
+            arr.push( jasper )
+
+            // this.setState((currentState) => {
+            //   return {
+            //     clubs: currentState.g.concat([{
+            //       gamesPlayed: jasper
+            //     }]),
+            //   }
+            // })
+
+
+          })
+          console.log('arr', arr )
+          console.log( 'cloooobs', this.state.clubs )
+          this.setState({
+            clubs: arr
+          })
+          console.log('new clubs = ', this.state.clubs )
         }
+
 
 
 
@@ -329,7 +370,7 @@ class App extends Component {
           });
         });
 
-        console.log( 'clubs', this.state)
+        // console.log( 'clubs', this.state)
 
 
       

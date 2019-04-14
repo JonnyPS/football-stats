@@ -4,20 +4,16 @@ import {Line} from 'react-chartjs-2';
 
 function RenderTest(props) {
   return (
-    <ul>
-      <li>
-        <div>
+
           <ul style={{paddingLeft: 10+'px'}}>
           {props.clubs.map( (key, i) => (
-            <div>
-            <li>Team: {key.teamName} ID: {key.teamId}</li>
-            <li>Games Played: {key.gamesPlayed[i]}</li>
-            </div>
+            <li>
+            <div>Team: {key.teamName} ID: {key.teamId}</div>
+            <div>Games Played: {key.gamesPlayed.home}</div>
+            </li>
           ))}
           </ul>
-        </div>
-        </li>
-    </ul>
+
   )
 }
 

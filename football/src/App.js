@@ -282,78 +282,142 @@ class App extends Component {
 
         if ( json.count > 20 ) {
           console.log( 'SECOND RUN' )  
-        //   // loop through clubs array and search through matches array and find 
-        //   // any matches this team has played by matching the ids
-        //   console.log( 'map', this.state )
-        //   let matches = [];
-        //   this.state.clubs.map( (club, index) => {
-        //     let clubId = club.teamId;
-        //     let thisClubsMatches = json.matches.filter( ( match ) => {
-        //       return match.awayTeam.id === clubId || match.homeTeam.id === clubId
-        //     })
-        //     console.log( 'state = ', this.state )
-        //   })
-        //   console.log( this.state )
-          // console.log( 'POINT OF INTEREST ', this.state.clubs[2].gamesPlayed )
-          // this.state.clubs.map( (item, index) => {
-          //   this.setState( (currentState) => {
-          //     return {
-          //       // clubs: currentState.clubs[ index ]
-          //       // clubs[ item ].gamesPlayed:  'bluh'
-          //     }
-          //   }
-          //   // console.log( 'item', i)
+          console.log( 'clubs', this.state.clubs )  
+          let arr = [];          
+          // let matches = [];
+          // loop through club objects
+          this.state.clubs.map( (item, index) => {
+            console.log( 'this.state.clubs.map' )
 
-          // })
-          // this.setState.clubs.gamesPlayed
-          // console.log( 'state = ', this.state )
-          // console.log('json 2', json )
+            // get ID of each club
+            let clubId = item.teamId;
+            console.log( 'clubId', clubId )
+            // get all the matches played by team with our ID 
+            // let thisClubsMatches = [];
+            let thisClubsMatches = json.matches.filter( ( match ) => {
+              return match.awayTeam.id === clubId || match.homeTeam.id === clubId
+            })
+            // console.info( 'thisClubsMatches = ', thisClubsMatches )
+            
+            // getMatches( this, thisClubsMatches )
 
-          console.log('sosdjvb')
 
-          // let jasper = Object.assign({}, this.state.clubs);    //creating copy of object
-          // console.log( 'jasper', jasper)
-          // console.log( 'jasper.length', jasper.length )          
-          
-          let arr = [];
-          let i = 0;
-          this.state.clubs.map( (g) => {
-            // console.log( 'g', g )
-            let jasper = Object.assign({}, g );    //creating copy of object
-            // console.log( 'jasper', jasper)
-            // console.log( 'jasper keys', Object.keys(jasper))
-            jasper.name = i++
-            // console.log( 'jasper again', jasper)
-            // this.setState({jasper})
-            // console.log( 'jasper again', jasper)
+            let matches = [];
+            thisClubsMatches.map( (item) => {
+              matches.push({
+                home: item.homeTeam.name,
+                away: item.awayTeam.name,
+                score: item.score.fullTime,
+                matchday: item.matchday
+              })
+              // console.log( 'matches', matches )
+            })
 
+            // console.log( 'matches', matches )
+            
+            // console.log('clubs item', item )
+            let jasper = Object.assign({}, item );    //creating copy of object
+            // console.log( 'jasper', jasper )
+            jasper.gamesPlayed = matches
             arr.push( jasper )
+            console.log( 'jasper', jasper )
+            console.log( 'arr', arr )
 
-            // this.setState((currentState) => {
-            //   return {
-            //     clubs: currentState.g.concat([{
-            //       gamesPlayed: jasper
-            //     }]),
-            //   }
+            // console.log( 'this', this )
+            if ( arr.length == this.state.clubs.length ) {
+              console.log( 'arr is complete' )
+              setNewState( this, arr )
+            }
+            // this.setState( () => {
+            //   console.log('ssssss', this.state )
+            //   // return {
+            //     clubs: clubs.concat([{
+            //       clubs: jasper 
+            //     }])
+            //   // }
             // })
+            // get homeTeam, awayTeam, score and matchday from games 
+            // thisClubsMatches.map( (item) => {
+            //   matches.push({
+            //     home: item.homeTeam.name,
+            //     away: item.awayTeam.name,
+            //     score: item.score.fullTime,
+            //   })
+            //   console.log( 'matches', matches )
+            // })
+            // matches = [];
 
 
+
+            // console.log('thisClubsMatches', thisClubsMatches)
+
+            // thisClubsMatches.map( (match) => {
+            //   matches.push({
+            //     home: match.homeTeam.name,
+            //     away: match.awayTeam.name,
+            //     score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+            //   })
+            // })
           })
-          console.log('arr', arr )
-          console.log( 'cloooobs', this.state.clubs )
-          this.setState({
-            clubs: arr
-          })
-          console.log('new clubs = ', this.state.clubs )
+
+          function setNewState( comp, items ) {
+            comp.setState({
+              clubs: items
+            })
+          }
+
+          console.log( 'this outside', this )
+
+
+          // function getMatches( comp, source ) {
+          //   console.log( 'getMatches' )
+          //   // console.log( 'getMatches source', source )
+          //   // console.log( 'comp', comp )
+          //   // console.log( 'getMatches source', source )
+          //   // get homeTeam, awayTeam, score and matchday from games 
+          //   let matches = [];
+          //   source.map( (item) => {
+          //     matches.push({
+          //       home: item.homeTeam.name,
+          //       away: item.awayTeam.name,
+          //       score: item.score.fullTime,
+          //       matchday: item.matchday
+          //     })
+          //     // console.log( 'matches', matches )
+          //   })
+          //   // console.log( 'matches', matches )
+          //   // matches = [];
+          //   assignToObject( comp, matches )
+          // }
+
+          function assignToObject( comp, source ) {
+            console.log('assignToObject')
+            console.log('assignToObject source', source)
+            // console.log('GSBDIBSOUDVBSUDBVUI', comp)
+            // console.log('source', source)
+            let arr = [];
+            comp.state.clubs.map( (g) => {
+              let jasper = Object.assign({}, g );    //creating copy of object
+              jasper.name = source
+              arr.push( jasper )
+              // console.log( 'source', source )
+              // console.log( 'g', g )
+              // console.log( 'jasper', jasper )
+            })
+            // console.log('assignToObject arr', arr)
+
+            // comp.setState({
+            //   clubs: arr
+            // })
+            // console.log( 'clubs', comp.state.clubs )
+
+          }
+            
+          
+
+          console.log('final clubs', this.state.clubs)
+          
         }
-
-
-
-
-
-
-
-
 
 
         json.teams.map( (team) => {

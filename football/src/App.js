@@ -223,20 +223,21 @@ class App extends Component {
         // ]
 
 
+        // pick up second json data - for all matches in the season
         if ( json.count > 20 ) {
           console.log( 'SECOND RUN' )  
-          // console.log( 'clubs', this.state.clubs )  
           let arr = [];          
           // loop through club objects
           this.state.clubs.map( (item, index) => {
             console.log( 'this.state.clubs.map' )
             // get ID of each club
             let clubId = item.teamId;
-            // console.log( 'clubId', clubId )
+            // store all matches for this objects team
             let thisClubsMatches = json.matches.filter( ( match ) => {
               return match.awayTeam.id === clubId || match.homeTeam.id === clubId
             })
             let matches = [];
+            // push selected match info into matches array
             thisClubsMatches.map( (item) => {
               matches.push({
                 home: item.homeTeam.name,
@@ -245,13 +246,15 @@ class App extends Component {
                 matchday: item.matchday
               })
             })
-            let jasper = Object.assign({}, item );    //creating copy of object
+            // create copy of obj
+            let jasper = Object.assign({}, item );
+            // assign matches array to be value of gamesPlayed property
             jasper.gamesPlayed = matches
+            // create a new array of clubs objects
             arr.push( jasper )
-            // console.log( 'jasper', jasper )
-            // console.log( 'arr', arr )
-
-            // console.log( 'this', this )
+            // if all objects in clubs array have been looped through
+            // and new objects have all been pushed in to arr array
+            // then set arr array to be the new value of clubs state
             if ( arr.length == this.state.clubs.length ) {
               // console.log( 'arr is complete' )
               setNewState( this, arr )
@@ -263,18 +266,6 @@ class App extends Component {
               clubs: items
             })
           }
-
-          function assignToObject( comp, source ) {
-            // console.log('assignToObject')
-            // console.log('assignToObject source', source)
-            let arr = [];
-            comp.state.clubs.map( (g) => {
-              let jasper = Object.assign({}, g );    //creating copy of object
-              jasper.name = source
-              arr.push( jasper )
-            })
-          }
-          console.log('final clubs', this.state.clubs)
         }
 
         json.teams.map( (team) => {

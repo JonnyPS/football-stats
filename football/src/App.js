@@ -7,9 +7,20 @@ function RenderTest(props) {
 
           <ul style={{paddingLeft: 10+'px'}}>
           {props.clubs.map( (key, i) => (
-            <li>
-            <div>Team: {key.teamName} ID: {key.teamId}</div>
-            <div>Games Played: {key.gamesPlayed.home}</div>
+            <li style={{marginBottom: 10+'px'}}>
+              <div>
+                <b>Team:</b> {key.teamName}
+                 <b>ID:</b> {key.teamId}
+              </div>
+
+              {key.gamesPlayed.map(game => (
+                <div>
+                  <b>Game:</b> {game.home} v {game.away} 
+                  {game.score.map(nums => (
+                    <span> <b>Score:</b> {nums.homeTeam}-{nums.awayTeam}</span>
+                  ))}
+                </div>
+              ))}
             </li>
           ))}
           </ul>
@@ -315,7 +326,7 @@ class App extends Component {
               matches.push({
                 home: item.homeTeam.name,
                 away: item.awayTeam.name,
-                score: item.score.fullTime,
+                score: [item.score.fullTime],
                 matchday: item.matchday
               })
             })

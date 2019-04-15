@@ -21,8 +21,14 @@ code {
 .inline-list {
   padding: 0;
 }
-.inline-list > li {
-  display: inline;
+.inline-list li {
+  float: left;
+}
+
+.inline-list img {
+  width: auto;
+  height: 45px;
+  margin-right: 5px;
 }
 
 .bold-copy {

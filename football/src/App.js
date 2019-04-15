@@ -42,7 +42,6 @@ function DisplayDetails (props) {
     <ul className="inline-list">
       {props.clubs.map( (key, i) => (
         <div>
-        <h1>{key.teamName}</h1>
         <li key={i}><img src={key.teamCrest} alt={key.teamName} onClick={() => props.activateClickResponse(key.teamName)} /></li>
       </div>
       ))}  

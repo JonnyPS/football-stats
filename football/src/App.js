@@ -4,27 +4,25 @@ import {Line} from 'react-chartjs-2';
 
 function RenderTest(props) {
   return (
+    <ul style={{paddingLeft: 10+'px'}}>
+      {props.clubs.map( (key, i) => (
+        <li style={{marginBottom: 10+'px'}}>
+          <div>
+            <b>Team:</b> {key.teamName}
+             <b>ID:</b> {key.teamId}
+          </div>
 
-          <ul style={{paddingLeft: 10+'px'}}>
-          {props.clubs.map( (key, i) => (
-            <li style={{marginBottom: 10+'px'}}>
-              <div>
-                <b>Team:</b> {key.teamName}
-                 <b>ID:</b> {key.teamId}
-              </div>
-
-              {key.gamesPlayed.map(game => (
-                <div>
-                  <b>Game:</b> {game.home} v {game.away} 
-                  {game.score.map(nums => (
-                    <span> <b>Score:</b> {nums.homeTeam}-{nums.awayTeam}</span>
-                  ))}
-                </div>
+          {key.gamesPlayed.map(game => (
+            <div>
+              <b>Game:</b> {game.home} v {game.away} 
+              {game.score.map(nums => (
+                <span> <b>Score:</b> {nums.homeTeam}-{nums.awayTeam}</span>
               ))}
-            </li>
+            </div>
           ))}
-          </ul>
-
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -59,109 +57,26 @@ class App extends Component {
     this.state = {
       allTeams: null,
       allMatches: null,
-
-      profile: [
-        {
-          logo: 'img/arsenal.png',
-          name: 'Arsenal',
-          colour: '#f00005',
-        },
-        {
-          logo: 'img/bournemouth.png',
-          name: 'Bournemouth',
-          colour: '#8d0104',
-        },
-        {
-          logo: 'img/brighton-hove.png',
-          name: 'Brighton Hove',
-          colour: '#005daa',
-        },
-        {
-          logo: 'img/burnley.png',
-          name: 'Burnley',
-          colour: '#fff515',
-        },
-        {
-          logo: 'img/cardiff.png',
-          name: 'Cardiff',
-          colour: '#035da9',
-        },
-        {
-          logo: 'img/chelsea.png',
-          name: 'Chelsea',
-          colour: '#024595',
-        },
-        {
-          logo: 'img/crystal-palace.png',
-          name: 'Crystal Palace',
-          colour: '#b80007',
-        },
-        {
-          logo: 'img/everton.png',
-          name: 'Everton',
-          colour: '#133e6c',
-        },
-        {
-          logo: 'img/Fulham.png',
-          name: 'Fulham',
-          colour: '#000000',
-        },
-        {
-          logo: 'img/huddersfield.png',
-          name: 'Huddersfield',
-          colour: '#003d93',
-        },
-        {
-          logo: 'img/leicester-city.png',
-          name: 'Leicester City',
-          colour: '#003d93',
-        },
-        {
-          logo: 'img/liverpool.png',
-          name: 'Liverpool',
-          colour: '#d00623',
-        },
-        {
-          logo: 'img/man-city.png',
-          name: 'Man City',
-          colour: '#5ba0da',
-        },
-        {
-          logo: 'img/man-united.png',
-          name: 'Man United',
-          colour: '#da030e',
-        },
-        {
-          logo: 'img/newcastle.png',
-          name: 'Newcastle',
-          colour: '#000',
-        },
-        {
-          logo: 'img/southampton.png',
-          name: 'Southampton',
-          colour: '#ed1a3b',
-        },
-        {
-          logo: 'img/tottenham.png',
-          name: 'Tottenham',
-          colour: '#aeaeae',
-        },
-        {
-          logo: 'img/watford.png',
-          name: 'Watford',
-          colour: '#fef823',
-        },
-        {
-          logo: 'img/west-ham.png',
-          name: 'West Ham',
-          colour: '#7b2c3a',
-        },
-        {
-          logo: 'img/wolverhampton.png',
-          name: 'Wolverhampton',
-          colour: '#faa61a',
-        },        
-      ],
+          // colour: '#f00005',
+          // colour: '#8d0104',
+          // colour: '#005daa',
+          // colour: '#fff515',
+          // colour: '#035da9',
+          // colour: '#024595',
+          // colour: '#b80007',
+          // colour: '#133e6c',
+          // colour: '#000000',
+          // colour: '#003d93',
+          // colour: '#003d93',
+          // colour: '#d00623',
+          // colour: '#5ba0da',
+          // colour: '#da030e',
+          // colour: '#000',
+          // colour: '#ed1a3b',
+          // colour: '#aeaeae',
+          // colour: '#fef823',
+          // colour: '#7b2c3a',
+          // colour: '#faa61a',
       clubs: [
         { 
           teamId: null,

@@ -531,7 +531,7 @@ class App extends Component {
 
 
 <Line 
-          data={this.state.clubs[1]}
+          data={this.state.clubs}
           height={200}
           width={400}
           options={{

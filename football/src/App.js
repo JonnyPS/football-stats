@@ -83,9 +83,7 @@ class App extends Component {
           teamCrest: null,
           gamesPlayed: []
         }
-      ],
-      a: null
-
+      ]
       // teamDetails: [
       //   {
       //     teamId: 'Team Id',
@@ -228,13 +226,42 @@ class App extends Component {
           let arr = [];          
           // loop through club objects
           this.state.clubs.map( (item, index) => {
-            console.log( 'this.state.clubs.map' )
+            // console.log( 'this.state.clubs.map' )
             // get ID of each club
             let clubId = item.teamId;
             // store all matches for this objects team
             let thisClubsMatches = json.matches.filter( ( match ) => {
               return match.awayTeam.id === clubId || match.homeTeam.id === clubId
             })
+
+            // console.log( 'loop ' + index, thisClubsMatches)
+            let pointsTally = [];
+
+            // console.log( 'loop ' + index )
+
+            let winners = thisClubsMatches.filter( (match) => {
+              // console.log('match', match)
+              // console.log( 'true nah', match.score.winner == "HOME_TEAM" && match.homeTeam.id == clubId )
+              match.score.winner == "HOME_TEAM" && match.homeTeam.id == clubId ? pointsTally.push(3) : console.log( 'something else' );
+              match.score.winner == "AWAY_TEAM" && match.awayTeam.id == clubId ? pointsTally.push(3) : console.log( 'something else' );
+              match.score.winner == "DRAW" ? pointsTally.push(1) : console.log( 'something else' );
+
+              match.score.winner == "HOME_TEAM" && match.homeTeam.id !== clubId ? pointsTally.push(0) : console.log( 'nil points' );
+              match.score.winner == "AWAY_TEAM" && match.awayTeam.id !== clubId ? pointsTally.push(0) : console.log( 'nil points' );
+
+            })
+            // console.log('points', pointsTally )
+
+            var pointsSoFar = pointsTally.reduce((acc, current) => {
+              acc.push((acc[acc.length - 1] || 0) + current);
+              return acc;
+            }, [])
+
+            // console.log( 'pointsSoFar', pointsSoFar )
+
+
+            // console.log( 'thisClubsMatches', thisClubsMatches )
+
             let matches = [];
             // push selected match info into matches array
             thisClubsMatches.map( (item) => {
@@ -242,7 +269,8 @@ class App extends Component {
                 home: item.homeTeam.name,
                 away: item.awayTeam.name,
                 score: [item.score.fullTime],
-                matchday: item.matchday
+                matchday: item.matchday,
+                points: pointsSoFar
               })
             })
             // create copy of obj
@@ -256,6 +284,7 @@ class App extends Component {
             // then set arr array to be the new value of clubs state
             if ( arr.length == this.state.clubs.length ) {
               // console.log( 'arr is complete' )
+
               setNewState( this, arr )
             }
           })
@@ -264,10 +293,15 @@ class App extends Component {
             comp.setState({
               clubs: items
             })
+
+            console.log( 'clubs', comp.state.clubs )
+
           }
         }
 
         json.teams.map( (team) => {
+        console.log( 'json error', team )
+
           // console.log( 'team', team )
           this.setState((currentState) => {
             return {

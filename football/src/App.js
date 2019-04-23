@@ -157,11 +157,16 @@ class App extends Component {
   }
 
   selectTeam(name) {
+
+    console.log('SELECT TEAM ACTIVATED: TEAM = ', name )
     this.setState({
-      input: name.replace(/^\w/, c => c.toUpperCase())
-    }, () => {
-      // this.findMatches()
+      selectedTeam: name
     })
+    // this.setState({
+    //   input: name.replace(/^\w/, c => c.toUpperCase())
+    // }, () => {
+      // this.findMatches()
+    // })
   }
 
   componentDidMount() {
@@ -294,7 +299,8 @@ class App extends Component {
               clubs: items
             })
 
-            console.log( 'clubs', comp.state.clubs )
+            console.log( 'clubs', comp.state )
+            // console.log( 'length = ', comp.state.clubs[1].gamesPlayed.length )
 
           }
         }
@@ -522,6 +528,51 @@ class App extends Component {
           gamesLost={this.state.gamesLost}
           gamesDrawn={this.state.gamesDrawn}
         />        
+
+
+<Line 
+          data={this.state.clubs}
+          height={200}
+          width={400}
+          options={{
+            tooltips: {
+              // callbacks: {
+              //   title: function( tooltipItem, data ) {
+              //     return  data.datasets[1].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[1].fixtures[tooltipItem[0]['index']].away
+              //   },
+              //   afterTitle: function( tooltipItem, data ) {
+              //     return  data.datasets[1].fixtures[tooltipItem[0]['index']].score
+              //   }
+              // }
+            },
+            legend: {
+              display: true,
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  max: 66,
+                  min: 0,
+                  stepSize: 3,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Points available'
+                }
+              }],
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Matchday'
+                }
+              }]
+            },
+            title: {
+              display: 'hello',
+              text: 'Premier League Teams',
+            }
+          }}
+        />
 
 
 

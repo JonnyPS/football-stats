@@ -83,7 +83,8 @@ class App extends Component {
           teamCrest: null,
           gamesPlayed: []
         }
-      ]
+      ],
+      chosen: null
       // teamDetails: [
       //   {
       //     teamId: 'Team Id',
@@ -162,6 +163,18 @@ class App extends Component {
     this.setState({
       selectedTeam: name
     })
+
+    console.log( 'selectTeam', this.state)
+    var clickedOnClub = this.state.clubs.filter( (club) => {
+      return club.teamName == name
+    })
+
+    this.setState({
+      chosen: clickedOnClub
+    })
+
+    console.log( 'clickedOnClub', clickedOnClub )
+    console.log( 'this.state', this.state )
     // this.setState({
     //   input: name.replace(/^\w/, c => c.toUpperCase())
     // }, () => {
@@ -247,15 +260,19 @@ class App extends Component {
             let winners = thisClubsMatches.filter( (match) => {
               // console.log('match', match)
               // console.log( 'true nah', match.score.winner == "HOME_TEAM" && match.homeTeam.id == clubId )
-              match.score.winner == "HOME_TEAM" && match.homeTeam.id == clubId ? pointsTally.push(3) : console.log( 'something else' );
-              match.score.winner == "AWAY_TEAM" && match.awayTeam.id == clubId ? pointsTally.push(3) : console.log( 'something else' );
-              match.score.winner == "DRAW" ? pointsTally.push(1) : console.log( 'something else' );
+              match.score.winner == "HOME_TEAM" && match.homeTeam.id == clubId ? pointsTally.push(3) : something();
+              match.score.winner == "AWAY_TEAM" && match.awayTeam.id == clubId ? pointsTally.push(3) : something();
+              match.score.winner == "DRAW" ? pointsTally.push(1) : something();
 
-              match.score.winner == "HOME_TEAM" && match.homeTeam.id !== clubId ? pointsTally.push(0) : console.log( 'nil points' );
-              match.score.winner == "AWAY_TEAM" && match.awayTeam.id !== clubId ? pointsTally.push(0) : console.log( 'nil points' );
+              match.score.winner == "HOME_TEAM" && match.homeTeam.id !== clubId ? pointsTally.push(0) : something();
+              match.score.winner == "AWAY_TEAM" && match.awayTeam.id !== clubId ? pointsTally.push(0) : something();
 
             })
             // console.log('points', pointsTally )
+
+            function something() {
+              // empty placeholder function for something
+            }
 
             var pointsSoFar = pointsTally.reduce((acc, current) => {
               acc.push((acc[acc.length - 1] || 0) + current);
@@ -306,7 +323,7 @@ class App extends Component {
         }
 
         json.teams.map( (team) => {
-        console.log( 'json error', team )
+        // console.log( 'json error', team )
 
           // console.log( 'team', team )
           this.setState((currentState) => {

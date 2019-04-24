@@ -84,7 +84,7 @@ class App extends Component {
           gamesPlayed: []
         }
       ],
-      chosen: null
+      chosen: null,
       // teamDetails: [
       //   {
       //     teamId: 'Team Id',
@@ -160,20 +160,25 @@ class App extends Component {
   selectTeam(name) {
 
     console.log('SELECT TEAM ACTIVATED: TEAM = ', name )
-    this.setState({
-      selectedTeam: name
-    })
+    // this.setState({
+    //   selectedTeam: name
+    // })
 
-    console.log( 'selectTeam', this.state)
+    // console.log( 'selectTeam', this.state)
     var clickedOnClub = this.state.clubs.filter( (club) => {
       return club.teamName == name
     })
 
+    // console.log( 'clickedOnClub', clickedOnClub )
+    // this.setState({
+      // chosen: clickedOnClub
+    // })
+
     this.setState({
       chosen: clickedOnClub
-    })
+    }, function() { console.log('callback state', this.state)})
 
-    console.log( 'clickedOnClub', clickedOnClub )
+    
     console.log( 'this.state', this.state )
     // this.setState({
     //   input: name.replace(/^\w/, c => c.toUpperCase())

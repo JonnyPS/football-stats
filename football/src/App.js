@@ -84,7 +84,9 @@ class App extends Component {
           gamesPlayed: []
         }
       ],
-      chosen: null,
+      data: {
+        datasets: [],
+      },
       // teamDetails: [
       //   {
       //     teamId: 'Team Id',
@@ -174,9 +176,28 @@ class App extends Component {
       // chosen: clickedOnClub
     // })
 
-    this.setState({
-      chosen: clickedOnClub
-    }, function() { console.log('callback state', this.state)})
+    this.setState( (currentState) => {
+      console.log( 'adfgsdgsd', clickedOnClub[0].gamesPlayed[0].points)
+            return {
+              data: {
+                labels: clickedOnClub[0].gamesPlayed[0].points,
+                datasets: currentState.data.datasets.concat({ 
+                  label: clickedOnClub[0].teamName,
+                  backgroundColor: 'red',
+                  // borderColor: 'rgb(255, 99, 132)',
+                  data: clickedOnClub[0].gamesPlayed[0].points,
+                  fixtures: 'fixtures',
+                  borderColor: 'blue',
+                  backgroundColor: 'transparent',
+                })
+              },
+            }
+          },
+          function() { console.log('callback state', this.state)});
+
+    // this.setState({
+    //   chosen: clickedOnClub
+    // }, function() { console.log('callback state', this.state)})
 
     
     console.log( 'this.state', this.state )
@@ -552,8 +573,9 @@ class App extends Component {
         />        
 
 
+
 <Line 
-          data={this.state.clubs}
+          data={this.state.data}
           height={200}
           width={400}
           options={{
@@ -573,7 +595,7 @@ class App extends Component {
             scales: {
               yAxes: [{
                 ticks: {
-                  max: 66,
+                  max: 100,
                   min: 0,
                   stepSize: 3,
                 },
@@ -595,7 +617,6 @@ class App extends Component {
             }
           }}
         />
-
 
 
         <button onClick={this.resetState}>Reset</button>

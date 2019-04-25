@@ -160,21 +160,10 @@ class App extends Component {
   }
 
   selectTeam(name) {
-
     console.log('SELECT TEAM ACTIVATED: TEAM = ', name )
-    // this.setState({
-    //   selectedTeam: name
-    // })
-
-    // console.log( 'selectTeam', this.state)
     var clickedOnClub = this.state.clubs.filter( (club) => {
       return club.teamName == name
     })
-
-    // console.log( 'clickedOnClub', clickedOnClub )
-    // this.setState({
-      // chosen: clickedOnClub
-    // })
 
     this.setState( (currentState) => {
       console.log( 'adfgsdgsd', clickedOnClub[0].gamesPlayed[0].points)
@@ -192,20 +181,8 @@ class App extends Component {
                 })
               },
             }
-          },
-          function() { console.log('callback state', this.state)});
-
-    // this.setState({
-    //   chosen: clickedOnClub
-    // }, function() { console.log('callback state', this.state)})
-
-    
+          }, function() { console.log('callback state', this.state)});
     console.log( 'this.state', this.state )
-    // this.setState({
-    //   input: name.replace(/^\w/, c => c.toUpperCase())
-    // }, () => {
-      // this.findMatches()
-    // })
   }
 
   componentDidMount() {

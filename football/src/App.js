@@ -374,6 +374,7 @@ class App extends Component {
               },
             }
           })
+          console.log('test')
         // })
         // setTimeout( function() {
         //   console.log( 'this.state.data ', this.state.data.datasets )

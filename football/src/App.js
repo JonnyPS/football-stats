@@ -200,7 +200,8 @@ class App extends Component {
     console.log( 'this.state', this.state.profile )
     this.state.profile.map( (item) => {
       // return console.log( item.name )
-      this.selectTeam( item.name )
+      // this.selectTeam( item.name )
+      this.findMatches( item.name )
     })
     // this.state.profile.map( (key) => {
     //   this.setState({
@@ -302,11 +303,15 @@ class App extends Component {
     })
   }
 
-  findMatches() {
+  findMatches( name ) {
+
+    console.log( 'state input: ', this.state.input )
+    console.log( 'name: ', name )
+
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // check that selected team 
-      if ( this.state.input === item.teamName ) {
+      if ( this.state.input === item.teamName || name === item.teamName ) {
         // console.log( 'item.teamName', item.teamName )
         var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
         var colour = teamColour[0].colour

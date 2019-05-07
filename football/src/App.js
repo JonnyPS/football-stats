@@ -178,6 +178,7 @@ class App extends Component {
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
+    this.showHomeGames = this.showHomeGames.bind( this )
   }
 
   saveInitialState() {
@@ -197,19 +198,18 @@ class App extends Component {
 
   showAllDatasets() {
     console.log('showAllDatasets')
-    console.log( 'this.state', this.state.profile )
     this.state.profile.map( (item) => {
-      // return console.log( item.name )
-      // this.selectTeam( item.name )
       this.findMatches( item.name )
     })
-    // this.state.profile.map( (key) => {
-    //   this.setState({
-    //     input: key.name
-    //   })
-    //   this.findMatches()
-    // })
-    
+  }
+
+  showHomeGames() {
+    console.log('showHomeGames')
+    this.state.data.datasets.map( (item) => {
+      console.log( 'item',item )
+      var homeGames = item.fixtures.home.filter( (games) => { return games })
+      console.log('homeGames', homeGames)
+    })
   }
 
   selectTeam(name) {
@@ -304,10 +304,6 @@ class App extends Component {
   }
 
   findMatches( name ) {
-
-    console.log( 'state input: ', this.state.input )
-    console.log( 'name: ', name )
-
     // look through all teams in our list
     for (let item of this.state.teamDetails) {
       // check that selected team 
@@ -386,10 +382,7 @@ class App extends Component {
               },
             }
           })
-        // })
-        // setTimeout( function() {
-        //   console.log( 'this.state.data ', this.state.data.datasets )
-        // }, 3000)
+        console.log('state after input', this.state )
       }
     }
   }
@@ -467,6 +460,7 @@ class App extends Component {
         <button onClick={this.resetState}>Reset</button>
         <button onClick={this.removeDataset}>Remove</button>
         <button onClick={this.showAllDatasets}>Show all</button>
+        <button onClick={this.showHomeGames}>Show only home games</button>
       </div>
     )
   }

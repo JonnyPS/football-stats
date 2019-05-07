@@ -205,10 +205,25 @@ class App extends Component {
 
   showHomeGames() {
     console.log('showHomeGames')
-    this.state.data.datasets.map( (item) => {
-      console.log( 'item',item )
-      var homeGames = item.fixtures.home.filter( (games) => { return games })
-      console.log('homeGames', homeGames)
+    this.state.data.datasets.map( (item, index) => {
+      console.log( 'item',item.label )
+      let homeGamesSeries = []
+      // check to not include first item from datasets array (empty obj)
+      if ( item.label !== undefined ) {
+        console.log( 'item in if ', item.fixtures )
+        var homeGames = item.fixtures.filter( (games, index) => { 
+          // return games.home.includes(item.label)
+          if ( games.home.includes(item.label) ) {
+            console.log('games index', index)
+            // homeGamesSeries.push( index )
+            console.log('item again', item )
+            var homeGamePoints = item.data.filter( (matchPoints) => { return matchPoints === index } )
+            console.log('homeGamePoints', homeGamePoints)
+          }
+          console.log( 'homeGamesSeries', homeGamesSeries )
+        })
+        console.log('homeGames', homeGames)
+      }
     })
   }
 
@@ -294,6 +309,7 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
+    console.log('state on update', this.state )
   }
 
   updateInput(e) {
@@ -382,7 +398,6 @@ class App extends Component {
               },
             }
           })
-        console.log('state after input', this.state )
       }
     }
   }

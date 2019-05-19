@@ -179,6 +179,7 @@ class App extends Component {
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
     this.showHomeGames = this.showHomeGames.bind( this )
+    this.showAwayGames = this.showAwayGames.bind( this )
   }
 
   saveInitialState() {
@@ -205,26 +206,82 @@ class App extends Component {
 
   showHomeGames() {
     console.log('showHomeGames')
-    this.state.data.datasets.map( (item, index) => {
-      console.log( 'item',item.label )
-      let homeGamesSeries = []
-      // check to not include first item from datasets array (empty obj)
-      if ( item.label !== undefined ) {
-        console.log( 'item in if ', item.fixtures )
-        var homeGames = item.fixtures.filter( (games, index) => { 
-          // return games.home.includes(item.label)
-          if ( games.home.includes(item.label) ) {
-            console.log('games index', index)
-            // homeGamesSeries.push( index )
-            console.log('item again', item )
-            var homeGamePoints = item.data.filter( (matchPoints) => { return matchPoints === index } )
-            console.log('homeGamePoints', homeGamePoints)
-          }
-          console.log( 'homeGamesSeries', homeGamesSeries )
+    let homeGamesList = [];
+      let homeResultsOfMatches = [];
+      this.state.data.datasets.map( (item, index) => {
+        console.log('datasets', item)
+        // check to not include first item from datasets array (empty obj)      
+        if ( item.label !== undefined ) {
+          console.log('item.label', item.label)
+          var homeGames = item.fixtures.filter( (games, index) => { 
+            console.log( 'games', games)
+            // return games.home.includes(item.label)
+            if ( games.home.includes(item.label) ) {
+              homeGamesList.push( games )
+            }
+          })
+        }
+        console.log( 'homeGamesList', homeGamesList )
+        homeGamesList.map( ( item ) => {
+          return ( item.winner === "HOME_TEAM" ) ? (homeResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? homeResultsOfMatches.push( 0 ) : homeResultsOfMatches.push( 1 ))
         })
-        console.log('homeGames', homeGames)
-      }
-    })
+        console.log( 'homeResultsOfMatches', homeResultsOfMatches )
+        
+      })
+      var homePointsSoFar = homeResultsOfMatches.reduce((acc, current) => {
+            acc.push((acc[acc.length - 1] || 0) + current);
+            return acc;
+          }, [])
+        console.log( 'homePointsSoFar', homePointsSoFar )
+      this.setState( (currentState) => {
+            return {
+              data: {
+                datasets: currentState.data.datasets.concat({ 
+                  data: homePointsSoFar
+                })
+              },
+            }
+          })
+  }
+
+  showAwayGames() {
+    console.log('showawayGames')
+    let awayGamesList = [];
+      let awayResultsOfMatches = [];
+      this.state.data.datasets.map( (item, index) => {
+        console.log('datasets', item)
+        // check to not include first item from datasets array (empty obj)      
+        if ( item.label !== undefined ) {
+          console.log('item.label', item.label)
+          var awayGames = item.fixtures.filter( (games, index) => { 
+            console.log( 'games', games)
+            // return games.away.includes(item.label)
+            if ( games.away.includes(item.label) ) {
+              awayGamesList.push( games )
+            }
+          })
+        }
+        console.log( 'awayGamesList', awayGamesList )
+        awayGamesList.map( ( item ) => {
+          return ( item.winner === "AWAY_TEAM" ) ? (awayResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? awayResultsOfMatches.push( 0 ) : awayResultsOfMatches.push( 1 ))
+        })
+        console.log( 'awayResultsOfMatches', awayResultsOfMatches )
+        
+      })
+      var awayPointsSoFar = awayResultsOfMatches.reduce((acc, current) => {
+            acc.push((acc[acc.length - 1] || 0) + current);
+            return acc;
+          }, [])
+        console.log( 'awayPointsSoFar', awayPointsSoFar )
+      this.setState( (currentState) => {
+            return {
+              data: {
+                datasets: currentState.data.datasets.concat({ 
+                  data: awayPointsSoFar
+                })
+              },
+            }
+          })
   }
 
   selectTeam(name) {
@@ -320,43 +377,35 @@ class App extends Component {
   }
 
   findMatches( name ) {
-    // look through all teams in our list
+    // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
-      // check that selected team 
-      if ( this.state.input === item.teamName || name === item.teamName ) {
-        // console.log( 'item.teamName', item.teamName )
+      // check our list to see if our input matches any team names 
+      if ( this.state.input === item.teamName ) {
         var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
         var colour = teamColour[0].colour
-
-        // console.log( 'teamColour', teamColour) 
-        // console.log( 'colour', colour) 
-        // console.log('teamDetails', this.state.teamDetails)
         let selectedTeamId = item.teamId
-        let selectedTeamName = item.teamId
         let TeamName = item.teamName
         let resultsOfMatches = []
         let fixtures = []
-        // let teamColor = 
-        let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        // console.log( 'filteredMatches', filteredMatches )
 
+        // return only matches that involve our team
+        let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
+        console.log( 'filteredMatches', filteredMatches)
         filteredMatches.map( (match) => {
           return (
             fixtures.push({
               home: match.homeTeam.name,
               away: match.awayTeam.name,
-              score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam
+              score: match.score.fullTime.homeTeam + ' : ' + match.score.fullTime.awayTeam,
+              winner: match.score.winner
             })
           )
         })
-        // console.log( 'fixtures ', fixtures )
+        console.log( 'fixtures ', fixtures )
 
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
 
-        function getMatchResultOccurence(array, result) {
-          return array.filter((v) => (v === result)).length;
-        }
 
         function getMatchResults( game, ourTeam ) {
           let result = game.score.winner
@@ -380,9 +429,6 @@ class App extends Component {
           this.setState( (currentState) => {
             return {
               gamesPlayed: resultsOfMatches.length,
-              gamesWon: getMatchResultOccurence(resultsOfMatches, 3),
-              gamesLost: getMatchResultOccurence(resultsOfMatches, 0),
-              gamesDrawn: getMatchResultOccurence(resultsOfMatches, 1),
               matchday: filteredMatches,
               data: {
                 labels: matchesSoFar,
@@ -476,6 +522,7 @@ class App extends Component {
         <button onClick={this.removeDataset}>Remove</button>
         <button onClick={this.showAllDatasets}>Show all</button>
         <button onClick={this.showHomeGames}>Show only home games</button>
+        <button onClick={this.showAwayGames}>Show only away games</button>
       </div>
     )
   }

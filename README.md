@@ -1,0 +1,2 @@
+## This project is a work in progress, and as we are between football seasons, no data is available in its current form.
+## Ordinarilly, when clicking on a team logo, the data is displayed on the line graph

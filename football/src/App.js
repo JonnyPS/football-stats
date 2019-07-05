@@ -206,42 +206,45 @@ class App extends Component {
 
   showHomeGames() {
     console.log('showHomeGames')
+    // setup empty arrays to hold home games and points from home games
     let homeGamesList = [];
-      let homeResultsOfMatches = [];
-      this.state.data.datasets.map( (item, index) => {
-        console.log('datasets', item)
-        // check to not include first item from datasets array (empty obj)      
-        if ( item.label !== undefined ) {
-          console.log('item.label', item.label)
-          var homeGames = item.fixtures.filter( (games, index) => { 
-            console.log( 'games', games)
-            // return games.home.includes(item.label)
-            if ( games.home.includes(item.label) ) {
-              homeGamesList.push( games )
-            }
-          })
-        }
-        console.log( 'homeGamesList', homeGamesList )
-        homeGamesList.map( ( item ) => {
-          return ( item.winner === "HOME_TEAM" ) ? (homeResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? homeResultsOfMatches.push( 0 ) : homeResultsOfMatches.push( 1 ))
+    let homeResultsOfMatches = [];
+    this.state.data.datasets.map( (item, index) => {
+      console.log('datasets', item)
+      // check to not include first item from datasets array (empty obj)      
+      if ( item.label !== undefined ) {
+        console.log('item.label', item.label)
+        var homeGames = item.fixtures.filter( (games, index) => { 
+          console.log( 'games', games)
+          // if the home team in games includes our selected teams, push the game into our array
+          if ( games.home.includes(item.label) ) {
+            homeGamesList.push( games )
+          }
         })
-        console.log( 'homeResultsOfMatches', homeResultsOfMatches )
-        
+      }
+      console.log( 'homeGamesList', homeGamesList )
+      // map over the home games, retrieve points gained from them and push into our home results array
+      homeGamesList.map( ( item ) => {
+        return ( item.winner === "HOME_TEAM" ) ? (homeResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? homeResultsOfMatches.push( 0 ) : homeResultsOfMatches.push( 1 ))
       })
-      var homePointsSoFar = homeResultsOfMatches.reduce((acc, current) => {
-            acc.push((acc[acc.length - 1] || 0) + current);
-            return acc;
-          }, [])
-        console.log( 'homePointsSoFar', homePointsSoFar )
-      this.setState( (currentState) => {
-            return {
-              data: {
-                datasets: currentState.data.datasets.concat({ 
-                  data: homePointsSoFar
-                })
-              },
-            }
+      console.log( 'homeResultsOfMatches', homeResultsOfMatches )  
+    })
+    // tally up points
+    var homePointsSoFar = homeResultsOfMatches.reduce((acc, current) => {
+      acc.push((acc[acc.length - 1] || 0) + current);
+      return acc;
+    }, [])
+    console.log( 'homePointsSoFar', homePointsSoFar )
+    // update state with home game results
+    this.setState( (currentState) => {
+      return {
+        data: {
+          datasets: currentState.data.datasets.concat({ 
+            data: homePointsSoFar
           })
+        },
+      }
+    })
   }
 
   showAwayGames() {

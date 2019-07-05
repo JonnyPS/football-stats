@@ -4,7 +4,7 @@ var cloneDeep = require('clone-deep');
 
 function DisplayStats (props) {
   return (
-    <ul>
+    <ul class="stats-list">
       <li>Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
       <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
       <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>

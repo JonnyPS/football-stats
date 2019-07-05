@@ -20,10 +20,19 @@ code {
 
 .inline-list {
   padding: 0;
+  overflow: hidden; /* maintains height from nested <li> */    
+  display: flex;
+  align-items: stretch; /* Default */
+  justify-content: space-between;
+  width: 90%;
+  margin: 0;
+  padding: 0;
+  margin-left: 5%;
 }
 .inline-list li {
-  float: left;
-  list-style: none;
+  list-style-type: none;
+  display: block;
+  flex: 0 1 auto; /* Default */
 }
 
 .inline-list img {

@@ -14,7 +14,7 @@ code {
 }
 
 #resultsChart {
-  height: 400px !important;
+  height: 450px !important;
 }
 
 
@@ -23,6 +23,7 @@ code {
 }
 .inline-list li {
   float: left;
+  list-style: none;
 }
 
 .inline-list img {
@@ -36,5 +37,6 @@ code {
 }
 
 #inputBox {
-  width: 60%;
+  width: 80%;
+  margin-left: 10%;
 }

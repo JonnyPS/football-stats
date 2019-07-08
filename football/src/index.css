@@ -33,6 +33,7 @@ code {
   list-style-type: none;
   display: block;
   flex: 0 1 auto; /* Default */
+  cursor: pointer;
 }
 
 .inline-list img {

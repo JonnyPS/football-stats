@@ -199,8 +199,11 @@ class App extends Component {
 
   showAllDatasets() {
     console.log('showAllDatasets')
-    this.state.profile.map( (item) => {
+    this.state.profile.map( (item, index) => {
+      console.log('item.name', item.name)
+      console.log('index', index)
       this.findMatches( item.name )
+      console.log('this.findMatches', this.findMatches)
     })
   }
 
@@ -382,10 +385,11 @@ class App extends Component {
   }
 
   findMatches( name ) {
+    console.log('name', name)
     // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
       // check our list to see if our input matches any team names 
-      if ( this.state.input === item.teamName ) {
+      if ( this.state.input === item.teamName || name === item.teamName ) {
         var teamColour = this.state.profile.filter( (key) => { return key.name === item.teamName } )
         var colour = teamColour[0].colour
         let selectedTeamId = item.teamId

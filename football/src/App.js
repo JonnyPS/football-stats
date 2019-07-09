@@ -178,8 +178,6 @@ class App extends Component {
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
-    this.showHomeGames = this.showHomeGames.bind( this )
-    this.showAwayGames = this.showAwayGames.bind( this )
   }
 
   saveInitialState() {
@@ -205,89 +203,6 @@ class App extends Component {
       this.findMatches( item.name )
       console.log('this.findMatches', this.findMatches)
     })
-  }
-
-  showHomeGames() {
-    console.log('showHomeGames')
-    // setup empty arrays to hold home games and points from home games
-    let homeGamesList = [];
-    let homeResultsOfMatches = [];
-    this.state.data.datasets.map( (item, index) => {
-      console.log('datasets', item)
-      // check to not include first item from datasets array (empty obj)      
-      if ( item.label !== undefined ) {
-        console.log('item.label', item.label)
-        var homeGames = item.fixtures.filter( (games, index) => { 
-          console.log( 'games', games)
-          // if the home team in games includes our selected teams, push the game into our array
-          if ( games.home.includes(item.label) ) {
-            homeGamesList.push( games )
-          }
-        })
-      }
-      console.log( 'homeGamesList', homeGamesList )
-      // map over the home games, retrieve points gained from them and push into our home results array
-      homeGamesList.map( ( item ) => {
-        return ( item.winner === "HOME_TEAM" ) ? (homeResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? homeResultsOfMatches.push( 0 ) : homeResultsOfMatches.push( 1 ))
-      })
-      console.log( 'homeResultsOfMatches', homeResultsOfMatches )  
-    })
-    // tally up points
-    var homePointsSoFar = homeResultsOfMatches.reduce((acc, current) => {
-      acc.push((acc[acc.length - 1] || 0) + current);
-      return acc;
-    }, [])
-    console.log( 'homePointsSoFar', homePointsSoFar )
-    // update state with home game results
-    this.setState( (currentState) => {
-      return {
-        data: {
-          datasets: currentState.data.datasets.concat({ 
-            data: homePointsSoFar
-          })
-        },
-      }
-    })
-  }
-
-  showAwayGames() {
-    console.log('showawayGames')
-    let awayGamesList = [];
-      let awayResultsOfMatches = [];
-      this.state.data.datasets.map( (item, index) => {
-        console.log('datasets', item)
-        // check to not include first item from datasets array (empty obj)      
-        if ( item.label !== undefined ) {
-          console.log('item.label', item.label)
-          var awayGames = item.fixtures.filter( (games, index) => { 
-            console.log( 'games', games)
-            // return games.away.includes(item.label)
-            if ( games.away.includes(item.label) ) {
-              awayGamesList.push( games )
-            }
-          })
-        }
-        console.log( 'awayGamesList', awayGamesList )
-        awayGamesList.map( ( item ) => {
-          return ( item.winner === "AWAY_TEAM" ) ? (awayResultsOfMatches.push( 3 )) : ( (item.winner === "AWAY_TEAM") ? awayResultsOfMatches.push( 0 ) : awayResultsOfMatches.push( 1 ))
-        })
-        console.log( 'awayResultsOfMatches', awayResultsOfMatches )
-        
-      })
-      var awayPointsSoFar = awayResultsOfMatches.reduce((acc, current) => {
-            acc.push((acc[acc.length - 1] || 0) + current);
-            return acc;
-          }, [])
-        console.log( 'awayPointsSoFar', awayPointsSoFar )
-      this.setState( (currentState) => {
-            return {
-              data: {
-                datasets: currentState.data.datasets.concat({ 
-                  data: awayPointsSoFar
-                })
-              },
-            }
-          })
   }
 
   selectTeam(name) {
@@ -538,8 +453,6 @@ class App extends Component {
         <button onClick={this.resetState}>Reset</button>
         <button onClick={this.removeDataset}>Remove</button>
         <button onClick={this.showAllDatasets}>Show all</button>
-        <button onClick={this.showHomeGames}>Show only home games</button>
-        <button onClick={this.showAwayGames}>Show only away games</button>
       </div>
     )
   }

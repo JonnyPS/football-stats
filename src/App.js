@@ -73,7 +73,7 @@ class App extends Component {
           colour: '#133e6c',
         },
         {
-          logo: 'img/Fulham.png',
+          logo: 'img/fulham.png',
           name: 'Fulham',
           colour: '#000000',
         },

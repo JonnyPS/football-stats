@@ -4,7 +4,7 @@ var cloneDeep = require('clone-deep');
 
 function DisplayStats (props) {
   return (
-    <ul class="stats-list">
+    <ul className="stats-list">
       <li>Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
       <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
       <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
@@ -491,10 +491,18 @@ class App extends Component {
             tooltips: {
               callbacks: {
                 title: function( tooltipItem, data ) {
-                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].home + ' v ' + data.datasets[1].fixtures[tooltipItem[0]['index']].away
+                  var teamInDataSet = tooltipItem[0].datasetIndex;
+                  var highlightedGameNumber = tooltipItem[0].index;
+                  var highlightedTeamName = data.datasets[teamInDataSet].label;
+                  var highlightedGameDetails = data.datasets[teamInDataSet].fixtures[highlightedGameNumber];
+                  return highlightedGameDetails.home + ' v ' + highlightedGameDetails.away; 
                 },
                 afterTitle: function( tooltipItem, data ) {
-                  return  data.datasets[1].fixtures[tooltipItem[0]['index']].score
+                  var teamInDataSet = tooltipItem[0].datasetIndex;
+                  var highlightedGameNumber = tooltipItem[0].index;
+                  var highlightedTeamName = data.datasets[teamInDataSet].label;
+                  var highlightedGameDetails = data.datasets[teamInDataSet].fixtures[highlightedGameNumber];
+                  return highlightedGameDetails.score;
                 }
               }
             },

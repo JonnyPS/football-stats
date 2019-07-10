@@ -222,9 +222,17 @@ class App extends Component {
     console.log('checkDatasetsForDuplicates')
     console.log('name:', name)
     console.log("this.state.data.datasets", this.state.data.datasets)
-    console.log('indexOf', this.state.data.datasets(name) )
-    // this.state.data.datasets.map((key) =>{
-    //   console.log('key.label', key.label)
+    var duplicates = this.state.data.datasets.filter((key) =>{
+      // console.log('key.label', key.label)
+      return key.label === name;
+    })
+    console.log('duplicates = ', duplicates.length)
+    if ( duplicates.length === 0 ) {
+      console.log('No duplicates found. Run findMatches')
+      this.findMatches(name);
+    } else {
+      console.log('Duplicates found. Do nothing')
+    }
 
     //   if (key.label === name ) {
     //     console.log('duplicate team found, do nothing')
@@ -232,7 +240,6 @@ class App extends Component {
     //     console.log('duplicate not found, call findMatches')
     //   }
     // })
-    this.findMatches(name)
   }
 
   componentDidMount() {

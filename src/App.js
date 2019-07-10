@@ -219,27 +219,13 @@ class App extends Component {
   }
 
   checkDatasetsForDuplicates(name) {
-    console.log('checkDatasetsForDuplicates')
-    console.log('name:', name)
-    console.log("this.state.data.datasets", this.state.data.datasets)
     var duplicates = this.state.data.datasets.filter((key) =>{
-      // console.log('key.label', key.label)
       return key.label === name;
     })
-    console.log('duplicates = ', duplicates.length)
     if ( duplicates.length === 0 ) {
       console.log('No duplicates found. Run findMatches')
       this.findMatches(name);
-    } else {
-      console.log('Duplicates found. Do nothing')
-    }
-
-    //   if (key.label === name ) {
-    //     console.log('duplicate team found, do nothing')
-    //   } else {
-    //     console.log('duplicate not found, call findMatches')
-    //   }
-    // })
+    } 
   }
 
   componentDidMount() {

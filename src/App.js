@@ -392,13 +392,7 @@ class App extends Component {
   render(json, item) {
     return (
       <div>
-        <input
-          type='text'
-          placeholder='Find your team...'
-          value={this.state.input}
-          onChange={this.updateInput}
-        />
-        <button onClick={this.findMatches}>Submit</button>
+        
 
         <DisplayDetails
           teams={this.state.profile}

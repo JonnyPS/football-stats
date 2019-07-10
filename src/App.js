@@ -17,7 +17,9 @@ function DisplayDetails (props) {
   return (
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
-        <li key={i}><img src={key.logo} alt={key.name} onClick={() => props.activateClickResponse(key.name)} /></li>
+        <li key={i}>
+          <img src={key.logo} alt={key.name} onClick={() => props.activateClickResponse(key.name)} />
+        </li>
       ))}  
     </ul>
   )
@@ -178,6 +180,7 @@ class App extends Component {
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
+    this.checkDatasetsForDuplicates = this.checkDatasetsForDuplicates.bind( this )
   }
 
   saveInitialState() {
@@ -213,6 +216,23 @@ class App extends Component {
     }, () => {
       this.findMatches()
     })
+  }
+
+  checkDatasetsForDuplicates(name) {
+    console.log('checkDatasetsForDuplicates')
+    console.log('name:', name)
+    console.log("this.state.data.datasets", this.state.data.datasets)
+    console.log('indexOf', this.state.data.datasets(name) )
+    // this.state.data.datasets.map((key) =>{
+    //   console.log('key.label', key.label)
+
+    //   if (key.label === name ) {
+    //     console.log('duplicate team found, do nothing')
+    //   } else {
+    //     console.log('duplicate not found, call findMatches')
+    //   }
+    // })
+    this.findMatches(name)
   }
 
   componentDidMount() {
@@ -290,6 +310,7 @@ class App extends Component {
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
     console.log('state on update', this.state )
+    console.log('this.state.data.datasets', this.state.data.datasets)
   }
 
   updateInput(e) {
@@ -301,6 +322,9 @@ class App extends Component {
 
   findMatches( name ) {
     console.log('name', name)
+    this.state.data.datasets.map((name) => {
+      console.log('this.state.data.datasets (name).label', name.label)
+    })
     // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
       // check our list to see if our input matches any team names 
@@ -385,7 +409,7 @@ class App extends Component {
 
         <DisplayDetails
           teams={this.state.profile}
-          activateClickResponse={this.selectTeam}
+          activateClickResponse={this.checkDatasetsForDuplicates}
         /> 
 
         <DisplayStats

@@ -219,13 +219,39 @@ class App extends Component {
   }
 
   checkDatasetsForDuplicates(name) {
-    var duplicates = this.state.data.datasets.filter((key) =>{
-      return key.label === name;
+    // return an array of boolean values whilst checking
+    // if the datasets array has an item whose label value
+    // equals our clicked on team name
+    var test = this.state.data.datasets.map((item) => {
+      // console.log('item.label', item.label)
+      return item.label === name;
     })
-    if ( duplicates.length === 0 ) {
-      console.log('No duplicates found. Run findMatches')
-      this.findMatches(name);
-    } 
+    // get position of true value item in array if it exists
+    console.log("test.indexOf(true)", test.indexOf(true))
+    var dupTeamNum = test.indexOf(true);
+    // if item true doesn't exist, run findMatches()
+    // else remove clicked on team from datasets array
+    if ( dupTeamNum === -1 ) {    
+      this.findMatches(name)
+    } else {
+      this.state.data.datasets.splice(dupTeamNum)
+    }
+    // remove that item from the datasets array
+    // console.log('test result first = ', test )
+    // test = [];
+    // console.log('test result second = ', test )
+    
+
+
+
+    // WORKING CODE FOR NOW
+    // var duplicates = this.state.data.datasets.filter((key) =>{
+    //   return key.label === name;
+    // })
+    // if ( duplicates.length === 0 ) {
+    //   console.log('No duplicates found. Run findMatches')
+    //   this.findMatches(name);
+    // } 
   }
 
   componentDidMount() {

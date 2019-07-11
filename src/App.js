@@ -234,7 +234,17 @@ class App extends Component {
     if ( dupTeamNum === -1 ) {    
       this.findMatches(name)
     } else {
-      this.state.data.datasets.splice(dupTeamNum)
+      console.log('this.state.data.datasets.splice(dupTeamNum)', this.state.data.datasets.splice(dupTeamNum, 1))
+      // let currentDatasets = this.state.data.datasets;
+      // currentDatasets.splice(dupTeamNum, 1);
+      // console.log('currentDatasets', currentDatasets)
+      console.log('dfhhdfh', this.state.data.datasets.filter((currentValue, i) => { return currentValue }) )
+      // this.setState({
+      //   data: this.state.data.datasets.filter((item, index) => {
+      //     return 
+      //   })
+      // })
+      // this.state.data.datasets.splice(dupTeamNum)
     }
     // remove that item from the datasets array
     // console.log('test result first = ', test )

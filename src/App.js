@@ -32,6 +32,16 @@ function DisplayDetails (props) {
   )
 }
 
+function ControlButtons (props) {
+  return (
+    <div className="button-container">
+      <button onClick={props.resetState}>Reset</button>
+      <button onClick={props.removeDataset}>Remove</button>
+      <button onClick={props.showAllDatasets}>Show All</button>
+    </div>
+  )
+}
+
 class App extends Component {
   
   constructor(props) {
@@ -218,6 +228,7 @@ class App extends Component {
       console.log('index', index)
       this.findMatches( item.name )
       console.log('this.findMatches', this.findMatches)
+      this.setOpacity(undefined, true)
     })
   }
 
@@ -242,7 +253,7 @@ class App extends Component {
     }
   }
 
-  setOpacity(label) {
+  setOpacity(label, showAll) {
     // console.log('setOpacity')
     // console.log('label = ', label)
     let logos = document.getElementsByClassName('team-logo');
@@ -257,11 +268,16 @@ class App extends Component {
           logos[i].classList.remove('toggle-opacity')          
         }
       }
+    } else if ( showAll === true ) {
+     for (var i = 0; i < logos.length; i++ ) {
+        logos[i].classList.add('toggle-opacity')
+      } 
     } else {
       for (var i = 0; i < logos.length; i++ ) {
         logos[i].classList.remove('toggle-opacity')
       }
     }
+    
   }
 
   checkDatasetsForDuplicates(name) {
@@ -564,9 +580,11 @@ class App extends Component {
           }}
         />
 
-        <button onClick={this.resetState}>Reset</button>
-        <button onClick={this.removeDataset}>Remove</button>
-        <button onClick={this.showAllDatasets}>Show all</button>
+        <ControlButtons 
+          resetState={this.resetState}
+          removeDataset={this.removeDataset}
+          showAllDatasets={this.showAllDatasets}
+        />
       </div>
     )
   }

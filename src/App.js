@@ -18,7 +18,7 @@ function DisplayDetails (props) {
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
         <li key={i}>
-          <img src={key.logo} alt={key.name} onClick={() => props.activateClickResponse(key.name)} />
+          <img src={key.logo} alt={key.name} onClick={(event) => {props.activateClickResponse(key.name);props.styleImg(event.target)}} />
         </li>
       ))}  
     </ul>
@@ -180,6 +180,7 @@ class App extends Component {
     this.resetState = this.resetState.bind( this )
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
+    this.toggleImg = this.toggleImg.bind( this )
     this.checkDatasetsForDuplicates = this.checkDatasetsForDuplicates.bind( this )
   }
 
@@ -218,14 +219,29 @@ class App extends Component {
     })
   }
 
+  toggleImg(img) {
+    // check to see if class exists on element
+    // if not - add class
+    // if true - remove class
+    if( img.classList.contains('toggle-opacity')) {
+      img.classList.remove('toggle-opacity')
+    } else {
+      img.classList.add('toggle-opacity');
+    }
+  }
+
   checkDatasetsForDuplicates(name) {
+    // this.toggleImg(img)
     // return an array of boolean values whilst checking
     // if the datasets array has an item whose label value
     // equals our clicked on team name
+
+    // check if our clicked on team already exists in our compenents state
     var test = this.state.data.datasets.map((item) => {
       // console.log('item.label', item.label)
       return item.label === name;
     })
+
     // get position of true value item in array if it exists
     console.log("test.indexOf(true)", test.indexOf(true))
     var dupTeamNum = test.indexOf(true);
@@ -234,16 +250,28 @@ class App extends Component {
     if ( dupTeamNum === -1 ) {    
       this.findMatches(name)
     } else {
-      console.log('this.state.data.datasets.splice(dupTeamNum)', this.state.data.datasets.splice(dupTeamNum, 1))
+      // console.log('this.state.data.datasets.splice(dupTeamNum)', this.state.data.datasets.splice(dupTeamNum, 1))
       // let currentDatasets = this.state.data.datasets;
       // currentDatasets.splice(dupTeamNum, 1);
       // console.log('currentDatasets', currentDatasets)
       console.log('dfhhdfh', this.state.data.datasets.filter((currentValue, i) => { return currentValue }) )
-      // this.setState({
-      //   data: this.state.data.datasets.filter((item, index) => {
-      //     return 
-      //   })
-      // })
+      this.setState((currentState) => {
+        console.log(currentState.data)
+        console.log('checking length', this.state.data.datasets.length)
+        return {
+          data: {
+            datasets: currentState.data.datasets.filter((item, index) => {
+              
+              console.log('return item: ', item)
+              console.log('return index: ', index)
+              console.log('item[index]', item[index])
+              console.log('dupTeamNum', dupTeamNum)
+              return index !== dupTeamNum  
+            })
+          }
+        }
+      })
+      // console.log('this.state.data.datasets after splicing: ', this.state.data.datasets)
       // this.state.data.datasets.splice(dupTeamNum)
     }
     // remove that item from the datasets array
@@ -433,6 +461,7 @@ class App extends Component {
         <DisplayDetails
           teams={this.state.profile}
           activateClickResponse={this.checkDatasetsForDuplicates}
+          styleImg={this.toggleImg}
         /> 
 
         <DisplayStats

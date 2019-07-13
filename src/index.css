@@ -50,3 +50,7 @@ code {
   width: 80%;
   margin-left: 10%;
 }
+
+.toggle-opacity {
+  opacity: 0.5;
+}

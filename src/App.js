@@ -187,6 +187,8 @@ class App extends Component {
 
   saveInitialState() {
     console.log( 'save initialState' )
+    console.log( 'initialState =', this.state )
+
     this.initialState = [this.state]
   }
 
@@ -235,8 +237,8 @@ class App extends Component {
   }
 
   setOpacity(label) {
-    console.log('setOpacity')
-    console.log('label = ', label)
+    // console.log('setOpacity')
+    // console.log('label = ', label)
     let logos = document.getElementsByClassName('team-logo');
 
     // if label is not undefined - ie: operation should be perfomed on a single team, not all of them
@@ -269,7 +271,7 @@ class App extends Component {
     })
 
     // get position of true value item in array if it exists
-    console.log("test.indexOf(true)", test.indexOf(true))
+    // console.log("test.indexOf(true)", test.indexOf(true))
     var dupTeamNum = test.indexOf(true);
     // if item true doesn't exist, run findMatches()
     // else remove clicked on team from datasets array
@@ -280,10 +282,10 @@ class App extends Component {
       // let currentDatasets = this.state.data.datasets;
       // currentDatasets.splice(dupTeamNum, 1);
       // console.log('currentDatasets', currentDatasets)
-      console.log('dfhhdfh', this.state.data.datasets.filter((currentValue, i) => { return currentValue }) )
+      // console.log('dfhhdfh', this.state.data.datasets.filter((currentValue, i) => { return currentValue }) )
       this.setState((currentState) => {
-        console.log(currentState.data)
-        console.log('checking length', this.state.data.datasets.length)
+        // console.log(currentState.data)
+        // console.log('checking length', this.state.data.datasets.length)
         return {
           data: {
             datasets: currentState.data.datasets.filter((item, index) => {
@@ -320,7 +322,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log( 'componentDidMount - get json data' )
-    this.saveInitialState()
+    // this.saveInitialState()
 
     // Use first urls array when new season starts, whilst in summer recess use second urls array
     // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
@@ -392,8 +394,8 @@ class App extends Component {
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
   componentDidUpdate() {
-    console.log('state on update', this.state )
-    console.log('this.state.data.datasets', this.state.data.datasets)
+    // console.log('state on update', this.state )
+    // console.log('this.state.data.datasets', this.state.data.datasets)
   }
 
   updateInput(e) {
@@ -404,10 +406,10 @@ class App extends Component {
   }
 
   findMatches( name ) {
-    console.log('name', name)
-    this.state.data.datasets.map((name) => {
-      console.log('this.state.data.datasets (name).label', name.label)
-    })
+    // console.log('name', name)
+    // this.state.data.datasets.map((name) => {
+    //   console.log('this.state.data.datasets (name).label', name.label)
+    // })
     // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
       // check our list to see if our input matches any team names 
@@ -421,7 +423,7 @@ class App extends Component {
 
         // return only matches that involve our team
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        console.log( 'filteredMatches', filteredMatches)
+        // console.log( 'filteredMatches', filteredMatches)
         filteredMatches.map( (match) => {
           return (
             fixtures.push({
@@ -432,7 +434,7 @@ class App extends Component {
             })
           )
         })
-        console.log( 'fixtures ', fixtures )
+        // console.log( 'fixtures ', fixtures )
 
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
@@ -524,7 +526,7 @@ class App extends Component {
               }
             },
             legend: {
-              display: true,
+              display: false,
             },
             scales: {
               yAxes: [{

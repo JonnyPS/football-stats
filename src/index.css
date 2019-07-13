@@ -89,3 +89,13 @@ button {
 .toggle-opacity {
   opacity: 1 !important;
 }
+
+.stats-list li {
+  float: left;
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+.stats-list li:last-child {
+  margin-right: 0;
+}

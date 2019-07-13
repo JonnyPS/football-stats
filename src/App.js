@@ -12,6 +12,7 @@ function DisplayHeader () {
 function DisplayStats (props) {
   return (
     <ul className="stats-list">
+      <li>Team name: <span className="bold-copy">{props.teamName}</span></li>
       <li>Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
       <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
       <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
@@ -174,6 +175,7 @@ class App extends Component {
           result: [null],
         },
       ],
+      teamName: null,
       gamesPlayed: null,
       gamesWon: null,
       gamesLost: null,
@@ -489,6 +491,7 @@ class App extends Component {
         // filteredMatches.map( (games) => {
           this.setState( (currentState) => {
             return {
+              teamName: name,
               gamesPlayed: resultsOfMatches.length,
               matchday: filteredMatches,
               data: {
@@ -524,6 +527,7 @@ class App extends Component {
         /> 
 
         <DisplayStats
+          teamName={this.state.teamName}
           gamesPlayed={this.state.gamesPlayed}
           gamesWon={this.state.gamesWon}
           gamesLost={this.state.gamesLost}

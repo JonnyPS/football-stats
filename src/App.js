@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 var cloneDeep = require('clone-deep');
 
+
+function DisplayHeader () {
+  return (
+    <h1>Premier League Table 2018/19 displayed in linear graph form</h1>
+  )
+}
+
 function DisplayStats (props) {
   return (
     <ul className="stats-list">
@@ -32,7 +39,6 @@ class App extends Component {
     this.state = {
       allTeams: null,
       allMatches: null,
-
       profile: [
         {
           logo: 'img/arsenal.png',
@@ -346,6 +352,7 @@ class App extends Component {
         return response.json()    
       })
       .then( (json) => {
+        console.log('json', json)
         // console.log( 'set json to state properties' )
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
@@ -484,6 +491,9 @@ class App extends Component {
   render(json, item) {
     return (
       <div>
+
+      <DisplayHeader 
+      />
         
 
         <DisplayDetails

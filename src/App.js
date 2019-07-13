@@ -198,6 +198,8 @@ class App extends Component {
 
   removeDataset() {
     console.log('removeDataset')
+    // get last element in datasets array and send the name of that objects label to setOpacity()
+    this.setOpacity( this.state.data.datasets[this.state.data.datasets.length-1].label )
     this.setState( this.state.data.datasets.splice(-1, 1) )
   }
 
@@ -232,17 +234,26 @@ class App extends Component {
     }
   }
 
-  setOpacity(img) {
+  setOpacity(label) {
     console.log('setOpacity')
-    console.log(document.getElementsByClassName('team-logo'))
+    console.log('label = ', label)
     let logos = document.getElementsByClassName('team-logo');
-    console.log(Array.isArray(logos))
-    // logos.map(item) => {console.log(item)}
-    for (var i = 0; i < logos.length; i++ ) {
-      console.log('logos[i]', logos[i])
-      logos[i].style.opacity = '1';
+
+    // if label is not undefined - ie: operation should be perfomed on a single team, not all of them
+    // then remove class on image whose alt tag matches the label parameter
+    // else remove class on all images
+    if ( label !== undefined ) {
+      for (var i = 0; i < logos.length; i++ ) {
+        let logoAlt = logos[i].getAttribute('alt')
+        if (logoAlt === label ) {
+          logos[i].classList.remove('toggle-opacity')          
+        }
+      }
+    } else {
+      for (var i = 0; i < logos.length; i++ ) {
+        logos[i].classList.remove('toggle-opacity')
+      }
     }
-    // document.getElementsByClassName('team-logo').style.opacity = '1';
   }
 
   checkDatasetsForDuplicates(name) {

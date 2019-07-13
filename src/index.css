@@ -17,6 +17,12 @@ code {
   height: 450px !important;
 }
 
+h1 {
+  display: inline-block;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: relative;
+}
 
 .inline-list {
   padding: 0;
@@ -24,16 +30,22 @@ code {
   display: flex;
   align-items: stretch; /* Default */
   justify-content: space-between;
-  width: 90%;
+  width: 60%;
   margin: 0;
   padding: 0;
-  margin-left: 5%;
+  margin-left: 20%;
+  margin-top: 2rem;
+  flex-wrap: wrap;
 }
+
 .inline-list li {
   list-style-type: none;
   display: block;
   flex: 0 1 auto; /* Default */
   cursor: pointer;
+  width: 9%;
+  margin-right: 1%;
+  margin-bottom: 2%;
 }
 
 .inline-list img {

@@ -18,7 +18,7 @@ function DisplayDetails (props) {
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
         <li key={i}>
-          <img src={key.logo} alt={key.name} onClick={(event) => {props.activateClickResponse(key.name);props.styleImg(event.target)}} />
+          <img src={key.logo} alt={key.name} className="team-logo" onClick={(event) => {props.activateClickResponse(key.name);props.styleImg(event.target)}} />
         </li>
       ))}  
     </ul>
@@ -181,6 +181,7 @@ class App extends Component {
     this.removeDataset = this.removeDataset.bind( this )
     this.showAllDatasets = this.showAllDatasets.bind( this )
     this.toggleImg = this.toggleImg.bind( this )
+    this.setOpacity = this.setOpacity.bind( this )
     this.checkDatasetsForDuplicates = this.checkDatasetsForDuplicates.bind( this )
   }
 
@@ -192,6 +193,7 @@ class App extends Component {
   resetState() {
     console.log('resetState')
     this.setState( this.initialState[0] )
+    this.setOpacity()
   }
 
   removeDataset() {
@@ -228,6 +230,19 @@ class App extends Component {
     } else {
       img.classList.add('toggle-opacity');
     }
+  }
+
+  setOpacity(img) {
+    console.log('setOpacity')
+    console.log(document.getElementsByClassName('team-logo'))
+    let logos = document.getElementsByClassName('team-logo');
+    console.log(Array.isArray(logos))
+    // logos.map(item) => {console.log(item)}
+    for (var i = 0; i < logos.length; i++ ) {
+      console.log('logos[i]', logos[i])
+      logos[i].style.opacity = '1';
+    }
+    // document.getElementsByClassName('team-logo').style.opacity = '1';
   }
 
   checkDatasetsForDuplicates(name) {

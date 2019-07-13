@@ -32,7 +32,7 @@ function DisplayDetails (props) {
     </ul>
     <h5>Click on the logos below to display them on the graph.</h5>
     <br />
-    <h5>Hover over the data on the chart to display the match</h5> 
+    <h5>Hover over the data on the chart to display the match.</h5> 
     </div>
   )
 }
@@ -564,7 +564,7 @@ class App extends Component {
                 ticks: {
                   max: this.state.matchday.length * 3,
                   min: 0,
-                  stepSize: 3,
+                  stepSize: 6,
                 },
                 scaleLabel: {
                   display: true,

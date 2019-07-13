@@ -22,6 +22,7 @@ function DisplayStats (props) {
 
 function DisplayDetails (props) {
   return (
+    <div class="logo-section">
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
         <li key={i}>
@@ -29,6 +30,10 @@ function DisplayDetails (props) {
         </li>
       ))}  
     </ul>
+    <h5>Click on the logos below to display them on the graph.</h5>
+    <br />
+    <h5>Hover over the data on the chart to display the match</h5> 
+    </div>
   )
 }
 

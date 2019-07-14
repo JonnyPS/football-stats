@@ -14,7 +14,7 @@ code {
 }
 
 #resultsChart {
-  height: 450px !important;
+  height: 400px !important;
 }
 
 h1, h5 {
@@ -93,9 +93,23 @@ button {
 .stats-list li {
   float: left;
   display: inline-block;
-  margin-right: 2rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stats-list li:first-child {
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .stats-list li:last-child {
   margin-right: 0;
+}
+
+.body-copy {
+  font-size: 1rem;
+}
+
+.body-copy--small {
+  font-size: 0.8rem;
 }

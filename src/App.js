@@ -12,11 +12,12 @@ function DisplayHeader () {
 function DisplayStats (props) {
   return (
     <ul className="stats-list">
-      <li>Team name: <span className="bold-copy">{props.teamName}</span></li>
-      <li>Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
-      <li>Games won: <span className="bold-copy">{props.gamesWon}</span></li>
-      <li>Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
-      <li>Games drawn: <span className="bold-copy">{props.gamesDrawn}</span></li>
+      <li class="body-copy">Team name: <span className="bold-copy">{props.teamName}</span></li>
+      <br />
+      <li class="body-copy--small">Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
+      <li class="body-copy--small">Games won: <span className="bold-copy">{props.gamesWon}</span></li>
+      <li class="body-copy--small">Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
+      <li class="body-copy--small">Games drawn: <span className="bold-copy">{props.gamesDrawn}</span></li>
     </ul>
   )
 }
@@ -31,7 +32,7 @@ function DisplayDetails (props) {
         </li>
       ))}  
     </ul>
-    <h5>Click on the logos below to display them on the graph.</h5>
+    <h5>Click on the logos above to display them on the graph.</h5>
     <br />
     <h5>Hover over the data on the chart to display the match.</h5> 
     </div>
@@ -186,10 +187,6 @@ class App extends Component {
       data: {
         labels: '',
         datasets: [{
-            // label: null,
-            // backgroundColor: 'rgb(255, 99, 132)',
-            // borderColor: 'rgb(255, 99, 132)',
-            // data: null,
         }]
       },
 
@@ -231,17 +228,13 @@ class App extends Component {
   showAllDatasets() {
     console.log('showAllDatasets')
     this.state.profile.map( (item, index) => {
-      console.log('item.name', item.name)
-      console.log('index', index)
       this.findMatches( item.name )
-      console.log('this.findMatches', this.findMatches)
       this.setOpacity(undefined, true)
     })
   }
 
   selectTeam(name) {
     console.log('selectTeam name', name )
-    console.log('state', this.state )
     this.setState({
       input: name.replace(/^\w/, c => c.toUpperCase())
     }, () => {
@@ -261,10 +254,7 @@ class App extends Component {
   }
 
   setOpacity(label, showAll) {
-    // console.log('setOpacity')
-    // console.log('label = ', label)
     let logos = document.getElementsByClassName('team-logo');
-
     // if label is not undefined - ie: operation should be perfomed on a single team, not all of them
     // then remove class on image whose alt tag matches the label parameter
     // else remove class on all images
@@ -300,21 +290,15 @@ class App extends Component {
     })
 
     // get position of true value item in array if it exists
-    // console.log("test.indexOf(true)", test.indexOf(true))
     var dupTeamNum = test.indexOf(true);
     // if item true doesn't exist, run findMatches()
     // else remove clicked on team from datasets array
     if ( dupTeamNum === -1 ) {    
       this.findMatches(name)
     } else {
-      // console.log('this.state.data.datasets.splice(dupTeamNum)', this.state.data.datasets.splice(dupTeamNum, 1))
       // let currentDatasets = this.state.data.datasets;
       // currentDatasets.splice(dupTeamNum, 1);
-      // console.log('currentDatasets', currentDatasets)
-      // console.log('dfhhdfh', this.state.data.datasets.filter((currentValue, i) => { return currentValue }) )
       this.setState((currentState) => {
-        // console.log(currentState.data)
-        // console.log('checking length', this.state.data.datasets.length)
         return {
           data: {
             datasets: currentState.data.datasets.filter((item, index) => {
@@ -328,35 +312,14 @@ class App extends Component {
           }
         }
       })
-      // console.log('this.state.data.datasets after splicing: ', this.state.data.datasets)
-      // this.state.data.datasets.splice(dupTeamNum)
     }
-    // remove that item from the datasets array
-    // console.log('test result first = ', test )
-    // test = [];
-    // console.log('test result second = ', test )
-    
-
-
-
-    // WORKING CODE FOR NOW
-    // var duplicates = this.state.data.datasets.filter((key) =>{
-    //   return key.label === name;
-    // })
-    // if ( duplicates.length === 0 ) {
-    //   console.log('No duplicates found. Run findMatches')
-    //   this.findMatches(name);
-    // } 
   }
 
   componentDidMount() {
     console.log( 'componentDidMount - get json data' )
-    // this.saveInitialState()
-
     // Use first urls array when new season starts, whilst in summer recess use second urls array
     // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
     const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
-
     // map over array to use the url addresses
     urls.map( ( addy ) => {
       // set up headers
@@ -376,15 +339,12 @@ class App extends Component {
       })
       .then( (json) => {
         console.log('json', json)
-        // console.log( 'set json to state properties' )
         // hacky if / else statement - should probably be replaced by a for in loop
         // it will surfice temporarily
         if ( this.state.allTeams == null ) { 
-          // console.log( 'json teams', json )
           // extract only the id and team short name from the returned data
           // loop over every team, get the data and assign it in to an array of objects
           json.teams.map((counter) => {
-            // console.log( 'json teams', json.teams)
             const teamId = counter.id
             const teamName = counter.shortName
             this.setState((currentState) => {
@@ -400,9 +360,6 @@ class App extends Component {
         } else {
           // when looping over urls[1], assign value to this.state.allMatches property
           this.setState(( currentState ) => {
-            // console.log( this.state.teamDetails )
-            // console.log( 'allMatches', json )
-            // console.log( 'json matches', json )
             return {
               allMatches: json,
             }
@@ -435,16 +392,12 @@ class App extends Component {
     })
   }
 
+  // get number of games won, lost or drawn
   getGameStats(array, value) {
     return array.filter((v) => (v === value)).length;
   }
 
-
   findMatches( name ) {
-    // console.log('name', name)
-    // this.state.data.datasets.map((name) => {
-    //   console.log('this.state.data.datasets (name).label', name.label)
-    // })
     // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
       // check our list to see if our input matches any team names 
@@ -458,7 +411,7 @@ class App extends Component {
 
         // return only matches that involve our team
         let filteredMatches = this.state.allMatches.matches.filter( (match) => { return match.awayTeam.id === selectedTeamId || match.homeTeam.id === selectedTeamId })
-        // console.log( 'filteredMatches', filteredMatches)
+
         filteredMatches.map( (match) => {
           return (
             fixtures.push({
@@ -469,11 +422,8 @@ class App extends Component {
             })
           )
         })
-        // console.log( 'fixtures ', fixtures )
-
 
         let matchesSoFar = filteredMatches.map( (game) => { return game.matchday } )
-
 
         function getMatchResults( game, ourTeam ) {
           let result = game.score.winner
@@ -492,14 +442,12 @@ class App extends Component {
           return acc;
         }, [])
 
-
+        // get game stats
         let gamesWon = this.getGameStats(resultsOfMatches, 3);
         let gamesDrawn = this.getGameStats(resultsOfMatches, 1);
         let gamesLost = this.getGameStats(resultsOfMatches, 0);
 
-
         // map over our matches and set component state accordingly
-        // filteredMatches.map( (games) => {
         this.setState( (currentState) => {
           return {
             teamName: name,
@@ -529,17 +477,13 @@ class App extends Component {
   render(json, item) {
     return (
       <div>
-
-      <DisplayHeader 
-      />
-        
-
+        <DisplayHeader 
+        />
         <DisplayDetails
           teams={this.state.profile}
           activateClickResponse={this.checkDatasetsForDuplicates}
           styleImg={this.toggleImg}
         /> 
-
         <DisplayStats
           teamName={this.state.teamName}
           gamesPlayed={this.state.gamesPlayed}
@@ -547,7 +491,6 @@ class App extends Component {
           gamesLost={this.state.gamesLost}
           gamesDrawn={this.state.gamesDrawn}
         />        
-
         <Line 
           data={this.state.data}
           height={200}
@@ -597,12 +540,10 @@ class App extends Component {
               }]
             },
             title: {
-              display: 'hello',
-              text: 'Premier League Teams',
+              text: '',
             }
           }}
         />
-
         <ControlButtons 
           resetState={this.resetState}
           removeDataset={this.removeDataset}

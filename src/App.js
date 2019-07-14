@@ -23,7 +23,7 @@ function DisplayStats (props) {
 
 function DisplayDetails (props) {
   return (
-    <div class="logo-section">
+    <div className="logo-section">
     <ul className="inline-list">
       {props.teams.map( (key, i) => (
         <li key={i}>
@@ -435,6 +435,11 @@ class App extends Component {
     })
   }
 
+  getGameStats(array, value) {
+    return array.filter((v) => (v === value)).length;
+  }
+
+
   findMatches( name ) {
     // console.log('name', name)
     // this.state.data.datasets.map((name) => {
@@ -487,13 +492,10 @@ class App extends Component {
           return acc;
         }, [])
 
-        function getOccurrence(array, value) {
-          return array.filter((v) => (v === value)).length;
-        }
 
-        let gamesWon = getOccurrence(resultsOfMatches, 3);
-        let gamesDrawn = getOccurrence(resultsOfMatches, 1);
-        let gamesLost = getOccurrence(resultsOfMatches, 0);
+        let gamesWon = this.getGameStats(resultsOfMatches, 3);
+        let gamesDrawn = this.getGameStats(resultsOfMatches, 1);
+        let gamesLost = this.getGameStats(resultsOfMatches, 0);
 
 
         // map over our matches and set component state accordingly

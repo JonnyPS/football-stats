@@ -487,27 +487,39 @@ class App extends Component {
           return acc;
         }, [])
 
+        function getOccurrence(array, value) {
+          return array.filter((v) => (v === value)).length;
+        }
+
+        let gamesWon = getOccurrence(resultsOfMatches, 3);
+        let gamesDrawn = getOccurrence(resultsOfMatches, 1);
+        let gamesLost = getOccurrence(resultsOfMatches, 0);
+
+
         // map over our matches and set component state accordingly
         // filteredMatches.map( (games) => {
-          this.setState( (currentState) => {
-            return {
-              teamName: name,
-              gamesPlayed: resultsOfMatches.length,
-              matchday: filteredMatches,
-              data: {
-                labels: matchesSoFar,
-                datasets: currentState.data.datasets.concat({ 
-                  label: TeamName,
-                  backgroundColor: colour,
-                  // borderColor: 'rgb(255, 99, 132)',
-                  data: pointsSoFar,
-                  fixtures: fixtures,
-                  borderColor: colour,
-                  backgroundColor: 'transparent',
-                })
-              },
-            }
-          })
+        this.setState( (currentState) => {
+          return {
+            teamName: name,
+            gamesPlayed: resultsOfMatches.length,
+            gamesWon: gamesWon,
+            gamesDrawn: gamesDrawn,
+            gamesLost: gamesLost,
+            matchday: filteredMatches,
+            data: {
+              labels: matchesSoFar,
+              datasets: currentState.data.datasets.concat({ 
+                label: TeamName,
+                backgroundColor: colour,
+                // borderColor: 'rgb(255, 99, 132)',
+                data: pointsSoFar,
+                fixtures: fixtures,
+                borderColor: colour,
+                backgroundColor: 'transparent',
+              })
+            },
+          }
+        })
       }
     }
   }

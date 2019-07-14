@@ -1,10 +1,11 @@
 ## Get the project running locally
-Clone the repo to your local environment.
-Install dependencies found in the package.json file.
-Run npm start.
+- Clone the repo to your local environment.
+- Install dependencies found in the package.json file.
+- Run npm start.
 
-Working version preview: www.premier-league-chart.herokuapp.com
+Working version preview: http://premier-league-chart.herokuapp.com/
 
+...
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

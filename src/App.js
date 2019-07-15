@@ -13,7 +13,7 @@ function DisplayStats (props) {
   console.log('props', props)
   return (
     <ul className="stats-list">
-      <li class="body-copy">Team name: <span className="bold-copy">{props.teamName}</span></li>
+      <li class="body-copy"><span className="bold-copy">{props.teamName}</span></li>
       <br />
       <li class="body-copy--small">Number of games played: <span className="bold-copy">{props.gamesPlayed}</span></li>
       <li class="body-copy--small">Games won: <span className="bold-copy">{props.gamesWon}</span></li>
@@ -558,7 +558,8 @@ class App extends Component {
                   var highlightedGameDetails = data.datasets[teamInDataSet].fixtures[highlightedGameNumber];
                   return highlightedGameDetails.score;
                 }
-              }
+              },
+              label: null,
             },
             legend: {
               display: false,

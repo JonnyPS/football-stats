@@ -94,12 +94,16 @@ button {
   float: left;
   display: inline-block;
   margin-right: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .stats-list li:first-child {
   margin-bottom: 0.5rem;
   width: 100%;
+}
+
+.stats-list li:nth-child(4) {
+  clear: both; /* force next li items underneath */
 }
 
 .stats-list li:last-child {

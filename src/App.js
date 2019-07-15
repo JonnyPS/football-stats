@@ -10,6 +10,7 @@ function DisplayHeader () {
 }
 
 function DisplayStats (props) {
+  console.log('props', props)
   return (
     <ul className="stats-list">
       <li class="body-copy">Team name: <span className="bold-copy">{props.teamName}</span></li>
@@ -463,7 +464,11 @@ class App extends Component {
           if ( result === "DRAW" ) { resultsOfMatches.push( 1 ) }
         }
 
-        filteredMatches.map( getMatchResults() )
+
+        filteredMatches.map( getMatchResults )
+        
+        console.log('filteredMatches', filteredMatches)
+
         // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
           acc.push((acc[acc.length - 1] || 0) + current);
@@ -471,7 +476,7 @@ class App extends Component {
         }, [])
 
 
-              console.log('results of matches', resultsOfMatches)
+        console.log('resultsOfMatches', resultsOfMatches)
 
         // get game stats
         let gamesWon = this.getGameStats(resultsOfMatches, 3);
@@ -479,7 +484,8 @@ class App extends Component {
         let gamesLost = this.getGameStats(resultsOfMatches, 0);
         let winningStreak = this.getLongestStreak(resultsOfMatches, 3);
         let losingStreak = this.getLongestStreak(resultsOfMatches, 0);
-
+        console.log('winningStreak', winningStreak)
+        console.log('losingStreak', losingStreak)
         // map over our matches and set component state accordingly
         this.setState( (currentState) => {
           return {
@@ -525,6 +531,8 @@ class App extends Component {
           gamesWon={this.state.gamesWon}
           gamesLost={this.state.gamesLost}
           gamesDrawn={this.state.gamesDrawn}
+          longestWinningStreak={this.state.longestWinningStreak}
+          longestLosingStreak={this.state.longestLosingStreak}
         />        
         <Line 
           data={this.state.data}

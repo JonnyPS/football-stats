@@ -18,6 +18,9 @@ function DisplayStats (props) {
       <li class="body-copy--small">Games won: <span className="bold-copy">{props.gamesWon}</span></li>
       <li class="body-copy--small">Games lost: <span className="bold-copy">{props.gamesLost}</span></li>
       <li class="body-copy--small">Games drawn: <span className="bold-copy">{props.gamesDrawn}</span></li>
+      <br />
+      <li class="body-copy--small">Longest winning streak: <span className="bold-copy">{props.longestWinningStreak}</span></li>
+      <li class="body-copy--small">Longest losing streak: <span className="bold-copy">{props.longestLosingStreak}</span></li>
     </ul>
   )
 }
@@ -181,6 +184,8 @@ class App extends Component {
       gamesWon: null,
       gamesLost: null,
       gamesDrawn: null,
+      longestWinningStreak: null,
+      longestLosingStreak: null,
 
       matchday: [],
       outcomes: [],
@@ -397,6 +402,29 @@ class App extends Component {
     return array.filter((v) => (v === value)).length;
   }
 
+  getLongestStreak(array, num) {
+    console.log('getLongestStreak')
+    // setup arrays to hold our results
+    let tempStreaks = []; // tracks each streak
+    let streakResults = []; // holds value of all streaks
+    // iterate over array
+    array.map((item, index) => {
+      // store each item in streak in array, if item doesn't match our value then
+      // empty temp array and push it's value, into results array
+      if ( item === num ) {
+        tempStreaks.push(item);
+        if ( item === num && index === array.length-1 ) {
+          streakResults.push(tempStreaks.length)
+        }
+      } else {
+        streakResults.push(tempStreaks.length);
+        tempStreaks =  [];
+      }
+    })
+    // get highest value in results array - this is the length of our longest streak
+    return Math.max.apply(Math, streakResults)
+  }
+
   findMatches( name ) {
     // look through all teams in our list of teams
     for (let item of this.state.teamDetails) {
@@ -435,17 +463,22 @@ class App extends Component {
           if ( result === "DRAW" ) { resultsOfMatches.push( 1 ) }
         }
 
-        filteredMatches.map( getMatchResults )
+        filteredMatches.map( getMatchResults() )
         // addUpMatches
         var pointsSoFar = resultsOfMatches.reduce((acc, current) => {
           acc.push((acc[acc.length - 1] || 0) + current);
           return acc;
         }, [])
 
+
+              console.log('results of matches', resultsOfMatches)
+
         // get game stats
         let gamesWon = this.getGameStats(resultsOfMatches, 3);
         let gamesDrawn = this.getGameStats(resultsOfMatches, 1);
         let gamesLost = this.getGameStats(resultsOfMatches, 0);
+        let winningStreak = this.getLongestStreak(resultsOfMatches, 3);
+        let losingStreak = this.getLongestStreak(resultsOfMatches, 0);
 
         // map over our matches and set component state accordingly
         this.setState( (currentState) => {
@@ -455,6 +488,8 @@ class App extends Component {
             gamesWon: gamesWon,
             gamesDrawn: gamesDrawn,
             gamesLost: gamesLost,
+            longestWinningStreak: winningStreak,
+            longestLosingStreak: losingStreak,
             matchday: filteredMatches,
             data: {
               labels: matchesSoFar,

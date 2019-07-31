@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 var cloneDeep = require('clone-deep');
 
-
 function DisplayHeader () {
   return (
     <h1>Premier League Table 2018/19 displayed in linear graph form</h1>
@@ -331,7 +330,7 @@ class App extends Component {
       // set up headers
       let h = new Headers()
       h.append('Accept', 'application/json')
-      h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
+      h.append('X-Auth-Token', process.env.REACT_APP_API_KEY)
       let req = new Request(addy, {
         method: 'GET',
         headers: h,

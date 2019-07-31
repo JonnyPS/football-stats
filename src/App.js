@@ -322,6 +322,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log( 'componentDidMount - get json data' )
+    const API_KEY = process.env.REACT_APP_API_KEY;
     // Use first urls array when new season starts, whilst in summer recess use second urls array
     // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
     const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
@@ -330,7 +331,7 @@ class App extends Component {
       // set up headers
       let h = new Headers()
       h.append('Accept', 'application/json')
-      h.append('X-Auth-Token', process.env.REACT_APP_API_KEY)
+      h.append('X-Auth-Token', API_KEY)
       let req = new Request(addy, {
         method: 'GET',
         headers: h,

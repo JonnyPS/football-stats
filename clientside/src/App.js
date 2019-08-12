@@ -57,6 +57,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      apiResponse: "",
       allTeams: null,
       allMatches: null,
       profile: [
@@ -320,68 +321,78 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log( 'componentDidMount - get json data' )
-    // Use first urls array when new season starts, whilst in summer recess use second urls array
-    // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
-    const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
-    // map over array to use the url addresses
-    urls.map( ( addy ) => {
-      // set up headers
-      let h = new Headers()
-      h.append('Accept', 'application/json')
-      h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
-      let req = new Request(addy, {
-        method: 'GET',
-        headers: h,
-        mode: 'cors' 
-      })
-
-      // for each url in the array, use fetch to get the resource
-      fetch(req) 
-      .then( (response) => {
-        return response.json()    
-      })
-      .then( (json) => {
-        console.log('json', json)
-        // hacky if / else statement - should probably be replaced by a for in loop
-        // it will surfice temporarily
-        if ( this.state.allTeams == null ) { 
-          // extract only the id and team short name from the returned data
-          // loop over every team, get the data and assign it in to an array of objects
-          json.teams.map((counter) => {
-            const teamId = counter.id
-            const teamName = counter.shortName
-            this.setState((currentState) => {
-              return {
-                allTeams: json,
-                teamDetails: currentState.teamDetails.concat([{
-                  teamName: teamName,
-                  teamId: teamId
-                }]),
-              }
-            })
-          })
-        } else {
-          // when looping over urls[1], assign value to this.state.allMatches property
-          this.setState(( currentState ) => {
-            return {
-              allMatches: json,
-            }
-          })
-        }
-        // once the data has loaded, 
-        if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
-        }
-              })
-      .catch( (ex) => {
-        console.log('parsing failed:', ex)
-      })
-      .then ( () => {
-        this.saveInitialState()
-      })
-    })
+  callAPI() {
+    fetch("http://localhost:9000/testAPI")
+      .then(res => res.text())
+      .then(res => this.setState({ apiResponse: res }));
   }
+
+  componentWillMount() {
+    this.callAPI();
+  }
+
+  // componentDidMount() {
+  //   console.log( 'componentDidMount - get json data' )
+  //   // Use first urls array when new season starts, whilst in summer recess use second urls array
+  //   // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
+  //   const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
+  //   // map over array to use the url addresses
+  //   urls.map( ( addy ) => {
+  //     // set up headers
+  //     let h = new Headers()
+  //     h.append('Accept', 'application/json')
+  //     h.append('X-Auth-Token', '9d006876cd4d43f08084a828529fc968')
+  //     let req = new Request(addy, {
+  //       method: 'GET',
+  //       headers: h,
+  //       mode: 'cors' 
+  //     })
+
+  //     // for each url in the array, use fetch to get the resource
+  //     fetch(req) 
+  //     .then( (response) => {
+  //       return response.json()    
+  //     })
+  //     .then( (json) => {
+  //       console.log('json', json)
+  //       // hacky if / else statement - should probably be replaced by a for in loop
+  //       // it will surfice temporarily
+  //       if ( this.state.allTeams == null ) { 
+  //         // extract only the id and team short name from the returned data
+  //         // loop over every team, get the data and assign it in to an array of objects
+  //         json.teams.map((counter) => {
+  //           const teamId = counter.id
+  //           const teamName = counter.shortName
+  //           this.setState((currentState) => {
+  //             return {
+  //               allTeams: json,
+  //               teamDetails: currentState.teamDetails.concat([{
+  //                 teamName: teamName,
+  //                 teamId: teamId
+  //               }]),
+  //             }
+  //           })
+  //         })
+  //       } else {
+  //         // when looping over urls[1], assign value to this.state.allMatches property
+  //         this.setState(( currentState ) => {
+  //           return {
+  //             allMatches: json,
+  //           }
+  //         })
+  //       }
+  //       // once the data has loaded, 
+  //       if ( this.state.allTeams !== null && this.state.allMatches !== null ) {       
+  //       }
+  //             })
+  //     .catch( (ex) => {
+  //       console.log('parsing failed:', ex)
+  //     })
+  //     .then ( () => {
+  //       this.saveInitialState()
+  //     })
+  //   })
+  // }
 
   // will only run after component has updated 
   // - good for catching errors where the code is run but the state has not yet updated
@@ -517,6 +528,7 @@ class App extends Component {
   render(json, item) {
     return (
       <div>
+        <p className="App-intro">;{this.state.apiResponse}</p>
         <DisplayHeader 
         />
         <DisplayDetails

@@ -323,8 +323,8 @@ class App extends Component {
   componentDidMount() {
     console.log( 'componentDidMount - get json data' )
     // Use first urls array when new season starts, whilst in summer recess use second urls array
-    const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
-    // const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
+    // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
+    const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
     // map over array to use the url addresses
     urls.map( ( addy ) => {
       // set up headers

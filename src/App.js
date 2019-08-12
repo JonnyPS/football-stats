@@ -162,9 +162,6 @@ class App extends Component {
         },        
       ],
 
-   
-      ],
-
       teamDetails: [
         {
           teamId: 'Team Id',

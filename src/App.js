@@ -159,7 +159,9 @@ class App extends Component {
           logo: 'img/wolverhampton.png',
           name: 'Wolverhampton',
           colour: '#faa61a',
-        },           teamDetails: [
+        },
+      ],    
+      teamDetails: [
         {
           teamId: 'Team Id',
           teamName: 'Team Name',

@@ -4,7 +4,7 @@ var cloneDeep = require('clone-deep');
 
 function DisplayHeader () {
   return (
-    <h1>Premier League Table 2019/20 displayed in linear graph form</h1>
+    <h1>Premier League Table 2018/19 displayed in linear graph form</h1>
   )
 }
 

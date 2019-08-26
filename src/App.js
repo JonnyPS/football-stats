@@ -4,7 +4,7 @@ var cloneDeep = require('clone-deep');
 
 function DisplayHeader () {
   return (
-    <h1>Premier League Table 2018/19 displayed in linear graph form</h1>
+    <h1>Premier League Table 2019/20 displayed in linear graph form</h1>
   )
 }
 
@@ -68,7 +68,7 @@ class App extends Component {
         {
           logo: 'img/aston-villa.png',
           name: 'Aston Villa',
-          colour: '#f00005',
+          colour: '#7b0839',
         },
         {
           logo: 'img/bournemouth.png',
@@ -128,12 +128,12 @@ class App extends Component {
         {
           logo: 'img/norwich-city.png',
           name: 'Norwich',
-          colour: '#000',
+          colour: '#00a94f',
         },
         {
           logo: 'img/sheffield-united.png',
           name: 'Sheffield Utd',
-          colour: '#000',
+          colour: '#ec1c24',
         },
         {
           logo: 'img/southampton.png',

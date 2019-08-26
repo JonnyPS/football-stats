@@ -568,7 +568,7 @@ class App extends Component {
                 ticks: {
                   max: this.state.matchday.length * 3,
                   min: 0,
-                  stepSize: 6,
+                  stepSize: 3,
                 },
                 scaleLabel: {
                   display: true,

@@ -66,6 +66,11 @@ class App extends Component {
           colour: '#f00005',
         },
         {
+          logo: 'img/aston-villa.png',
+          name: 'Aston Villa',
+          colour: '#f00005',
+        },
+        {
           logo: 'img/bournemouth.png',
           name: 'Bournemouth',
           colour: '#8d0104',
@@ -81,11 +86,6 @@ class App extends Component {
           colour: '#fff515',
         },
         {
-          logo: 'img/cardiff.png',
-          name: 'Cardiff',
-          colour: '#035da9',
-        },
-        {
           logo: 'img/chelsea.png',
           name: 'Chelsea',
           colour: '#024595',
@@ -99,16 +99,6 @@ class App extends Component {
           logo: 'img/everton.png',
           name: 'Everton',
           colour: '#133e6c',
-        },
-        {
-          logo: 'img/fulham.png',
-          name: 'Fulham',
-          colour: '#000000',
-        },
-        {
-          logo: 'img/huddersfield.png',
-          name: 'Huddersfield',
-          colour: '#003d93',
         },
         {
           logo: 'img/leicester-city.png',
@@ -136,6 +126,16 @@ class App extends Component {
           colour: '#000',
         },
         {
+          logo: 'img/norwich-city.png',
+          name: 'Norwich',
+          colour: '#000',
+        },
+        {
+          logo: 'img/sheffield-united.png',
+          name: 'Sheffield Utd',
+          colour: '#000',
+        },
+        {
           logo: 'img/southampton.png',
           name: 'Southampton',
           colour: '#ed1a3b',
@@ -159,9 +159,8 @@ class App extends Component {
           logo: 'img/wolverhampton.png',
           name: 'Wolverhampton',
           colour: '#faa61a',
-        },        
-      ],
-
+        },
+      ],    
       teamDetails: [
         {
           teamId: 'Team Id',
@@ -323,8 +322,8 @@ class App extends Component {
   componentDidMount() {
     console.log( 'componentDidMount - get json data' )
     // Use first urls array when new season starts, whilst in summer recess use second urls array
-    // const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
-    const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
+    const urls = ['https://api.football-data.org/v2/competitions/PL/teams', 'https://api.football-data.org/v2/competitions/PL/matches?status=FINISHED']
+    // const urls = ['https://api.football-data.org/v2/competitions/PL/teams?season=2018', 'https://api.football-data.org/v2/competitions/PL/matches?season=2018']
     // map over array to use the url addresses
     urls.map( ( addy ) => {
       // set up headers
